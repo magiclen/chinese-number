@@ -6,7 +6,7 @@ Chinese Number
 
 Convert primitive numbers to Chinese numbers, or parse Chinese numbers to primitive numbers.
 
-This crate can convert Rust's primitive number data types to Chinese numbers as a string. For instance, **123** can be converted into **一百二十三** or **壹佰貳拾參**. It supports both Traditional Chinese and Simple Chinese.
+This crate can convert Rust's primitive number data types to Chinese numbers as strings. For instance, **123** can be converted into **一百二十三** or **壹佰貳拾參**. It supports both Traditional Chinese and Simple Chinese.
 
 ## Example
 
