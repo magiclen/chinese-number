@@ -396,12 +396,12 @@ pub fn from_f64_mut(variant: ChineseVariant, case: ChineseNumberCase, method: Ch
     }
 }
 
-/// 將f64浮點數轉成中文數字。如果使用 **「下數」** 來作為單位標準，數值不能大於或等於10000000000000000。
+/// 將f32浮點數轉成中文數字。如果使用 **「下數」** 來作為單位標準，數值不能大於或等於10000000000000000。
 pub fn from_f32(variant: ChineseVariant, case: ChineseNumberCase, method: ChineseBigNumberCountMethod, value: f32) -> String {
     from_f64(variant, case, method, value as f64)
 }
 
-/// 將f64浮點數轉成中文數字。如果使用 **「下數」** 來作為單位標準，數值不能大於或等於10000000000000000。
+/// 將f32浮點數轉成中文數字。如果使用 **「下數」** 來作為單位標準，數值不能大於或等於10000000000000000。
 pub fn from_f32_mut(variant: ChineseVariant, case: ChineseNumberCase, method: ChineseBigNumberCountMethod, value: f32, buffer: &mut String) {
     from_f64_mut(variant, case, method, value as f64, buffer);
 }
