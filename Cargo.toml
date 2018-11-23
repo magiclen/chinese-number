@@ -1,0 +1,17 @@
+[package]
+name = "chinese-number"
+version = "0.1.0"
+authors = ["Magic Len <len@magiclen.org>"]
+repository = "https://github.com/magiclen/chinese-number"
+homepage = "https://magiclen.org/chinese-number"
+keywords = ["chinese", "number", "integer", "money", "float"]
+categories = ["algorithms"]
+description= "Convert primitive numbers to Chinese numbers, or parse Chinese numbers to primitive numbers."
+readme = "README.md"
+license = "MIT"
+
+[badges]
+travis-ci = { repository = "magiclen/chinese-number", branch = "master" }
+appveyor = { repository = "magiclen/chinese-number", branch = "master", service = "github" }
+
+[dependencies]
