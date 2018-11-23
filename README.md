@@ -2,6 +2,7 @@ Chinese Number
 ====================
 
 [![Build Status](https://travis-ci.org/magiclen/chinese-number.svg?branch=master)](https://travis-ci.org/magiclen/chinese-number)
+[![Build status](https://ci.appveyor.com/api/projects/status/nofhu6rdlsqi2xdk/branch/master?svg=true)](https://ci.appveyor.com/project/magiclen/chinese-number/branch/master)
 
 Convert primitive numbers to Chinese numbers, or parse Chinese numbers to primitive numbers.
 
@@ -28,7 +29,7 @@ assert_eq!("一角二分", 0.12f64.to_lowercase_middle(ChineseVariant::Tradition
 ## Todo
 
 1. **上數** support。
-1. Parsing Chinese text to primitive numbers.
+1. Parsing Chinese numbers to primitive numbers.
 
 ## Crates.io
 
