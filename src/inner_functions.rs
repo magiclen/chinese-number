@@ -7,7 +7,7 @@ pub(crate) fn get_chinese_number_index(variant: ChineseVariant, case: ChineseNum
 pub(crate) fn digit_1(chinese_number_index: usize, value: usize, buffer: &mut String) {
     debug_assert!(value < 10);
 
-    buffer.push(CHINESE_NUMBERS[value][chinese_number_index]);
+    buffer.push_str(CHINESE_NUMBERS[value][chinese_number_index]);
 }
 
 pub(crate) fn digit_10(chinese_number_index: usize, value: usize, buffer: &mut String, dependent: bool) {
@@ -20,7 +20,7 @@ pub(crate) fn digit_10(chinese_number_index: usize, value: usize, buffer: &mut S
         digit_1(chinese_number_index, msd, buffer);
     }
 
-    buffer.push(CHINESE_NUMBERS[10][chinese_number_index]);
+    buffer.push_str(CHINESE_NUMBERS[10][chinese_number_index]);
 
     if lsd > 0 {
         digit_1(chinese_number_index, lsd, buffer);
@@ -35,12 +35,12 @@ pub(crate) fn digit_100(chinese_number_index: usize, value: usize, buffer: &mut 
 
     digit_1(chinese_number_index, msd, buffer);
 
-    buffer.push(CHINESE_NUMBERS[11][chinese_number_index]);
+    buffer.push_str(CHINESE_NUMBERS[11][chinese_number_index]);
 
     if rds >= 10 {
         digit_10(chinese_number_index, rds, buffer, true);
     } else if rds >= 1 {
-        buffer.push(CHINESE_NUMBERS[0][chinese_number_index]);
+        buffer.push_str(CHINESE_NUMBERS[0][chinese_number_index]);
         digit_1(chinese_number_index, rds, buffer);
     }
 }
@@ -53,15 +53,15 @@ pub(crate) fn digit_1000(chinese_number_index: usize, value: usize, buffer: &mut
 
     digit_1(chinese_number_index, msd, buffer);
 
-    buffer.push(CHINESE_NUMBERS[12][chinese_number_index]);
+    buffer.push_str(CHINESE_NUMBERS[12][chinese_number_index]);
 
     if rds >= 100 {
         digit_100(chinese_number_index, rds, buffer);
     } else if rds >= 10 {
-        buffer.push(CHINESE_NUMBERS[0][chinese_number_index]);
+        buffer.push_str(CHINESE_NUMBERS[0][chinese_number_index]);
         digit_10(chinese_number_index, rds, buffer, true);
     } else if rds >= 1 {
-        buffer.push(CHINESE_NUMBERS[0][chinese_number_index]);
+        buffer.push_str(CHINESE_NUMBERS[0][chinese_number_index]);
         digit_1(chinese_number_index, rds, buffer);
     }
 }
@@ -88,10 +88,10 @@ pub(crate) fn digit_10000(chinese_number_index: usize, value: usize, buffer: &mu
 
     digit_1000_compat(chinese_number_index, msds, buffer, dependent);
 
-    buffer.push(CHINESE_NUMBERS[13][chinese_number_index]);
+    buffer.push_str(CHINESE_NUMBERS[13][chinese_number_index]);
 
     if rds > 0 && (rds < 1000 || msds % 10 == 0) {
-        buffer.push(CHINESE_NUMBERS[0][chinese_number_index]);
+        buffer.push_str(CHINESE_NUMBERS[0][chinese_number_index]);
     }
 
     digit_1000_compat(chinese_number_index, rds, buffer, true);
@@ -120,17 +120,17 @@ pub(crate) fn fraction_compat_low(chinese_number_index: usize, value: f64, buffe
         let lsd = fraction % 10;
 
         digit_1(chinese_number_index, msd, buffer);
-        buffer.push(CHINESE_NUMBERS_FRACTION[0][chinese_number_index]);
+        buffer.push_str(CHINESE_NUMBERS_FRACTION[0][chinese_number_index]);
 
         if lsd > 0 {
             digit_1(chinese_number_index, lsd, buffer);
-            buffer.push(CHINESE_NUMBERS_FRACTION[1][chinese_number_index]);
+            buffer.push_str(CHINESE_NUMBERS_FRACTION[1][chinese_number_index]);
         }
     } else if fraction >= 1 {
         digit_1(chinese_number_index, fraction, buffer);
-        buffer.push(CHINESE_NUMBERS_FRACTION[1][chinese_number_index]);
+        buffer.push_str(CHINESE_NUMBERS_FRACTION[1][chinese_number_index]);
     } else if integer == 0 {
-        buffer.push(CHINESE_NUMBERS[0][chinese_number_index]);
+        buffer.push_str(CHINESE_NUMBERS[0][chinese_number_index]);
     }
 }
 
@@ -147,23 +147,23 @@ pub(crate) fn fraction_compat_middle(chinese_number_index: usize, value: f64, bu
         let lsd = fraction % 10;
 
         digit_1(chinese_number_index, msd, buffer);
-        buffer.push(CHINESE_NUMBERS_FRACTION[0][chinese_number_index]);
+        buffer.push_str(CHINESE_NUMBERS_FRACTION[0][chinese_number_index]);
 
         if lsd > 0 {
             digit_1(chinese_number_index, lsd, buffer);
-            buffer.push(CHINESE_NUMBERS_FRACTION[1][chinese_number_index]);
+            buffer.push_str(CHINESE_NUMBERS_FRACTION[1][chinese_number_index]);
         }
     } else if fraction >= 1 {
         digit_1(chinese_number_index, fraction, buffer);
-        buffer.push(CHINESE_NUMBERS_FRACTION[1][chinese_number_index]);
+        buffer.push_str(CHINESE_NUMBERS_FRACTION[1][chinese_number_index]);
     } else if integer == 0 {
-        buffer.push(CHINESE_NUMBERS[0][chinese_number_index]);
+        buffer.push_str(CHINESE_NUMBERS[0][chinese_number_index]);
     }
 }
 
 pub(crate) fn digit_compat_low_u32(chinese_number_index: usize, mut value: u32, buffer: &mut String) {
     if value == 0 {
-        buffer.push(CHINESE_NUMBERS[0][chinese_number_index]);
+        buffer.push_str(CHINESE_NUMBERS[0][chinese_number_index]);
         return;
     }
 
@@ -176,12 +176,12 @@ pub(crate) fn digit_compat_low_u32(chinese_number_index: usize, mut value: u32, 
             value %= v;
 
             if zero {
-                buffer.push(CHINESE_NUMBERS[0][chinese_number_index]);
+                buffer.push_str(CHINESE_NUMBERS[0][chinese_number_index]);
             }
 
             digit_1(chinese_number_index, msd as usize, buffer);
 
-            buffer.push(CHINESE_NUMBERS[(9 + i) as usize][chinese_number_index]);
+            buffer.push_str(CHINESE_NUMBERS[(9 + i) as usize][chinese_number_index]);
 
             zero = false;
 
@@ -193,7 +193,7 @@ pub(crate) fn digit_compat_low_u32(chinese_number_index: usize, mut value: u32, 
 
     if value > 0 {
         if zero && value < 10000000 {
-            buffer.push(CHINESE_NUMBERS[0][chinese_number_index]);
+            buffer.push_str(CHINESE_NUMBERS[0][chinese_number_index]);
         }
         digit_10000_compat(chinese_number_index, value as usize, buffer, zero_initial);
     }
@@ -203,7 +203,7 @@ pub(crate) fn digit_compat_low_u64(chinese_number_index: usize, mut value: u64, 
     assert!(value < 10000000000000000); // support to "極"
 
     if value == 0 {
-        buffer.push(CHINESE_NUMBERS[0][chinese_number_index]);
+        buffer.push_str(CHINESE_NUMBERS[0][chinese_number_index]);
         return;
     }
 
@@ -216,12 +216,12 @@ pub(crate) fn digit_compat_low_u64(chinese_number_index: usize, mut value: u64, 
             value %= v;
 
             if zero {
-                buffer.push(CHINESE_NUMBERS[0][chinese_number_index]);
+                buffer.push_str(CHINESE_NUMBERS[0][chinese_number_index]);
             }
 
             digit_1(chinese_number_index, msd as usize, buffer);
 
-            buffer.push(CHINESE_NUMBERS[(9 + i) as usize][chinese_number_index]);
+            buffer.push_str(CHINESE_NUMBERS[(9 + i) as usize][chinese_number_index]);
 
             zero = false;
 
@@ -233,7 +233,7 @@ pub(crate) fn digit_compat_low_u64(chinese_number_index: usize, mut value: u64, 
 
     if value > 0 {
         if zero && value < 10000000 {
-            buffer.push(CHINESE_NUMBERS[0][chinese_number_index]);
+            buffer.push_str(CHINESE_NUMBERS[0][chinese_number_index]);
         }
         digit_10000_compat(chinese_number_index, value as usize, buffer, zero_initial);
     }
@@ -246,10 +246,10 @@ pub(crate) fn digit_compat_middle_u32(chinese_number_index: usize, value: u32, b
 
         digit_1000_compat(chinese_number_index, msds as usize, buffer, false);
 
-        buffer.push(CHINESE_NUMBERS[14][chinese_number_index]);
+        buffer.push_str(CHINESE_NUMBERS[14][chinese_number_index]);
 
         if rds > 0 && (rds < 1000 || msds % 10 == 0) {
-            buffer.push(CHINESE_NUMBERS[0][chinese_number_index]);
+            buffer.push_str(CHINESE_NUMBERS[0][chinese_number_index]);
         }
 
         digit_10000_compat(chinese_number_index, rds as usize, buffer, true);
@@ -260,7 +260,7 @@ pub(crate) fn digit_compat_middle_u32(chinese_number_index: usize, value: u32, b
 
 pub(crate) fn digit_compat_middle_u64(chinese_number_index: usize, mut value: u64, buffer: &mut String) {
     if value == 0 {
-        buffer.push(CHINESE_NUMBERS[0][chinese_number_index]);
+        buffer.push_str(CHINESE_NUMBERS[0][chinese_number_index]);
         return;
     }
 
@@ -273,12 +273,12 @@ pub(crate) fn digit_compat_middle_u64(chinese_number_index: usize, mut value: u6
             value %= v;
 
             if zero {
-                buffer.push(CHINESE_NUMBERS[0][chinese_number_index]);
+                buffer.push_str(CHINESE_NUMBERS[0][chinese_number_index]);
             }
 
             digit_1000_compat(chinese_number_index, msd as usize, buffer, zero_initial);
 
-            buffer.push(CHINESE_NUMBERS[(9 + i) as usize][chinese_number_index]);
+            buffer.push_str(CHINESE_NUMBERS[(9 + i) as usize][chinese_number_index]);
 
             zero = false;
 
@@ -290,7 +290,7 @@ pub(crate) fn digit_compat_middle_u64(chinese_number_index: usize, mut value: u6
 
     if value > 0 {
         if zero && value < 10000000 {
-            buffer.push(CHINESE_NUMBERS[0][chinese_number_index]);
+            buffer.push_str(CHINESE_NUMBERS[0][chinese_number_index]);
         }
         digit_10000_compat(chinese_number_index, value as usize, buffer, zero_initial);
     }
@@ -298,7 +298,7 @@ pub(crate) fn digit_compat_middle_u64(chinese_number_index: usize, mut value: u6
 
 pub(crate) fn digit_compat_middle_u128(chinese_number_index: usize, mut value: u128, buffer: &mut String) {
     if value == 0 {
-        buffer.push(CHINESE_NUMBERS[0][chinese_number_index]);
+        buffer.push_str(CHINESE_NUMBERS[0][chinese_number_index]);
         return;
     }
 
@@ -311,12 +311,12 @@ pub(crate) fn digit_compat_middle_u128(chinese_number_index: usize, mut value: u
             value %= v;
 
             if zero {
-                buffer.push(CHINESE_NUMBERS[0][chinese_number_index]);
+                buffer.push_str(CHINESE_NUMBERS[0][chinese_number_index]);
             }
 
             digit_1000_compat(chinese_number_index, msd as usize, buffer, zero_initial);
 
-            buffer.push(CHINESE_NUMBERS[(9 + i) as usize][chinese_number_index]);
+            buffer.push_str(CHINESE_NUMBERS[(9 + i) as usize][chinese_number_index]);
 
             zero = false;
 
@@ -328,7 +328,7 @@ pub(crate) fn digit_compat_middle_u128(chinese_number_index: usize, mut value: u
 
     if value > 0 {
         if zero && value < 10000000 {
-            buffer.push(CHINESE_NUMBERS[0][chinese_number_index]);
+            buffer.push_str(CHINESE_NUMBERS[0][chinese_number_index]);
         }
         digit_10000_compat(chinese_number_index, value as usize, buffer, zero_initial);
     }

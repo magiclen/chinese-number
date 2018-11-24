@@ -55,7 +55,7 @@ pub fn from_i8(variant: ChineseVariant, case: ChineseNumberCase, value: i8) -> S
 /// 將i8整數轉成中文數字。
 pub fn from_i8_mut(variant: ChineseVariant, case: ChineseNumberCase, value: i8, buffer: &mut String) {
     if value < 0 {
-        buffer.push(CHINESE_NEGATIVE_SIGN[variant as usize]);
+        buffer.push_str(CHINESE_NEGATIVE_SIGN[variant as usize]);
 
         if value == i8::min_value() {
             from_u8_mut(variant, case, -(value as i16) as u8, buffer)
@@ -101,7 +101,7 @@ pub fn from_i16(variant: ChineseVariant, case: ChineseNumberCase, value: i16) ->
 /// 將i16整數轉成中文數字。
 pub fn from_i16_mut(variant: ChineseVariant, case: ChineseNumberCase, value: i16, buffer: &mut String) {
     if value < 0 {
-        buffer.push(CHINESE_NEGATIVE_SIGN[variant as usize]);
+        buffer.push_str(CHINESE_NEGATIVE_SIGN[variant as usize]);
 
         if value == i16::min_value() {
             from_u16_mut(variant, case, -(value as i32) as u16, buffer)
@@ -141,7 +141,7 @@ pub fn from_i32(variant: ChineseVariant, case: ChineseNumberCase, method: Chines
 /// 將i32整數轉成中文數字。
 pub fn from_i32_mut(variant: ChineseVariant, case: ChineseNumberCase, method: ChineseBigNumberCountMethod, value: i32, buffer: &mut String) {
     if value < 0 {
-        buffer.push(CHINESE_NEGATIVE_SIGN[variant as usize]);
+        buffer.push_str(CHINESE_NEGATIVE_SIGN[variant as usize]);
 
         if value == i32::min_value() {
             from_u32_mut(variant, case, method, -(value as i64) as u32, buffer)
@@ -188,7 +188,7 @@ pub fn from_i64(variant: ChineseVariant, case: ChineseNumberCase, method: Chines
 /// 將i64整數轉成中文數字。如果使用 **「下數」** 來作為單位標準，數值不能大於或等於10000000000000000。
 pub fn from_i64_mut(variant: ChineseVariant, case: ChineseNumberCase, method: ChineseBigNumberCountMethod, value: i64, buffer: &mut String) {
     if value < 0 {
-        buffer.push(CHINESE_NEGATIVE_SIGN[variant as usize]);
+        buffer.push_str(CHINESE_NEGATIVE_SIGN[variant as usize]);
 
         if value == i64::min_value() {
             from_u64_mut(variant, case, method, -(value as i128) as u64, buffer)
@@ -235,7 +235,7 @@ pub fn from_i128(variant: ChineseVariant, case: ChineseNumberCase, method: Chine
 /// 將i128整數轉成中文數字。如果使用 **「下數」** 來作為單位標準，數值不能大於或等於10000000000000000。
 pub fn from_i128_mut(variant: ChineseVariant, case: ChineseNumberCase, method: ChineseBigNumberCountMethod, value: i128, buffer: &mut String) {
     if value < 0 {
-        buffer.push(CHINESE_NEGATIVE_SIGN[variant as usize]);
+        buffer.push_str(CHINESE_NEGATIVE_SIGN[variant as usize]);
 
         if value == i128::min_value() {
             from_u128_mut(variant, case, method, -((value + 1) as i128) as u128 + 1, buffer)
@@ -381,7 +381,7 @@ pub fn from_f64_mut(variant: ChineseVariant, case: ChineseNumberCase, method: Ch
     let chinese_number_index = get_chinese_number_index(variant, case);
 
     if value < 0.0 {
-        buffer.push(CHINESE_NEGATIVE_SIGN[variant as usize]);
+        buffer.push_str(CHINESE_NEGATIVE_SIGN[variant as usize]);
         value = -value;
     }
 
