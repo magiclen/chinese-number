@@ -120,7 +120,7 @@ fn test_digit_10000_independently() {
     digit_10000(chinese_number_index, 1100101, &mut s, false);
     digit_10000(chinese_number_index, 99999999, &mut s, false);
 
-    assert_eq!("壹萬壹萬零壹壹拾萬零壹壹拾壹萬零壹拾壹佰萬零壹仟壹佰壹拾萬零壹佰零壹玖仟玖佰玖拾玖萬玖仟玖佰玖拾玖一萬一萬零一十萬零一十一萬零一十一百萬零一千一百一十萬零一百零一九千九百九十九萬九千九百九十九", s);
+    assert_eq!("壹萬壹萬零壹壹拾萬零壹壹拾壹萬零壹拾壹佰萬壹仟壹佰壹拾萬零壹佰零壹玖仟玖佰玖拾玖萬玖仟玖佰玖拾玖一萬一萬零一十萬零一十一萬零一十一百萬一千一百一十萬零一百零一九千九百九十九萬九千九百九十九", s);
 }
 
 #[test]
@@ -147,7 +147,7 @@ fn test_digit_10000_dependently() {
     digit_10000(chinese_number_index, 1100101, &mut s, true);
     digit_10000(chinese_number_index, 99999999, &mut s, true);
 
-    assert_eq!("壹萬壹萬零壹壹拾萬零壹壹拾壹萬零壹拾壹佰萬零壹仟壹佰壹拾萬零壹佰零壹玖仟玖佰玖拾玖萬玖仟玖佰玖拾玖一萬一萬零一一十萬零一一十一萬零一十一百萬零一千一百一十萬零一百零一九千九百九十九萬九千九百九十九", s);
+    assert_eq!("壹萬壹萬零壹壹拾萬零壹壹拾壹萬零壹拾壹佰萬壹仟壹佰壹拾萬零壹佰零壹玖仟玖佰玖拾玖萬玖仟玖佰玖拾玖一萬一萬零一一十萬零一一十一萬零一十一百萬一千一百一十萬零一百零一九千九百九十九萬九千九百九十九", s);
 }
 
 #[test]
@@ -222,6 +222,122 @@ fn test_digit_10000_compat_dependently() {
     digit_10000_compat(chinese_number_index, 990909, &mut s, true);
 
     assert_eq!("一一十二十二三百三十三四千四百四十四五萬五千五百五十五一十萬六十六萬六千零六十六九十九萬零九百零九", s);
+}
+
+#[test]
+fn test_digit_100000000_compat_independently() {
+    let mut s = String::new();
+
+    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
+
+    digit_100000000_compat(chinese_number_index, 0, &mut s, false);
+    digit_100000000_compat(chinese_number_index, 1, &mut s, false);
+    digit_100000000_compat(chinese_number_index, 10, &mut s, false);
+    digit_100000000_compat(chinese_number_index, 2222, &mut s, false);
+    digit_100000000_compat(chinese_number_index, 333333, &mut s, false);
+    digit_100000000_compat(chinese_number_index, 44444444, &mut s, false);
+    digit_100000000_compat(chinese_number_index, 5555555555, &mut s, false);
+    digit_100000000_compat(chinese_number_index, 1000000000000000, &mut s, false);
+    digit_100000000_compat(chinese_number_index, 9990099009900909, &mut s, false);
+
+    assert_eq!("零一十二千二百二十二三十三萬三千三百三十三四千四百四十四萬四千四百四十四五十五億五千五百五十五萬五千五百五十五一千萬億九千九百九十萬零九百九十億零九百九十萬零九百零九", s);
+}
+
+#[test]
+fn test_digit_100000000_compat_dependently() {
+    let mut s = String::new();
+
+    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
+
+    digit_100000000_compat(chinese_number_index, 0, &mut s, true);
+    digit_100000000_compat(chinese_number_index, 1, &mut s, true);
+    digit_100000000_compat(chinese_number_index, 10, &mut s, true);
+    digit_100000000_compat(chinese_number_index, 2222, &mut s, true);
+    digit_100000000_compat(chinese_number_index, 333333, &mut s, true);
+    digit_100000000_compat(chinese_number_index, 44444444, &mut s, true);
+    digit_100000000_compat(chinese_number_index, 5555555555, &mut s, true);
+    digit_100000000_compat(chinese_number_index, 1000000000000000, &mut s, true);
+    digit_100000000_compat(chinese_number_index, 9990099009900909, &mut s, true);
+
+    assert_eq!("一一十二千二百二十二三十三萬三千三百三十三四千四百四十四萬四千四百四十四五十五億五千五百五十五萬五千五百五十五一千萬億九千九百九十萬零九百九十億零九百九十萬零九百零九", s);
+}
+
+#[test]
+fn test_digit_10000000000000000_compat_independently() {
+    let mut s = String::new();
+
+    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
+
+    digit_10000000000000000_compat(chinese_number_index, 0, &mut s, false);
+    digit_10000000000000000_compat(chinese_number_index, 1, &mut s, false);
+    digit_10000000000000000_compat(chinese_number_index, 10, &mut s, false);
+    digit_10000000000000000_compat(chinese_number_index, 222222, &mut s, false);
+    digit_10000000000000000_compat(chinese_number_index, 3333333333, &mut s, false);
+    digit_10000000000000000_compat(chinese_number_index, 44444444444444, &mut s, false);
+    digit_10000000000000000_compat(chinese_number_index, 555555555555555555, &mut s, false);
+    digit_10000000000000000_compat(chinese_number_index, 1000000000000000000000000000, &mut s, false);
+    digit_10000000000000000_compat(chinese_number_index, 9999900009999000099990000909, &mut s, false);
+    digit_10000000000000000_compat(chinese_number_index, 10000000000000000000000000000000, &mut s, false);
+
+    assert_eq!("零一十二十二萬二千二百二十二三十三億三千三百三十三萬三千三百三十三四十四萬四千四百四十四億四千四百四十四萬四千四百四十四五十五兆五千五百五十五萬五千五百五十五億五千五百五十五萬五千五百五十五一千億兆九千九百九十九億九千萬零九百九十九兆九千萬零九百九十九億九千萬零九百零九一千萬億兆", s);
+}
+
+#[test]
+fn test_digit_10000000000000000_compat_dependently() {
+    let mut s = String::new();
+
+    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
+
+    digit_10000000000000000_compat(chinese_number_index, 0, &mut s, true);
+    digit_10000000000000000_compat(chinese_number_index, 1, &mut s, true);
+    digit_10000000000000000_compat(chinese_number_index, 10, &mut s, true);
+    digit_10000000000000000_compat(chinese_number_index, 222222, &mut s, true);
+    digit_10000000000000000_compat(chinese_number_index, 3333333333, &mut s, true);
+    digit_10000000000000000_compat(chinese_number_index, 44444444444444, &mut s, true);
+    digit_10000000000000000_compat(chinese_number_index, 555555555555555555, &mut s, true);
+    digit_10000000000000000_compat(chinese_number_index, 1000000000000000000000000000, &mut s, true);
+    digit_10000000000000000_compat(chinese_number_index, 9999900009999000099990000909, &mut s, true);
+    digit_10000000000000000_compat(chinese_number_index, 10000000000000000000000000000000, &mut s, true);
+
+    assert_eq!("一一十二十二萬二千二百二十二三十三億三千三百三十三萬三千三百三十三四十四萬四千四百四十四億四千四百四十四萬四千四百四十四五十五兆五千五百五十五萬五千五百五十五億五千五百五十五萬五千五百五十五一千億兆九千九百九十九億九千萬零九百九十九兆九千萬零九百九十九億九千萬零九百零九一千萬億兆", s);
+}
+
+#[test]
+fn test_digit_100000000000000000000000000000000_compat_independently() {
+    let mut s = String::new();
+
+    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
+
+    digit_100000000000000000000000000000000_compat(chinese_number_index, 0, &mut s, false);
+    digit_100000000000000000000000000000000_compat(chinese_number_index, 1, &mut s, false);
+    digit_100000000000000000000000000000000_compat(chinese_number_index, 10, &mut s, false);
+    digit_100000000000000000000000000000000_compat(chinese_number_index, 22222222, &mut s, false);
+    digit_100000000000000000000000000000000_compat(chinese_number_index, 33333333333333, &mut s, false);
+    digit_100000000000000000000000000000000_compat(chinese_number_index, 44444444444444444444, &mut s, false);
+    digit_100000000000000000000000000000000_compat(chinese_number_index, 55555555555555555555555555, &mut s, false);
+    digit_100000000000000000000000000000000_compat(chinese_number_index, 100000000000000000000000000000000000000, &mut s, false);
+    digit_100000000000000000000000000000000_compat(chinese_number_index, 333333000000333333000000333333000000303, &mut s, false);
+
+    assert_eq!("零一十二千二百二十二萬二千二百二十二三十三萬三千三百三十三億三千三百三十三萬三千三百三十三四千四百四十四兆四千四百四十四萬四千四百四十四億四千四百四十四萬四千四百四十四五十五億五千五百五十五萬五千五百五十五兆五千五百五十五萬五千五百五十五億五千五百五十五萬五千五百五十五一百萬京三百三十三萬三千三百三十京零三百三十三億三千三百三十萬兆零三百三十三萬三千三百三十億零三百零三", s);
+}
+
+#[test]
+fn test_digit_100000000000000000000000000000000_compat_dependently() {
+    let mut s = String::new();
+
+    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
+
+    digit_100000000000000000000000000000000_compat(chinese_number_index, 0, &mut s, true);
+    digit_100000000000000000000000000000000_compat(chinese_number_index, 1, &mut s, true);
+    digit_100000000000000000000000000000000_compat(chinese_number_index, 10, &mut s, true);
+    digit_100000000000000000000000000000000_compat(chinese_number_index, 22222222, &mut s, true);
+    digit_100000000000000000000000000000000_compat(chinese_number_index, 33333333333333, &mut s, true);
+    digit_100000000000000000000000000000000_compat(chinese_number_index, 44444444444444444444, &mut s, true);
+    digit_100000000000000000000000000000000_compat(chinese_number_index, 55555555555555555555555555, &mut s, true);
+    digit_100000000000000000000000000000000_compat(chinese_number_index, 100000000000000000000000000000000000000, &mut s, true);
+    digit_100000000000000000000000000000000_compat(chinese_number_index, 333333000000333333000000333333000000303, &mut s, true);
+
+    assert_eq!("一一十二千二百二十二萬二千二百二十二三十三萬三千三百三十三億三千三百三十三萬三千三百三十三四千四百四十四兆四千四百四十四萬四千四百四十四億四千四百四十四萬四千四百四十四五十五億五千五百五十五萬五千五百五十五兆五千五百五十五萬五千五百五十五億五千五百五十五萬五千五百五十五一百萬京三百三十三萬三千三百三十京零三百三十三億三千三百三十萬兆零三百三十三萬三千三百三十億零三百零三", s);
 }
 
 #[test]
@@ -350,7 +466,7 @@ fn test_digit_compat_middle_u128() {
     digit_compat_middle_u128(chinese_number_index, u64::max_value() as u128, &mut s);
     digit_compat_middle_u128(chinese_number_index, u128::max_value(), &mut s);
 
-    assert_eq!("零一十九萬九千九百九十九十萬十億零一一千萬億一千零一萬億零一百零一一千八百四十四兆六千七百四十四萬零七百三十七億零九百五十五萬一千六百一十五三百四十萬零二千八百二十三垓六千六百九十二萬零九百三十八京四千六百三十四萬六千三百三十七兆四千六百零七萬四千三百一十七億六千八百二十一萬一千四百五十五", s);
+    assert_eq!("零一十九萬九千九百九十九十萬十億零一一千萬億一千零一萬億零一百零一一千八百四十四兆六千七百四十四萬零七百三十七億零九百五十五萬一千六百一十五三百四十萬二千八百二十三垓六千六百九十二萬零九百三十八京四千六百三十四萬六千三百三十七兆四千六百零七萬四千三百一十七億六千八百二十一萬一千四百五十五", s);
 }
 
 #[test]
