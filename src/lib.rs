@@ -12,15 +12,16 @@ extern crate chinese_number;
 
 use chinese_number::{ChineseNumber, ChineseVariant};
 
-assert_eq!("壹佰貳拾參", 123i8.to_uppercase_middle(ChineseVariant::Traditional));
-assert_eq!("壹佰贰拾参", 123i8.to_uppercase_middle(ChineseVariant::Simple));
+assert_eq!("壹佰貳拾參", 123i8.to_uppercase_ten_thousand(ChineseVariant::Traditional));
+assert_eq!("壹佰贰拾参", 123i8.to_uppercase_ten_thousand(ChineseVariant::Simple));
 
-assert_eq!("一百二十三", 123i8.to_lowercase_middle(ChineseVariant::Traditional));
+assert_eq!("一百二十三", 123i8.to_lowercase_ten_thousand(ChineseVariant::Traditional));
 
-assert_eq!("十二穰三千四百五十六秭七千八百九十垓一千二百三十四京五千六百七十八兆九千零一十二億三千四百五十六萬七千八百九十", 123456789012345678901234567890i128.to_lowercase_middle(ChineseVariant::Traditional));
+assert_eq!("十二穰三千四百五十六秭七千八百九十垓一千二百三十四京五千六百七十八兆九千零一十二億三千四百五十六萬七千八百九十", 123456789012345678901234567890i128.to_lowercase_ten_thousand(ChineseVariant::Traditional));
+assert_eq!("十二萬三千四百五十六京七千八百九十萬零一千二百三十四兆五千六百七十八萬九千零一十二億三千四百五十六萬七千八百九十", 123456789012345678901234567890i128.to_lowercase_middle(ChineseVariant::Traditional));
 assert_eq!("一极二载三正四涧五沟六穰七秭八垓九京零一亿二万三千四百五十六", 1234567890123456i64.to_lowercase_low(ChineseVariant::Simple));
 
-assert_eq!("一角二分", 0.12f64.to_lowercase_middle(ChineseVariant::Traditional));
+assert_eq!("一角二分", 0.12f64.to_lowercase_ten_thousand(ChineseVariant::Traditional));
 ```
 */
 mod constants;
@@ -170,8 +171,8 @@ pub fn from_u32_mut(variant: ChineseVariant, case: ChineseNumberCase, method: Ch
         ChineseBigNumberCountMethod::Low => {
             digit_compat_low_u32(chinese_number_index, value, buffer);
         }
-        ChineseBigNumberCountMethod::Middle => {
-            digit_compat_middle_u32(chinese_number_index, value, buffer);
+        ChineseBigNumberCountMethod::TenThousand | ChineseBigNumberCountMethod::Middle | ChineseBigNumberCountMethod::High => {
+            digit_compat_ten_thousand_u32(chinese_number_index, value, buffer);
         }
     }
 }
@@ -217,9 +218,13 @@ pub fn from_u64_mut(variant: ChineseVariant, case: ChineseNumberCase, method: Ch
         ChineseBigNumberCountMethod::Low => {
             digit_compat_low_u64(chinese_number_index, value as u64, buffer);
         }
+        ChineseBigNumberCountMethod::TenThousand => {
+            digit_compat_ten_thousand_u64(chinese_number_index, value as u64, buffer);
+        }
         ChineseBigNumberCountMethod::Middle => {
             digit_compat_middle_u64(chinese_number_index, value as u64, buffer);
         }
+        ChineseBigNumberCountMethod::High => unimplemented!(),
     }
 }
 
@@ -265,9 +270,13 @@ pub fn from_u128_mut(variant: ChineseVariant, case: ChineseNumberCase, method: C
             assert!(value < 10000000000000000); // support to "極"
             digit_compat_low_u64(chinese_number_index, value as u64, buffer);
         }
+        ChineseBigNumberCountMethod::TenThousand => {
+            digit_compat_ten_thousand_u128(chinese_number_index, value as u128, buffer);
+        }
         ChineseBigNumberCountMethod::Middle => {
             digit_compat_middle_u128(chinese_number_index, value as u128, buffer);
         }
+        ChineseBigNumberCountMethod::High => unimplemented!(),
     }
 }
 
@@ -390,9 +399,13 @@ pub fn from_f64_mut(variant: ChineseVariant, case: ChineseNumberCase, method: Ch
         ChineseBigNumberCountMethod::Low => {
             fraction_compat_low(chinese_number_index, value, buffer);
         }
+        ChineseBigNumberCountMethod::TenThousand => {
+            fraction_compat_ten_thousand(chinese_number_index, value, buffer);
+        }
         ChineseBigNumberCountMethod::Middle => {
             fraction_compat_middle(chinese_number_index, value, buffer);
         }
+        ChineseBigNumberCountMethod::High => unimplemented!(),
     }
 }
 
@@ -415,6 +428,10 @@ pub trait ChineseNumber {
     fn to_uppercase_middle(&self, variant: ChineseVariant) -> String;
     /// 轉成大寫數字，使用 **「中數」** 作為單位標準。
     fn to_uppercase_middle_mut(&self, variant: ChineseVariant, buffer: &mut String);
+    /// 轉成大寫數字，使用 **「萬進」** 作為單位標準。
+    fn to_uppercase_ten_thousand(&self, variant: ChineseVariant) -> String;
+    /// 轉成大寫數字，使用 **「萬進」** 作為單位標準。
+    fn to_uppercase_ten_thousand_mut(&self, variant: ChineseVariant, buffer: &mut String);
     /// 轉成大寫數字，使用 **「下數」** 作為單位標準。數值不能大於或等於10000000000000000。
     fn to_uppercase_low(&self, variant: ChineseVariant) -> String;
     /// 轉成大寫數字，使用 **「下數」** 作為單位標準。數值不能大於或等於10000000000000000。
@@ -423,6 +440,10 @@ pub trait ChineseNumber {
     fn to_lowercase_middle(&self, variant: ChineseVariant) -> String;
     /// 轉成小寫數字，使用 **「中數」** 作為單位標準。
     fn to_lowercase_middle_mut(&self, variant: ChineseVariant, buffer: &mut String);
+    /// 轉成小寫數字，使用 **「萬進」** 作為單位標準。
+    fn to_lowercase_ten_thousand(&self, variant: ChineseVariant) -> String;
+    /// 轉成小寫數字，使用 **「萬進」** 作為單位標準。
+    fn to_lowercase_ten_thousand_mut(&self, variant: ChineseVariant, buffer: &mut String);
     /// 轉成小寫數字，使用 **「下數」** 作為單位標準。數值不能大於或等於10000000000000000。
     fn to_lowercase_low(&self, variant: ChineseVariant) -> String;
     /// 轉成小寫數字，使用 **「下數」** 作為單位標準。數值不能大於或等於10000000000000000。
@@ -435,6 +456,14 @@ impl ChineseNumber for i8 {
     }
 
     fn to_uppercase_middle_mut(&self, variant: ChineseVariant, buffer: &mut String) {
+        from_i8_mut(variant, ChineseNumberCase::Upper, *self, buffer)
+    }
+
+    fn to_uppercase_ten_thousand(&self, variant: ChineseVariant) -> String {
+        from_i8(variant, ChineseNumberCase::Upper, *self)
+    }
+
+    fn to_uppercase_ten_thousand_mut(&self, variant: ChineseVariant, buffer: &mut String) {
         from_i8_mut(variant, ChineseNumberCase::Upper, *self, buffer)
     }
 
@@ -451,6 +480,14 @@ impl ChineseNumber for i8 {
     }
 
     fn to_lowercase_middle_mut(&self, variant: ChineseVariant, buffer: &mut String) {
+        from_i8_mut(variant, ChineseNumberCase::Lower, *self, buffer)
+    }
+
+    fn to_lowercase_ten_thousand(&self, variant: ChineseVariant) -> String {
+        from_i8(variant, ChineseNumberCase::Lower, *self)
+    }
+
+    fn to_lowercase_ten_thousand_mut(&self, variant: ChineseVariant, buffer: &mut String) {
         from_i8_mut(variant, ChineseNumberCase::Lower, *self, buffer)
     }
 
@@ -473,6 +510,14 @@ impl ChineseNumber for u8 {
         from_u8_mut(variant, ChineseNumberCase::Upper, *self, buffer)
     }
 
+    fn to_uppercase_ten_thousand(&self, variant: ChineseVariant) -> String {
+        from_u8(variant, ChineseNumberCase::Upper, *self)
+    }
+
+    fn to_uppercase_ten_thousand_mut(&self, variant: ChineseVariant, buffer: &mut String) {
+        from_u8_mut(variant, ChineseNumberCase::Upper, *self, buffer)
+    }
+
     fn to_uppercase_low(&self, variant: ChineseVariant) -> String {
         from_u8(variant, ChineseNumberCase::Upper, *self)
     }
@@ -486,6 +531,14 @@ impl ChineseNumber for u8 {
     }
 
     fn to_lowercase_middle_mut(&self, variant: ChineseVariant, buffer: &mut String) {
+        from_u8_mut(variant, ChineseNumberCase::Lower, *self, buffer)
+    }
+
+    fn to_lowercase_ten_thousand(&self, variant: ChineseVariant) -> String {
+        from_u8(variant, ChineseNumberCase::Lower, *self)
+    }
+
+    fn to_lowercase_ten_thousand_mut(&self, variant: ChineseVariant, buffer: &mut String) {
         from_u8_mut(variant, ChineseNumberCase::Lower, *self, buffer)
     }
 
@@ -508,6 +561,14 @@ impl ChineseNumber for i16 {
         from_i16_mut(variant, ChineseNumberCase::Upper, *self, buffer)
     }
 
+    fn to_uppercase_ten_thousand(&self, variant: ChineseVariant) -> String {
+        from_i16(variant, ChineseNumberCase::Upper, *self)
+    }
+
+    fn to_uppercase_ten_thousand_mut(&self, variant: ChineseVariant, buffer: &mut String) {
+        from_i16_mut(variant, ChineseNumberCase::Upper, *self, buffer)
+    }
+
     fn to_uppercase_low(&self, variant: ChineseVariant) -> String {
         from_i16(variant, ChineseNumberCase::Upper, *self)
     }
@@ -521,6 +582,14 @@ impl ChineseNumber for i16 {
     }
 
     fn to_lowercase_middle_mut(&self, variant: ChineseVariant, buffer: &mut String) {
+        from_i16_mut(variant, ChineseNumberCase::Lower, *self, buffer)
+    }
+
+    fn to_lowercase_ten_thousand(&self, variant: ChineseVariant) -> String {
+        from_i16(variant, ChineseNumberCase::Lower, *self)
+    }
+
+    fn to_lowercase_ten_thousand_mut(&self, variant: ChineseVariant, buffer: &mut String) {
         from_i16_mut(variant, ChineseNumberCase::Lower, *self, buffer)
     }
 
@@ -543,6 +612,14 @@ impl ChineseNumber for u16 {
         from_u16_mut(variant, ChineseNumberCase::Upper, *self, buffer)
     }
 
+    fn to_uppercase_ten_thousand(&self, variant: ChineseVariant) -> String {
+        from_u16(variant, ChineseNumberCase::Upper, *self)
+    }
+
+    fn to_uppercase_ten_thousand_mut(&self, variant: ChineseVariant, buffer: &mut String) {
+        from_u16_mut(variant, ChineseNumberCase::Upper, *self, buffer)
+    }
+
     fn to_uppercase_low(&self, variant: ChineseVariant) -> String {
         from_u16(variant, ChineseNumberCase::Upper, *self)
     }
@@ -556,6 +633,14 @@ impl ChineseNumber for u16 {
     }
 
     fn to_lowercase_middle_mut(&self, variant: ChineseVariant, buffer: &mut String) {
+        from_u16_mut(variant, ChineseNumberCase::Lower, *self, buffer)
+    }
+
+    fn to_lowercase_ten_thousand(&self, variant: ChineseVariant) -> String {
+        from_u16(variant, ChineseNumberCase::Lower, *self)
+    }
+
+    fn to_lowercase_ten_thousand_mut(&self, variant: ChineseVariant, buffer: &mut String) {
         from_u16_mut(variant, ChineseNumberCase::Lower, *self, buffer)
     }
 
@@ -578,6 +663,14 @@ impl ChineseNumber for i32 {
         from_i32_mut(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::Middle, *self, buffer)
     }
 
+    fn to_uppercase_ten_thousand(&self, variant: ChineseVariant) -> String {
+        from_i32(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::TenThousand, *self)
+    }
+
+    fn to_uppercase_ten_thousand_mut(&self, variant: ChineseVariant, buffer: &mut String) {
+        from_i32_mut(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::TenThousand, *self, buffer)
+    }
+
     fn to_uppercase_low(&self, variant: ChineseVariant) -> String {
         from_i32(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::Low, *self)
     }
@@ -592,6 +685,14 @@ impl ChineseNumber for i32 {
 
     fn to_lowercase_middle_mut(&self, variant: ChineseVariant, buffer: &mut String) {
         from_i32_mut(variant, ChineseNumberCase::Lower, ChineseBigNumberCountMethod::Middle, *self, buffer)
+    }
+
+    fn to_lowercase_ten_thousand(&self, variant: ChineseVariant) -> String {
+        from_i32(variant, ChineseNumberCase::Lower, ChineseBigNumberCountMethod::TenThousand, *self)
+    }
+
+    fn to_lowercase_ten_thousand_mut(&self, variant: ChineseVariant, buffer: &mut String) {
+        from_i32_mut(variant, ChineseNumberCase::Lower, ChineseBigNumberCountMethod::TenThousand, *self, buffer)
     }
 
     fn to_lowercase_low(&self, variant: ChineseVariant) -> String {
@@ -612,6 +713,14 @@ impl ChineseNumber for u32 {
         from_u32_mut(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::Middle, *self, buffer)
     }
 
+    fn to_uppercase_ten_thousand(&self, variant: ChineseVariant) -> String {
+        from_u32(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::TenThousand, *self)
+    }
+
+    fn to_uppercase_ten_thousand_mut(&self, variant: ChineseVariant, buffer: &mut String) {
+        from_u32_mut(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::TenThousand, *self, buffer)
+    }
+
     fn to_uppercase_low(&self, variant: ChineseVariant) -> String {
         from_u32(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::Low, *self)
     }
@@ -626,6 +735,14 @@ impl ChineseNumber for u32 {
 
     fn to_lowercase_middle_mut(&self, variant: ChineseVariant, buffer: &mut String) {
         from_u32_mut(variant, ChineseNumberCase::Lower, ChineseBigNumberCountMethod::Middle, *self, buffer)
+    }
+
+    fn to_lowercase_ten_thousand(&self, variant: ChineseVariant) -> String {
+        from_u32(variant, ChineseNumberCase::Lower, ChineseBigNumberCountMethod::TenThousand, *self)
+    }
+
+    fn to_lowercase_ten_thousand_mut(&self, variant: ChineseVariant, buffer: &mut String) {
+        from_u32_mut(variant, ChineseNumberCase::Lower, ChineseBigNumberCountMethod::TenThousand, *self, buffer)
     }
 
     fn to_lowercase_low(&self, variant: ChineseVariant) -> String {
@@ -646,6 +763,14 @@ impl ChineseNumber for i64 {
         from_i64_mut(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::Middle, *self, buffer)
     }
 
+    fn to_uppercase_ten_thousand(&self, variant: ChineseVariant) -> String {
+        from_i64(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::TenThousand, *self)
+    }
+
+    fn to_uppercase_ten_thousand_mut(&self, variant: ChineseVariant, buffer: &mut String) {
+        from_i64_mut(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::TenThousand, *self, buffer)
+    }
+
     fn to_uppercase_low(&self, variant: ChineseVariant) -> String {
         from_i64(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::Low, *self)
     }
@@ -660,6 +785,14 @@ impl ChineseNumber for i64 {
 
     fn to_lowercase_middle_mut(&self, variant: ChineseVariant, buffer: &mut String) {
         from_i64_mut(variant, ChineseNumberCase::Lower, ChineseBigNumberCountMethod::Middle, *self, buffer)
+    }
+
+    fn to_lowercase_ten_thousand(&self, variant: ChineseVariant) -> String {
+        from_i64(variant, ChineseNumberCase::Lower, ChineseBigNumberCountMethod::TenThousand, *self)
+    }
+
+    fn to_lowercase_ten_thousand_mut(&self, variant: ChineseVariant, buffer: &mut String) {
+        from_i64_mut(variant, ChineseNumberCase::Lower, ChineseBigNumberCountMethod::TenThousand, *self, buffer)
     }
 
     fn to_lowercase_low(&self, variant: ChineseVariant) -> String {
@@ -680,6 +813,14 @@ impl ChineseNumber for u64 {
         from_u64_mut(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::Middle, *self, buffer)
     }
 
+    fn to_uppercase_ten_thousand(&self, variant: ChineseVariant) -> String {
+        from_u64(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::TenThousand, *self)
+    }
+
+    fn to_uppercase_ten_thousand_mut(&self, variant: ChineseVariant, buffer: &mut String) {
+        from_u64_mut(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::TenThousand, *self, buffer)
+    }
+
     fn to_uppercase_low(&self, variant: ChineseVariant) -> String {
         from_u64(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::Low, *self)
     }
@@ -694,6 +835,14 @@ impl ChineseNumber for u64 {
 
     fn to_lowercase_middle_mut(&self, variant: ChineseVariant, buffer: &mut String) {
         from_u64_mut(variant, ChineseNumberCase::Lower, ChineseBigNumberCountMethod::Middle, *self, buffer)
+    }
+
+    fn to_lowercase_ten_thousand(&self, variant: ChineseVariant) -> String {
+        from_u64(variant, ChineseNumberCase::Lower, ChineseBigNumberCountMethod::TenThousand, *self)
+    }
+
+    fn to_lowercase_ten_thousand_mut(&self, variant: ChineseVariant, buffer: &mut String) {
+        from_u64_mut(variant, ChineseNumberCase::Lower, ChineseBigNumberCountMethod::TenThousand, *self, buffer)
     }
 
     fn to_lowercase_low(&self, variant: ChineseVariant) -> String {
@@ -714,6 +863,14 @@ impl ChineseNumber for i128 {
         from_i128_mut(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::Middle, *self, buffer)
     }
 
+    fn to_uppercase_ten_thousand(&self, variant: ChineseVariant) -> String {
+        from_i128(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::TenThousand, *self)
+    }
+
+    fn to_uppercase_ten_thousand_mut(&self, variant: ChineseVariant, buffer: &mut String) {
+        from_i128_mut(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::TenThousand, *self, buffer)
+    }
+
     fn to_uppercase_low(&self, variant: ChineseVariant) -> String {
         from_i128(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::Low, *self)
     }
@@ -728,6 +885,14 @@ impl ChineseNumber for i128 {
 
     fn to_lowercase_middle_mut(&self, variant: ChineseVariant, buffer: &mut String) {
         from_i128_mut(variant, ChineseNumberCase::Lower, ChineseBigNumberCountMethod::Middle, *self, buffer)
+    }
+
+    fn to_lowercase_ten_thousand(&self, variant: ChineseVariant) -> String {
+        from_i128(variant, ChineseNumberCase::Lower, ChineseBigNumberCountMethod::TenThousand, *self)
+    }
+
+    fn to_lowercase_ten_thousand_mut(&self, variant: ChineseVariant, buffer: &mut String) {
+        from_i128_mut(variant, ChineseNumberCase::Lower, ChineseBigNumberCountMethod::TenThousand, *self, buffer)
     }
 
     fn to_lowercase_low(&self, variant: ChineseVariant) -> String {
@@ -748,6 +913,14 @@ impl ChineseNumber for u128 {
         from_u128_mut(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::Middle, *self, buffer)
     }
 
+    fn to_uppercase_ten_thousand(&self, variant: ChineseVariant) -> String {
+        from_u128(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::TenThousand, *self)
+    }
+
+    fn to_uppercase_ten_thousand_mut(&self, variant: ChineseVariant, buffer: &mut String) {
+        from_u128_mut(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::TenThousand, *self, buffer)
+    }
+
     fn to_uppercase_low(&self, variant: ChineseVariant) -> String {
         from_u128(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::Low, *self)
     }
@@ -762,6 +935,14 @@ impl ChineseNumber for u128 {
 
     fn to_lowercase_middle_mut(&self, variant: ChineseVariant, buffer: &mut String) {
         from_u128_mut(variant, ChineseNumberCase::Lower, ChineseBigNumberCountMethod::Middle, *self, buffer)
+    }
+
+    fn to_lowercase_ten_thousand(&self, variant: ChineseVariant) -> String {
+        from_u128(variant, ChineseNumberCase::Lower, ChineseBigNumberCountMethod::TenThousand, *self)
+    }
+
+    fn to_lowercase_ten_thousand_mut(&self, variant: ChineseVariant, buffer: &mut String) {
+        from_u128_mut(variant, ChineseNumberCase::Lower, ChineseBigNumberCountMethod::TenThousand, *self, buffer)
     }
 
     fn to_lowercase_low(&self, variant: ChineseVariant) -> String {
@@ -782,6 +963,14 @@ impl ChineseNumber for isize {
         from_isize_mut(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::Middle, *self, buffer)
     }
 
+    fn to_uppercase_ten_thousand(&self, variant: ChineseVariant) -> String {
+        from_isize(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::TenThousand, *self)
+    }
+
+    fn to_uppercase_ten_thousand_mut(&self, variant: ChineseVariant, buffer: &mut String) {
+        from_isize_mut(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::TenThousand, *self, buffer)
+    }
+
     fn to_uppercase_low(&self, variant: ChineseVariant) -> String {
         from_isize(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::Low, *self)
     }
@@ -796,6 +985,14 @@ impl ChineseNumber for isize {
 
     fn to_lowercase_middle_mut(&self, variant: ChineseVariant, buffer: &mut String) {
         from_isize_mut(variant, ChineseNumberCase::Lower, ChineseBigNumberCountMethod::Middle, *self, buffer)
+    }
+
+    fn to_lowercase_ten_thousand(&self, variant: ChineseVariant) -> String {
+        from_isize(variant, ChineseNumberCase::Lower, ChineseBigNumberCountMethod::TenThousand, *self)
+    }
+
+    fn to_lowercase_ten_thousand_mut(&self, variant: ChineseVariant, buffer: &mut String) {
+        from_isize_mut(variant, ChineseNumberCase::Lower, ChineseBigNumberCountMethod::TenThousand, *self, buffer)
     }
 
     fn to_lowercase_low(&self, variant: ChineseVariant) -> String {
@@ -816,6 +1013,14 @@ impl ChineseNumber for usize {
         from_usize_mut(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::Middle, *self, buffer)
     }
 
+    fn to_uppercase_ten_thousand(&self, variant: ChineseVariant) -> String {
+        from_usize(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::TenThousand, *self)
+    }
+
+    fn to_uppercase_ten_thousand_mut(&self, variant: ChineseVariant, buffer: &mut String) {
+        from_usize_mut(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::TenThousand, *self, buffer)
+    }
+
     fn to_uppercase_low(&self, variant: ChineseVariant) -> String {
         from_usize(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::Low, *self)
     }
@@ -830,6 +1035,14 @@ impl ChineseNumber for usize {
 
     fn to_lowercase_middle_mut(&self, variant: ChineseVariant, buffer: &mut String) {
         from_usize_mut(variant, ChineseNumberCase::Lower, ChineseBigNumberCountMethod::Middle, *self, buffer)
+    }
+
+    fn to_lowercase_ten_thousand(&self, variant: ChineseVariant) -> String {
+        from_usize(variant, ChineseNumberCase::Lower, ChineseBigNumberCountMethod::TenThousand, *self)
+    }
+
+    fn to_lowercase_ten_thousand_mut(&self, variant: ChineseVariant, buffer: &mut String) {
+        from_usize_mut(variant, ChineseNumberCase::Lower, ChineseBigNumberCountMethod::TenThousand, *self, buffer)
     }
 
     fn to_lowercase_low(&self, variant: ChineseVariant) -> String {
@@ -850,6 +1063,14 @@ impl ChineseNumber for f64 {
         from_f64_mut(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::Middle, *self, buffer)
     }
 
+    fn to_uppercase_ten_thousand(&self, variant: ChineseVariant) -> String {
+        from_f64(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::TenThousand, *self)
+    }
+
+    fn to_uppercase_ten_thousand_mut(&self, variant: ChineseVariant, buffer: &mut String) {
+        from_f64_mut(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::TenThousand, *self, buffer)
+    }
+
     fn to_uppercase_low(&self, variant: ChineseVariant) -> String {
         from_f64(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::Low, *self)
     }
@@ -864,6 +1085,14 @@ impl ChineseNumber for f64 {
 
     fn to_lowercase_middle_mut(&self, variant: ChineseVariant, buffer: &mut String) {
         from_f64_mut(variant, ChineseNumberCase::Lower, ChineseBigNumberCountMethod::Middle, *self, buffer)
+    }
+
+    fn to_lowercase_ten_thousand(&self, variant: ChineseVariant) -> String {
+        from_f64(variant, ChineseNumberCase::Lower, ChineseBigNumberCountMethod::TenThousand, *self)
+    }
+
+    fn to_lowercase_ten_thousand_mut(&self, variant: ChineseVariant, buffer: &mut String) {
+        from_f64_mut(variant, ChineseNumberCase::Lower, ChineseBigNumberCountMethod::TenThousand, *self, buffer)
     }
 
     fn to_lowercase_low(&self, variant: ChineseVariant) -> String {
@@ -884,6 +1113,14 @@ impl ChineseNumber for f32 {
         from_f32_mut(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::Middle, *self, buffer)
     }
 
+    fn to_uppercase_ten_thousand(&self, variant: ChineseVariant) -> String {
+        from_f32(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::TenThousand, *self)
+    }
+
+    fn to_uppercase_ten_thousand_mut(&self, variant: ChineseVariant, buffer: &mut String) {
+        from_f32_mut(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::TenThousand, *self, buffer)
+    }
+
     fn to_uppercase_low(&self, variant: ChineseVariant) -> String {
         from_f32(variant, ChineseNumberCase::Upper, ChineseBigNumberCountMethod::Low, *self)
     }
@@ -898,6 +1135,14 @@ impl ChineseNumber for f32 {
 
     fn to_lowercase_middle_mut(&self, variant: ChineseVariant, buffer: &mut String) {
         from_f32_mut(variant, ChineseNumberCase::Lower, ChineseBigNumberCountMethod::Middle, *self, buffer)
+    }
+
+    fn to_lowercase_ten_thousand(&self, variant: ChineseVariant) -> String {
+        from_f32(variant, ChineseNumberCase::Lower, ChineseBigNumberCountMethod::TenThousand, *self)
+    }
+
+    fn to_lowercase_ten_thousand_mut(&self, variant: ChineseVariant, buffer: &mut String) {
+        from_f32_mut(variant, ChineseNumberCase::Lower, ChineseBigNumberCountMethod::TenThousand, *self, buffer)
     }
 
     fn to_lowercase_low(&self, variant: ChineseVariant) -> String {
