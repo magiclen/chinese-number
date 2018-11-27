@@ -499,9 +499,27 @@ fn test_chinese_digit_1() {
 
 #[test]
 fn test_chinese_digit_10() {
-    assert_eq!(0, chinese_digit_10('零', None, None).unwrap());
-    assert_eq!(1, chinese_digit_10('壹', None, None).unwrap());
     assert_eq!(10, chinese_digit_10('十', None, None).unwrap());
     assert_eq!(10, chinese_digit_10('壹', Some('十'), None).unwrap());
     assert_eq!(25, chinese_digit_10('贰', Some('拾'), Some('五')).unwrap());
+}
+
+#[test]
+fn test_chinese_digit_100() {
+    assert_eq!(100, chinese_digit_100('壹', '百', None, None, None).unwrap());
+    assert_eq!(204, chinese_digit_100('二', '百', Some('零'), Some('四'), None).unwrap());
+    assert_eq!(380, chinese_digit_100('三', '百', Some('八'), Some('十'), None).unwrap());
+    assert_eq!(999, chinese_digit_100('九', '佰', Some('玖'), Some('拾'), Some('玖')).unwrap());
+}
+
+#[test]
+fn test_chinese_digit_1000() {
+    assert_eq!(1000, chinese_digit_1000('壹', '千', None, None, None, None, None).unwrap());
+    assert_eq!(1001, chinese_digit_1000('一', '仟', Some('零'), Some('壹'), None, None, None).unwrap());
+    assert_eq!(1010, chinese_digit_1000('一', '仟', Some('零'), Some('壹'), Some('拾'), None, None).unwrap());
+    assert_eq!(1011, chinese_digit_1000('一', '仟', Some('零'), Some('壹'), Some('拾'), Some('一'), None).unwrap());
+    assert_eq!(2300, chinese_digit_1000('二', '千', Some('三'), Some('百'), None, None, None).unwrap());
+    assert_eq!(2301, chinese_digit_1000('二', '千', Some('三'), Some('百'), Some('零'), Some('一'), None).unwrap());
+    assert_eq!(2320, chinese_digit_1000('二', '千', Some('三'), Some('百'), Some('二'), Some('十'), None).unwrap());
+    assert_eq!(9999, chinese_digit_1000('九', '千', Some('玖'), Some('佰'), Some('玖'), Some('十'), Some('玖')).unwrap());
 }

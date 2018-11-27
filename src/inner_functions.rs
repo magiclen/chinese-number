@@ -577,11 +577,95 @@ pub(crate) fn chinese_digit_10(value: char, value2: Option<char>, value3: Option
                     }
                 }
             } else {
-                if let Some(value3) = value3 {
-                    Err(2)
+                Err(1)
+            }
+        }
+    }
+}
+
+pub(crate) fn chinese_digit_100(value: char, value2: char, value3: Option<char>, value4: Option<char>, value5: Option<char>) -> Result<u16, usize> {
+    let msd = chinese_digit_1(value)?;
+
+    if msd == 0 {
+        Err(0)
+    } else {
+        if !CHINESE_NUMBERS_CHARS[11].contains(&value2) {
+            Err(1)
+        } else {
+            if let Some(value3) = value3 {
+                if CHINESE_NUMBERS_CHARS[0].contains(&value3) {
+                    if let Some(value4) = value4 {
+                        let lsd = chinese_digit_1(value4).map_err(|err| 3u8)?;
+
+                        if lsd == 0 {
+                            Err(3)
+                        } else {
+                            if let Some(_) = value5 {
+                                Err(4)
+                            } else {
+                                Ok(msd as u16 * 100 + lsd as u16)
+                            }
+                        }
+                    } else {
+                        Err(3)
+                    }
                 } else {
-                    Ok(msd)
+                    let rds = chinese_digit_10(value3, value4, value5).map_err(|err| err + 2)?;
+
+                    Ok(msd as u16 * 100 + rds as u16)
                 }
+            } else {
+                Ok(msd as u16 * 100)
+            }
+        }
+    }
+}
+
+pub(crate) fn chinese_digit_1000(value: char, value2: char, value3: Option<char>, value4: Option<char>, value5: Option<char>, value6: Option<char>, value7: Option<char>) -> Result<u16, usize> {
+    let msd = chinese_digit_1(value)?;
+
+    if msd == 0 {
+        Err(0)
+    } else {
+        if !CHINESE_NUMBERS_CHARS[12].contains(&value2) {
+            Err(1)
+        } else {
+            if let Some(value3) = value3 {
+                if CHINESE_NUMBERS_CHARS[0].contains(&value3) {
+                    if let Some(value4) = value4 {
+                        if let Some(value5) = value5 {
+                            if let Some(_) = value7 {
+                                Err(6)
+                            } else {
+                                let rds = chinese_digit_10(value4, Some(value5), value6).map_err(|err| 3u8)?;
+
+                                Ok(msd as u16 * 1000 + rds as u16)
+                            }
+                        } else {
+                            if let Some(_) = value6 {
+                                Err(5)
+                            } else if let Some(_) = value7 {
+                                Err(6)
+                            } else {
+                                let rds = chinese_digit_1(value4).map_err(|err| 3u8)?;
+
+                                Ok(msd as u16 * 1000 + rds as u16)
+                            }
+                        }
+                    } else {
+                        Err(3)
+                    }
+                } else {
+                    if let Some(value4) = value4 {
+                        let rds = chinese_digit_100(value3, value4, value5, value6, value7).map_err(|err| err + 2)?;
+
+                        Ok(msd as u16 * 1000 + rds as u16)
+                    } else {
+                        Err(3)
+                    }
+                }
+            } else {
+                Ok(msd as u16 * 1000)
             }
         }
     }
