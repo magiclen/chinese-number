@@ -482,3 +482,26 @@ fn test_fraction_compat_low() {
 
     assert_eq!("零一分一角五角五分", s);
 }
+
+#[test]
+fn test_chinese_digit_1() {
+    assert_eq!(0, chinese_digit_1('零').unwrap());
+    assert_eq!(1, chinese_digit_1('壹').unwrap());
+    assert_eq!(2, chinese_digit_1('贰').unwrap());
+    assert_eq!(3, chinese_digit_1('參').unwrap());
+    assert_eq!(4, chinese_digit_1('四').unwrap());
+    assert_eq!(5, chinese_digit_1('五').unwrap());
+    assert_eq!(6, chinese_digit_1('陸').unwrap());
+    assert_eq!(7, chinese_digit_1('七').unwrap());
+    assert_eq!(8, chinese_digit_1('八').unwrap());
+    assert_eq!(9, chinese_digit_1('玖').unwrap());
+}
+
+#[test]
+fn test_chinese_digit_10() {
+    assert_eq!(0, chinese_digit_10('零', None, None).unwrap());
+    assert_eq!(1, chinese_digit_10('壹', None, None).unwrap());
+    assert_eq!(10, chinese_digit_10('十', None, None).unwrap());
+    assert_eq!(10, chinese_digit_10('壹', Some('十'), None).unwrap());
+    assert_eq!(25, chinese_digit_10('贰', Some('拾'), Some('五')).unwrap());
+}

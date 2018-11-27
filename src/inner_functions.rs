@@ -1,4 +1,4 @@
-use ::{CHINESE_NUMBERS_FRACTION, CHINESE_NUMBERS, ChineseNumberCase, ChineseVariant};
+use ::{constants::*, ChineseNumberCase, ChineseVariant};
 
 pub(crate) fn get_chinese_number_index(variant: ChineseVariant, case: ChineseNumberCase) -> usize {
     (variant as usize * 2) + case as usize
@@ -528,3 +528,62 @@ pub(crate) fn digit_compat_middle_u128(chinese_number_index: usize, mut value: u
 pub(crate) fn digit_compat_high_u128(chinese_number_index: usize, value: u128, buffer: &mut String) {
     digit_100000000000000000000000000000000_compat(chinese_number_index, value, buffer, false);
 }
+
+pub(crate) fn chinese_digit_1(value: char) -> Result<u8, usize> {
+    for i in 0..=9 {
+        if CHINESE_NUMBERS_CHARS[i].contains(&value) {
+            return Ok(i as u8);
+        }
+    }
+
+    Err(0)
+}
+
+pub(crate) fn chinese_digit_10(value: char, value2: Option<char>, value3: Option<char>) -> Result<u8, usize> {
+    if CHINESE_NUMBERS_CHARS[10].contains(&value) {
+        if let Some(_) = value2 {
+            Err(1)
+        } else if let Some(_) = value3 {
+            Err(2)
+        } else {
+            Ok(10)
+        }
+    } else {
+        let msd = chinese_digit_1(value)?;
+
+        if msd == 0 {
+            if let Some(_) = value2 {
+                Err(1)
+            } else if let Some(_) = value3 {
+                Err(2)
+            } else {
+                Ok(0)
+            }
+        } else {
+            if let Some(value2) = value2 {
+                if !CHINESE_NUMBERS_CHARS[10].contains(&value2) {
+                    Err(1)
+                } else {
+                    if let Some(value3) = value3 {
+                        let lsd = chinese_digit_1(value3).map_err(|err| 2u8)?;
+
+                        if lsd == 0 {
+                            Err(2)
+                        } else {
+                            Ok(msd * 10 + lsd)
+                        }
+                    } else {
+                        Ok(msd * 10)
+                    }
+                }
+            } else {
+                if let Some(value3) = value3 {
+                    Err(2)
+                } else {
+                    Ok(msd)
+                }
+            }
+        }
+    }
+}
+
