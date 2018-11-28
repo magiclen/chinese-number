@@ -541,10 +541,12 @@ pub(crate) fn chinese_digit_1(value: char) -> Result<u8, usize> {
 
 pub(crate) fn chinese_digit_10(value: char, value2: Option<char>, value3: Option<char>) -> Result<u8, usize> {
     if CHINESE_NUMBERS_CHARS[10].contains(&value) {
-        if let Some(_) = value2 {
-            Err(1)
-        } else if let Some(_) = value3 {
+        if let Some(_) = value3 {
             Err(2)
+        } else if let Some(value2) = value2 {
+            let lsd = chinese_digit_1(value2).map_err(|err| 1u8)?;
+
+            Ok(10 + lsd)
         } else {
             Ok(10)
         }
@@ -617,6 +619,19 @@ pub(crate) fn chinese_digit_100(value: char, value2: char, value3: Option<char>,
             } else {
                 Ok(msd as u16 * 100)
             }
+        }
+    }
+}
+
+pub(crate) fn chinese_digit_100_compat(value: char, value2: Option<char>, value3: Option<char>, value4: Option<char>, value5: Option<char>) -> Result<u16, usize> {
+    match chinese_digit_10(value, value2, value3) {
+        Ok(number) => Ok(number as u16),
+        Err(_) => match value2 {
+            Some(value2) => match chinese_digit_100(value, value2, value3, value4, value5) {
+                Ok(number) => Ok(number),
+                Err(err) => Err(err)
+            }
+            None => chinese_digit_1(value).map(|v| v as u16)
         }
     }
 }

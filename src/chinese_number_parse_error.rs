@@ -4,4 +4,6 @@ pub enum ChineseNumberParseError {
     ChineseNumberIncorrect {
         char_index: usize
     },
+    Overflow,
+    Underflow,
 }

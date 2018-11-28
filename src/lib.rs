@@ -1406,26 +1406,40 @@ pub fn parse_chinese_number_to_i8<S: AsRef<str>>(chinese_number: S) -> Result<i8
 
     match first_char {
         Some(first_char) => {
-            let (multiply, mut next_char) = if CHINESE_NEGATIVE_SIGN_CHARS.contains(&first_char) {
+            if CHINESE_NEGATIVE_SIGN_CHARS.contains(&first_char) {
                 let next_char = chars.next();
 
                 match next_char {
-                    Some(next_char) => (-1, next_char),
+                    Some(next_char) => match chinese_digit_100_compat(next_char, chars.next(), chars.next(), chars.next(), chars.next()) {
+                        Ok(number) => {
+                            if number > i8::max_value() as u16 + 1 {
+                                Err(ChineseNumberParseError::Underflow)
+                            } else {
+                                Ok((number as i16 * -1) as i8)
+                            }
+                        }
+                        Err(err) => Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                            char_index: err
+                        })
+                    }
                     None => return Err(ChineseNumberParseError::ChineseNumberIncorrect {
                         char_index: 1
                     })
                 }
             } else {
-                (1, first_char)
-            };
-
-            let mut number = 0;
-
-            let mut temp = 0;
-
-
-
-            Err(ChineseNumberParseError::ChineseNumberEmpty)
+                match chinese_digit_100_compat(first_char, chars.next(), chars.next(), chars.next(), chars.next()) {
+                    Ok(number) => {
+                        if number > i8::max_value() as u16 {
+                            Err(ChineseNumberParseError::Overflow)
+                        } else {
+                            Ok(number as i8)
+                        }
+                    }
+                    Err(err) => Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                        char_index: err
+                    })
+                }
+            }
         }
         None => {
             Err(ChineseNumberParseError::ChineseNumberEmpty)
@@ -1434,7 +1448,31 @@ pub fn parse_chinese_number_to_i8<S: AsRef<str>>(chinese_number: S) -> Result<i8
 }
 
 pub fn parse_chinese_number_to_u8<S: AsRef<str>>(chinese_number: S) -> Result<u8, ChineseNumberParseError> {
-    unimplemented!()
+    let chinese_number = chinese_number.as_ref().replace(" ", "");
+
+    let mut chars = chinese_number.chars();
+
+    let first_char = chars.next();
+
+    match first_char {
+        Some(first_char) => {
+            match chinese_digit_100_compat(first_char, chars.next(), chars.next(), chars.next(), chars.next()) {
+                Ok(number) => {
+                    if number > u8::max_value() as u16 {
+                        Err(ChineseNumberParseError::Overflow)
+                    } else {
+                        Ok(number as u8)
+                    }
+                }
+                Err(err) => Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                    char_index: err
+                })
+            }
+        }
+        None => {
+            Err(ChineseNumberParseError::ChineseNumberEmpty)
+        }
+    }
 }
 
 pub fn parse_chinese_number_to_i16<S: AsRef<str>>(chinese_number: S) -> Result<i16, ChineseNumberParseError> {
@@ -1486,89 +1524,173 @@ pub fn parse_chinese_number_to_f32<S: AsRef<str>>(method: ChineseBigNumberCountM
 }
 
 pub trait ChineseNumberToNumber<T> {
-    fn parse_chinese_number<S: AsRef<str>>(&self, method: ChineseBigNumberCountMethod) -> Result<T, ChineseNumberParseError>;
+    fn parse_chinese_number(&self, method: ChineseBigNumberCountMethod) -> Result<T, ChineseNumberParseError>;
 }
 
 impl ChineseNumberToNumber<i8> for String {
-    fn parse_chinese_number<S: AsRef<str>>(&self, _method: ChineseBigNumberCountMethod) -> Result<i8, ChineseNumberParseError> {
+    fn parse_chinese_number(&self, _method: ChineseBigNumberCountMethod) -> Result<i8, ChineseNumberParseError> {
         parse_chinese_number_to_i8(self)
     }
 }
 
 impl ChineseNumberToNumber<u8> for String {
-    fn parse_chinese_number<S: AsRef<str>>(&self, _method: ChineseBigNumberCountMethod) -> Result<u8, ChineseNumberParseError> {
+    fn parse_chinese_number(&self, _method: ChineseBigNumberCountMethod) -> Result<u8, ChineseNumberParseError> {
         parse_chinese_number_to_u8(self)
     }
 }
 
 impl ChineseNumberToNumber<i16> for String {
-    fn parse_chinese_number<S: AsRef<str>>(&self, _method: ChineseBigNumberCountMethod) -> Result<i16, ChineseNumberParseError> {
+    fn parse_chinese_number(&self, _method: ChineseBigNumberCountMethod) -> Result<i16, ChineseNumberParseError> {
         parse_chinese_number_to_i16(self)
     }
 }
 
 impl ChineseNumberToNumber<u16> for String {
-    fn parse_chinese_number<S: AsRef<str>>(&self, _method: ChineseBigNumberCountMethod) -> Result<u16, ChineseNumberParseError> {
+    fn parse_chinese_number(&self, _method: ChineseBigNumberCountMethod) -> Result<u16, ChineseNumberParseError> {
         parse_chinese_number_to_u16(self)
     }
 }
 
 impl ChineseNumberToNumber<i32> for String {
-    fn parse_chinese_number<S: AsRef<str>>(&self, method: ChineseBigNumberCountMethod) -> Result<i32, ChineseNumberParseError> {
+    fn parse_chinese_number(&self, method: ChineseBigNumberCountMethod) -> Result<i32, ChineseNumberParseError> {
         parse_chinese_number_to_i32(method, self)
     }
 }
 
 impl ChineseNumberToNumber<u32> for String {
-    fn parse_chinese_number<S: AsRef<str>>(&self, method: ChineseBigNumberCountMethod) -> Result<u32, ChineseNumberParseError> {
+    fn parse_chinese_number(&self, method: ChineseBigNumberCountMethod) -> Result<u32, ChineseNumberParseError> {
         parse_chinese_number_to_u32(method, self)
     }
 }
 
 impl ChineseNumberToNumber<i64> for String {
-    fn parse_chinese_number<S: AsRef<str>>(&self, method: ChineseBigNumberCountMethod) -> Result<i64, ChineseNumberParseError> {
+    fn parse_chinese_number(&self, method: ChineseBigNumberCountMethod) -> Result<i64, ChineseNumberParseError> {
         parse_chinese_number_to_i64(method, self)
     }
 }
 
 impl ChineseNumberToNumber<u64> for String {
-    fn parse_chinese_number<S: AsRef<str>>(&self, method: ChineseBigNumberCountMethod) -> Result<u64, ChineseNumberParseError> {
+    fn parse_chinese_number(&self, method: ChineseBigNumberCountMethod) -> Result<u64, ChineseNumberParseError> {
         parse_chinese_number_to_u64(method, self)
     }
 }
 
 impl ChineseNumberToNumber<i128> for String {
-    fn parse_chinese_number<S: AsRef<str>>(&self, method: ChineseBigNumberCountMethod) -> Result<i128, ChineseNumberParseError> {
+    fn parse_chinese_number(&self, method: ChineseBigNumberCountMethod) -> Result<i128, ChineseNumberParseError> {
         parse_chinese_number_to_i128(method, self)
     }
 }
 
 impl ChineseNumberToNumber<u128> for String {
-    fn parse_chinese_number<S: AsRef<str>>(&self, method: ChineseBigNumberCountMethod) -> Result<u128, ChineseNumberParseError> {
+    fn parse_chinese_number(&self, method: ChineseBigNumberCountMethod) -> Result<u128, ChineseNumberParseError> {
         parse_chinese_number_to_u128(method, self)
     }
 }
 
 impl ChineseNumberToNumber<isize> for String {
-    fn parse_chinese_number<S: AsRef<str>>(&self, method: ChineseBigNumberCountMethod) -> Result<isize, ChineseNumberParseError> {
+    fn parse_chinese_number(&self, method: ChineseBigNumberCountMethod) -> Result<isize, ChineseNumberParseError> {
         parse_chinese_number_to_isize(method, self)
     }
 }
 
 impl ChineseNumberToNumber<usize> for String {
-    fn parse_chinese_number<S: AsRef<str>>(&self, method: ChineseBigNumberCountMethod) -> Result<usize, ChineseNumberParseError> {
+    fn parse_chinese_number(&self, method: ChineseBigNumberCountMethod) -> Result<usize, ChineseNumberParseError> {
         parse_chinese_number_to_usize(method, self)
     }
 }
 
 impl ChineseNumberToNumber<f64> for String {
-    fn parse_chinese_number<S: AsRef<str>>(&self, method: ChineseBigNumberCountMethod) -> Result<f64, ChineseNumberParseError> {
+    fn parse_chinese_number(&self, method: ChineseBigNumberCountMethod) -> Result<f64, ChineseNumberParseError> {
         parse_chinese_number_to_f64(method, self)
     }
 }
 
 impl ChineseNumberToNumber<f32> for String {
-    fn parse_chinese_number<S: AsRef<str>>(&self, method: ChineseBigNumberCountMethod) -> Result<f32, ChineseNumberParseError> {
+    fn parse_chinese_number(&self, method: ChineseBigNumberCountMethod) -> Result<f32, ChineseNumberParseError> {
+        parse_chinese_number_to_f32(method, self)
+    }
+}
+
+impl ChineseNumberToNumber<i8> for &str {
+    fn parse_chinese_number(&self, _method: ChineseBigNumberCountMethod) -> Result<i8, ChineseNumberParseError> {
+        parse_chinese_number_to_i8(self)
+    }
+}
+
+impl ChineseNumberToNumber<u8> for &str {
+    fn parse_chinese_number(&self, _method: ChineseBigNumberCountMethod) -> Result<u8, ChineseNumberParseError> {
+        parse_chinese_number_to_u8(self)
+    }
+}
+
+impl ChineseNumberToNumber<i16> for &str {
+    fn parse_chinese_number(&self, _method: ChineseBigNumberCountMethod) -> Result<i16, ChineseNumberParseError> {
+        parse_chinese_number_to_i16(self)
+    }
+}
+
+impl ChineseNumberToNumber<u16> for &str {
+    fn parse_chinese_number(&self, _method: ChineseBigNumberCountMethod) -> Result<u16, ChineseNumberParseError> {
+        parse_chinese_number_to_u16(self)
+    }
+}
+
+impl ChineseNumberToNumber<i32> for &str {
+    fn parse_chinese_number(&self, method: ChineseBigNumberCountMethod) -> Result<i32, ChineseNumberParseError> {
+        parse_chinese_number_to_i32(method, self)
+    }
+}
+
+impl ChineseNumberToNumber<u32> for &str {
+    fn parse_chinese_number(&self, method: ChineseBigNumberCountMethod) -> Result<u32, ChineseNumberParseError> {
+        parse_chinese_number_to_u32(method, self)
+    }
+}
+
+impl ChineseNumberToNumber<i64> for &str {
+    fn parse_chinese_number(&self, method: ChineseBigNumberCountMethod) -> Result<i64, ChineseNumberParseError> {
+        parse_chinese_number_to_i64(method, self)
+    }
+}
+
+impl ChineseNumberToNumber<u64> for &str {
+    fn parse_chinese_number(&self, method: ChineseBigNumberCountMethod) -> Result<u64, ChineseNumberParseError> {
+        parse_chinese_number_to_u64(method, self)
+    }
+}
+
+impl ChineseNumberToNumber<i128> for &str {
+    fn parse_chinese_number(&self, method: ChineseBigNumberCountMethod) -> Result<i128, ChineseNumberParseError> {
+        parse_chinese_number_to_i128(method, self)
+    }
+}
+
+impl ChineseNumberToNumber<u128> for &str {
+    fn parse_chinese_number(&self, method: ChineseBigNumberCountMethod) -> Result<u128, ChineseNumberParseError> {
+        parse_chinese_number_to_u128(method, self)
+    }
+}
+
+impl ChineseNumberToNumber<isize> for &str {
+    fn parse_chinese_number(&self, method: ChineseBigNumberCountMethod) -> Result<isize, ChineseNumberParseError> {
+        parse_chinese_number_to_isize(method, self)
+    }
+}
+
+impl ChineseNumberToNumber<usize> for &str {
+    fn parse_chinese_number(&self, method: ChineseBigNumberCountMethod) -> Result<usize, ChineseNumberParseError> {
+        parse_chinese_number_to_usize(method, self)
+    }
+}
+
+impl ChineseNumberToNumber<f64> for &str {
+    fn parse_chinese_number(&self, method: ChineseBigNumberCountMethod) -> Result<f64, ChineseNumberParseError> {
+        parse_chinese_number_to_f64(method, self)
+    }
+}
+
+impl ChineseNumberToNumber<f32> for &str {
+    fn parse_chinese_number(&self, method: ChineseBigNumberCountMethod) -> Result<f32, ChineseNumberParseError> {
         parse_chinese_number_to_f32(method, self)
     }
 }
