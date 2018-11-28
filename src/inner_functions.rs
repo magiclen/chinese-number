@@ -544,7 +544,7 @@ pub(crate) fn chinese_digit_10(value: char, value2: Option<char>, value3: Option
         if let Some(_) = value3 {
             Err(2)
         } else if let Some(value2) = value2 {
-            let lsd = chinese_digit_1(value2).map_err(|err| 1u8)?;
+            let lsd = chinese_digit_1(value2).map_err(|_| 1u8)?;
 
             Ok(10 + lsd)
         } else {
@@ -556,9 +556,8 @@ pub(crate) fn chinese_digit_10(value: char, value2: Option<char>, value3: Option
         if msd == 0 {
             if let Some(_) = value2 {
                 Err(1)
-            } else if let Some(_) = value3 {
-                Err(2)
             } else {
+                debug_assert_eq!(None, value3);
                 Ok(0)
             }
         } else {
@@ -567,7 +566,7 @@ pub(crate) fn chinese_digit_10(value: char, value2: Option<char>, value3: Option
                     Err(1)
                 } else {
                     if let Some(value3) = value3 {
-                        let lsd = chinese_digit_1(value3).map_err(|err| 2u8)?;
+                        let lsd = chinese_digit_1(value3).map_err(|_| 2u8)?;
 
                         if lsd == 0 {
                             Err(2)
@@ -585,6 +584,23 @@ pub(crate) fn chinese_digit_10(value: char, value2: Option<char>, value3: Option
     }
 }
 
+pub(crate) fn chinese_digit_10_compat(value: char, value2: Option<char>, value3: Option<char>) -> Result<u8, usize> {
+    match chinese_digit_10(value, value2, value3) {
+        Ok(number) => Ok(number),
+        Err(err) => match chinese_digit_1(value) {
+            Ok(number) => {
+                if let Some(_) = value2 {
+                    Err(1)
+                } else {
+                    debug_assert_eq!(None, value3);
+                    Ok(number)
+                }
+            }
+            Err(_) => Err(err)
+        }
+    }
+}
+
 pub(crate) fn chinese_digit_100(value: char, value2: char, value3: Option<char>, value4: Option<char>, value5: Option<char>) -> Result<u16, usize> {
     let msd = chinese_digit_1(value)?;
 
@@ -597,7 +613,7 @@ pub(crate) fn chinese_digit_100(value: char, value2: char, value3: Option<char>,
             if let Some(value3) = value3 {
                 if CHINESE_NUMBERS_CHARS[0].contains(&value3) {
                     if let Some(value4) = value4 {
-                        let lsd = chinese_digit_1(value4).map_err(|err| 3u8)?;
+                        let lsd = chinese_digit_1(value4).map_err(|_| 3u8)?;
 
                         if lsd == 0 {
                             Err(3)
@@ -624,14 +640,29 @@ pub(crate) fn chinese_digit_100(value: char, value2: char, value3: Option<char>,
 }
 
 pub(crate) fn chinese_digit_100_compat(value: char, value2: Option<char>, value3: Option<char>, value4: Option<char>, value5: Option<char>) -> Result<u16, usize> {
-    match chinese_digit_10(value, value2, value3) {
-        Ok(number) => Ok(number as u16),
-        Err(_) => match value2 {
-            Some(value2) => match chinese_digit_100(value, value2, value3, value4, value5) {
-                Ok(number) => Ok(number),
-                Err(err) => Err(err)
+    match value2 {
+        Some(value2) => match chinese_digit_100(value, value2, value3, value4, value5) {
+            Ok(number) => Ok(number),
+            Err(err) => match chinese_digit_10_compat(value, Some(value2), value3) {
+                Ok(number) => {
+                    if let Some(_) = value4 {
+                        Err(3)
+                    } else {
+                        debug_assert_eq!(None, value5);
+                        Ok(number as u16)
+                    }
+                }
+                Err(_) => Err(err)
             }
-            None => chinese_digit_1(value).map(|v| v as u16)
+        }
+        None => match chinese_digit_10_compat(value, None, None) {
+            Ok(number) => {
+                debug_assert_eq!(None, value3);
+                debug_assert_eq!(None, value4);
+                debug_assert_eq!(None, value5);
+                Ok(number as u16)
+            }
+            Err(err) => Err(err)
         }
     }
 }
@@ -652,17 +683,17 @@ pub(crate) fn chinese_digit_1000(value: char, value2: char, value3: Option<char>
                             if let Some(_) = value7 {
                                 Err(6)
                             } else {
-                                let rds = chinese_digit_10(value4, Some(value5), value6).map_err(|err| 3u8)?;
+                                let rds = chinese_digit_10(value4, Some(value5), value6).map_err(|_| 3u8)?;
 
                                 Ok(msd as u16 * 1000 + rds as u16)
                             }
                         } else {
                             if let Some(_) = value6 {
                                 Err(5)
-                            } else if let Some(_) = value7 {
-                                Err(6)
                             } else {
-                                let rds = chinese_digit_1(value4).map_err(|err| 3u8)?;
+                                debug_assert_eq!(None, value7);
+
+                                let rds = chinese_digit_1(value4).map_err(|_| 3u8)?;
 
                                 Ok(msd as u16 * 1000 + rds as u16)
                             }
@@ -686,3 +717,32 @@ pub(crate) fn chinese_digit_1000(value: char, value2: char, value3: Option<char>
     }
 }
 
+pub(crate) fn chinese_digit_1000_compat(value: char, value2: Option<char>, value3: Option<char>, value4: Option<char>, value5: Option<char>, value6: Option<char>, value7: Option<char>) -> Result<u16, usize> {
+    match value2 {
+        Some(value2) => match chinese_digit_1000(value, value2, value3, value4, value5, value6, value7) {
+            Ok(number) => Ok(number),
+            Err(err) => match chinese_digit_100_compat(value, Some(value2), value3, value4, value5) {
+                Ok(number) => {
+                    if let Some(_) = value6 {
+                        Err(5)
+                    } else {
+                        debug_assert_eq!(None, value7);
+                        Ok(number as u16)
+                    }
+                }
+                Err(_) => Err(err)
+            }
+        }
+        None => match chinese_digit_10_compat(value, None, None) {
+            Ok(number) => {
+                debug_assert_eq!(None, value3);
+                debug_assert_eq!(None, value4);
+                debug_assert_eq!(None, value5);
+                debug_assert_eq!(None, value6);
+                debug_assert_eq!(None, value7);
+                Ok(number as u16)
+            }
+            Err(err) => Err(err)
+        }
+    }
+}

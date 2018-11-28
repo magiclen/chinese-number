@@ -10,7 +10,7 @@ This crate can convert Rust's primitive number data types to Chinese numbers as 
 ```rust
 extern crate chinese_number;
 
-use chinese_number::{ChineseNumber, ChineseVariant};
+use chinese_number::{ChineseNumber, ChineseVariant, ChineseNumberToNumber, ChineseBigNumberCountMethod};
 
 assert_eq!("壹佰貳拾參", 123i8.to_uppercase_ten_thousand(ChineseVariant::Traditional));
 assert_eq!("壹佰贰拾参", 123i8.to_uppercase_ten_thousand(ChineseVariant::Simple));
@@ -21,6 +21,9 @@ assert_eq!("十二萬三千四百五十六億七千八百九十萬一千二百�
 assert_eq!("十二萬三千四百五十六京七千八百九十萬一千二百三十四兆五千六百七十八萬九千零一十二億三千四百五十六萬七千八百九十", 123456789012345678901234567890i128.to_lowercase_middle(ChineseVariant::Traditional));
 assert_eq!("十二穰三千四百五十六秭七千八百九十垓一千二百三十四京五千六百七十八兆九千零一十二億三千四百五十六萬七千八百九十", 123456789012345678901234567890i128.to_lowercase_ten_thousand(ChineseVariant::Traditional));
 assert_eq!("一极二载三正四涧五沟六穰七秭八垓九京零一亿二万三千四百五十六", 1234567890123456i64.to_lowercase_low(ChineseVariant::Simple));
+
+assert_eq!(123i8, "一百二十三".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+assert_eq!(-30303i16, "負三萬零三百零三".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
 
 assert_eq!("一角二分", 0.12f64.to_lowercase_ten_thousand(ChineseVariant::Traditional));
 ```
@@ -1397,6 +1400,7 @@ impl ChineseNumber for f32 {
     }
 }
 
+/// 將中文數字轉成i8數值。
 pub fn parse_chinese_number_to_i8<S: AsRef<str>>(chinese_number: S) -> Result<i8, ChineseNumberParseError> {
     let chinese_number = chinese_number.as_ref().replace(" ", "");
 
@@ -1415,14 +1419,20 @@ pub fn parse_chinese_number_to_i8<S: AsRef<str>>(chinese_number: S) -> Result<i8
                             if number > i8::max_value() as u16 + 1 {
                                 Err(ChineseNumberParseError::Underflow)
                             } else {
-                                Ok((number as i16 * -1) as i8)
+                                if let Some(_) = chars.next() {
+                                    Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                        char_index: 6
+                                    })
+                                } else {
+                                    Ok((number as i16 * -1) as i8)
+                                }
                             }
                         }
                         Err(err) => Err(ChineseNumberParseError::ChineseNumberIncorrect {
                             char_index: err
                         })
                     }
-                    None => return Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                    None => Err(ChineseNumberParseError::ChineseNumberIncorrect {
                         char_index: 1
                     })
                 }
@@ -1432,7 +1442,13 @@ pub fn parse_chinese_number_to_i8<S: AsRef<str>>(chinese_number: S) -> Result<i8
                         if number > i8::max_value() as u16 {
                             Err(ChineseNumberParseError::Overflow)
                         } else {
-                            Ok(number as i8)
+                            if let Some(_) = chars.next() {
+                                Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                    char_index: 5
+                                })
+                            } else {
+                                Ok(number as i8)
+                            }
                         }
                     }
                     Err(err) => Err(ChineseNumberParseError::ChineseNumberIncorrect {
@@ -1447,6 +1463,7 @@ pub fn parse_chinese_number_to_i8<S: AsRef<str>>(chinese_number: S) -> Result<i8
     }
 }
 
+/// 將中文數字轉成u8數值。
 pub fn parse_chinese_number_to_u8<S: AsRef<str>>(chinese_number: S) -> Result<u8, ChineseNumberParseError> {
     let chinese_number = chinese_number.as_ref().replace(" ", "");
 
@@ -1461,7 +1478,13 @@ pub fn parse_chinese_number_to_u8<S: AsRef<str>>(chinese_number: S) -> Result<u8
                     if number > u8::max_value() as u16 {
                         Err(ChineseNumberParseError::Overflow)
                     } else {
-                        Ok(number as u8)
+                        if let Some(_) = chars.next() {
+                            Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                char_index: 5
+                            })
+                        } else {
+                            Ok(number as u8)
+                        }
                     }
                 }
                 Err(err) => Err(ChineseNumberParseError::ChineseNumberIncorrect {
@@ -1475,55 +1498,416 @@ pub fn parse_chinese_number_to_u8<S: AsRef<str>>(chinese_number: S) -> Result<u8
     }
 }
 
+/// 將中文數字轉成i16數值。
 pub fn parse_chinese_number_to_i16<S: AsRef<str>>(chinese_number: S) -> Result<i16, ChineseNumberParseError> {
-    unimplemented!()
+    let chinese_number = chinese_number.as_ref().replace(" ", "");
+
+    let mut chars = chinese_number.chars();
+
+    let first_char = chars.next();
+
+    match first_char {
+        Some(first_char) => {
+            if CHINESE_NEGATIVE_SIGN_CHARS.contains(&first_char) {
+                let first_char = chars.next();
+
+                match first_char {
+                    Some(first_char) => {
+                        let second_char = chars.next();
+
+                        match second_char {
+                            Some(second_char) => {
+                                if CHINESE_NUMBERS_CHARS[13].contains(&second_char) {
+                                    match chinese_digit_1(first_char) {
+                                        Ok(msd) => {
+                                            if msd > 3 {
+                                                Err(ChineseNumberParseError::Overflow)
+                                            } else {
+                                                let third_char = chars.next();
+
+                                                match third_char {
+                                                    Some(third_char) => {
+                                                        if CHINESE_NUMBERS_CHARS[0].contains(&third_char) {
+                                                            let forth_char = chars.next();
+
+                                                            match forth_char {
+                                                                Some(forth_char) => {
+                                                                    match chinese_digit_100_compat(forth_char, chars.next(), chars.next(), chars.next(), chars.next()) {
+                                                                        Ok(number) => {
+                                                                            if let Some(_) = chars.next() {
+                                                                                Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                                                                    char_index: 8
+                                                                                })
+                                                                            } else {
+                                                                                Ok(msd as i16 * -10000 - number as i16)
+                                                                            }
+                                                                        }
+                                                                        Err(err) => Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                                                            char_index: err + 3
+                                                                        })
+                                                                    }
+                                                                }
+                                                                None => Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                                                    char_index: 3
+                                                                })
+                                                            }
+                                                        } else {
+                                                            match chinese_digit_1000_compat(third_char, chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next()) {
+                                                                Ok(number) => {
+                                                                    if let Some(_) = chars.next() {
+                                                                        Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                                                            char_index: 8
+                                                                        })
+                                                                    } else {
+                                                                        let number = msd as i32 * 10000 + number as i32;
+
+                                                                        if number > i16::max_value() as i32 + 1 {
+                                                                            Err(ChineseNumberParseError::Overflow)
+                                                                        } else {
+                                                                            Ok(number as i16)
+                                                                        }
+                                                                    }
+                                                                }
+                                                                Err(err) => Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                                                    char_index: err + 2
+                                                                })
+                                                            }
+                                                        }
+                                                    }
+                                                    None => {
+                                                        Ok(msd as i16 * -10000)
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        Err(err) => Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                            char_index: err
+                                        })
+                                    }
+                                } else {
+                                    match chinese_digit_1000_compat(first_char, Some(second_char), chars.next(), chars.next(), chars.next(), chars.next(), chars.next()) {
+                                        Ok(number) => {
+                                            if let Some(_) = chars.next() {
+                                                Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                                    char_index: 7
+                                                })
+                                            } else {
+                                                Ok(number as i16)
+                                            }
+                                        }
+                                        Err(err) => Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                            char_index: err
+                                        })
+                                    }
+                                }
+                            }
+                            None => {
+                                match chinese_digit_10_compat(first_char, None, None) {
+                                    Ok(number) => {
+                                        if let Some(_) = chars.next() {
+                                            Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                                char_index: 2
+                                            })
+                                        } else {
+                                            Ok(number as i16)
+                                        }
+                                    }
+                                    Err(err) => Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                        char_index: err
+                                    })
+                                }
+                            }
+                        }
+                    }
+                    None => Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                        char_index: 1
+                    })
+                }
+            } else {
+                let second_char = chars.next();
+
+                match second_char {
+                    Some(second_char) => {
+                        if CHINESE_NUMBERS_CHARS[13].contains(&second_char) {
+                            match chinese_digit_1(first_char) {
+                                Ok(msd) => {
+                                    if msd > 3 {
+                                        Err(ChineseNumberParseError::Overflow)
+                                    } else {
+                                        let third_char = chars.next();
+
+                                        match third_char {
+                                            Some(third_char) => {
+                                                if CHINESE_NUMBERS_CHARS[0].contains(&third_char) {
+                                                    let forth_char = chars.next();
+
+                                                    match forth_char {
+                                                        Some(forth_char) => {
+                                                            match chinese_digit_100_compat(forth_char, chars.next(), chars.next(), chars.next(), chars.next()) {
+                                                                Ok(number) => {
+                                                                    if let Some(_) = chars.next() {
+                                                                        Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                                                            char_index: 8
+                                                                        })
+                                                                    } else {
+                                                                        Ok(msd as i16 * 10000 + number as i16)
+                                                                    }
+                                                                }
+                                                                Err(err) => Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                                                    char_index: err + 3
+                                                                })
+                                                            }
+                                                        }
+                                                        None => Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                                            char_index: 3
+                                                        })
+                                                    }
+                                                } else {
+                                                    match chinese_digit_1000_compat(third_char, chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next()) {
+                                                        Ok(number) => {
+                                                            if let Some(_) = chars.next() {
+                                                                Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                                                    char_index: 8
+                                                                })
+                                                            } else {
+                                                                let number = msd as i32 * 10000 + number as i32;
+
+                                                                if number > i16::max_value() as i32 {
+                                                                    Err(ChineseNumberParseError::Overflow)
+                                                                } else {
+                                                                    Ok(number as i16)
+                                                                }
+                                                            }
+                                                        }
+                                                        Err(err) => Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                                            char_index: err + 2
+                                                        })
+                                                    }
+                                                }
+                                            }
+                                            None => {
+                                                Ok(msd as i16 * 10000)
+                                            }
+                                        }
+                                    }
+                                }
+                                Err(err) => Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                    char_index: err
+                                })
+                            }
+                        } else {
+                            match chinese_digit_1000_compat(first_char, Some(second_char), chars.next(), chars.next(), chars.next(), chars.next(), chars.next()) {
+                                Ok(number) => {
+                                    if let Some(_) = chars.next() {
+                                        Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                            char_index: 7
+                                        })
+                                    } else {
+                                        Ok(number as i16)
+                                    }
+                                }
+                                Err(err) => Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                    char_index: err
+                                })
+                            }
+                        }
+                    }
+                    None => {
+                        match chinese_digit_10_compat(first_char, None, None) {
+                            Ok(number) => {
+                                if let Some(_) = chars.next() {
+                                    Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                        char_index: 2
+                                    })
+                                } else {
+                                    Ok(number as i16)
+                                }
+                            }
+                            Err(err) => Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                char_index: err
+                            })
+                        }
+                    }
+                }
+            }
+        }
+        None => Err(ChineseNumberParseError::ChineseNumberEmpty)
+    }
 }
 
+/// 將中文數字轉成u16數值。
 pub fn parse_chinese_number_to_u16<S: AsRef<str>>(chinese_number: S) -> Result<u16, ChineseNumberParseError> {
+    let chinese_number = chinese_number.as_ref().replace(" ", "");
+
+    let mut chars = chinese_number.chars();
+
+    let first_char = chars.next();
+
+    match first_char {
+        Some(first_char) => {
+            let second_char = chars.next();
+
+            match second_char {
+                Some(second_char) => {
+                    if CHINESE_NUMBERS_CHARS[13].contains(&second_char) {
+                        match chinese_digit_1(first_char) {
+                            Ok(msd) => {
+                                if msd > 6 {
+                                    Err(ChineseNumberParseError::Overflow)
+                                } else {
+                                    let third_char = chars.next();
+
+                                    match third_char {
+                                        Some(third_char) => {
+                                            if CHINESE_NUMBERS_CHARS[0].contains(&third_char) {
+                                                let forth_char = chars.next();
+
+                                                match forth_char {
+                                                    Some(forth_char) => {
+                                                        match chinese_digit_100_compat(forth_char, chars.next(), chars.next(), chars.next(), chars.next()) {
+                                                            Ok(number) => {
+                                                                if let Some(_) = chars.next() {
+                                                                    Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                                                        char_index: 8
+                                                                    })
+                                                                } else {
+                                                                    Ok(msd as u16 * 10000 + number)
+                                                                }
+                                                            }
+                                                            Err(err) => Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                                                char_index: err + 3
+                                                            })
+                                                        }
+                                                    }
+                                                    None => Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                                        char_index: 3
+                                                    })
+                                                }
+                                            } else {
+                                                match chinese_digit_1000_compat(third_char, chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next()) {
+                                                    Ok(number) => {
+                                                        if let Some(_) = chars.next() {
+                                                            Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                                                char_index: 8
+                                                            })
+                                                        } else {
+                                                            let number = msd as u32 * 10000 + number as u32;
+
+                                                            if number > u16::max_value() as u32 {
+                                                                Err(ChineseNumberParseError::Overflow)
+                                                            } else {
+                                                                Ok(number as u16)
+                                                            }
+                                                        }
+                                                    }
+                                                    Err(err) => Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                                        char_index: err + 2
+                                                    })
+                                                }
+                                            }
+                                        }
+                                        None => {
+                                            Ok(msd as u16 * 10000)
+                                        }
+                                    }
+                                }
+                            }
+                            Err(err) => Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                char_index: err
+                            })
+                        }
+                    } else {
+                        match chinese_digit_1000_compat(first_char, Some(second_char), chars.next(), chars.next(), chars.next(), chars.next(), chars.next()) {
+                            Ok(number) => {
+                                if let Some(_) = chars.next() {
+                                    Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                        char_index: 7
+                                    })
+                                } else {
+                                    Ok(number as u16)
+                                }
+                            }
+                            Err(err) => Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                char_index: err
+                            })
+                        }
+                    }
+                }
+                None => {
+                    match chinese_digit_10_compat(first_char, None, None) {
+                        Ok(number) => {
+                            if let Some(_) = chars.next() {
+                                Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                    char_index: 2
+                                })
+                            } else {
+                                Ok(number as u16)
+                            }
+                        }
+                        Err(err) => Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                            char_index: err
+                        })
+                    }
+                }
+            }
+        }
+        None => Err(ChineseNumberParseError::ChineseNumberEmpty)
+    }
+}
+
+/// 將中文數字轉成i32數值。
+pub fn parse_chinese_number_to_i32<S: AsRef<str>>(_method: ChineseBigNumberCountMethod, _chinese_number: S) -> Result<i32, ChineseNumberParseError> {
     unimplemented!()
 }
 
-pub fn parse_chinese_number_to_i32<S: AsRef<str>>(method: ChineseBigNumberCountMethod, chinese_number: S) -> Result<i32, ChineseNumberParseError> {
+/// 將中文數字轉成u32數值。
+pub fn parse_chinese_number_to_u32<S: AsRef<str>>(_method: ChineseBigNumberCountMethod, _chinese_number: S) -> Result<u32, ChineseNumberParseError> {
     unimplemented!()
 }
 
-pub fn parse_chinese_number_to_u32<S: AsRef<str>>(method: ChineseBigNumberCountMethod, chinese_number: S) -> Result<u32, ChineseNumberParseError> {
+/// 將中文數字轉成i64數值。
+pub fn parse_chinese_number_to_i64<S: AsRef<str>>(_method: ChineseBigNumberCountMethod, _chinese_number: S) -> Result<i64, ChineseNumberParseError> {
     unimplemented!()
 }
 
-pub fn parse_chinese_number_to_i64<S: AsRef<str>>(method: ChineseBigNumberCountMethod, chinese_number: S) -> Result<i64, ChineseNumberParseError> {
+/// 將中文數字轉成u64數值。
+pub fn parse_chinese_number_to_u64<S: AsRef<str>>(_method: ChineseBigNumberCountMethod, _chinese_number: S) -> Result<u64, ChineseNumberParseError> {
     unimplemented!()
 }
 
-pub fn parse_chinese_number_to_u64<S: AsRef<str>>(method: ChineseBigNumberCountMethod, chinese_number: S) -> Result<u64, ChineseNumberParseError> {
+/// 將中文數字轉成i128數值。
+pub fn parse_chinese_number_to_i128<S: AsRef<str>>(_method: ChineseBigNumberCountMethod, _chinese_number: S) -> Result<i128, ChineseNumberParseError> {
     unimplemented!()
 }
 
-pub fn parse_chinese_number_to_i128<S: AsRef<str>>(method: ChineseBigNumberCountMethod, chinese_number: S) -> Result<i128, ChineseNumberParseError> {
+/// 將中文數字轉成u128數值。
+pub fn parse_chinese_number_to_u128<S: AsRef<str>>(_method: ChineseBigNumberCountMethod, _chinese_number: S) -> Result<u128, ChineseNumberParseError> {
     unimplemented!()
 }
 
-pub fn parse_chinese_number_to_u128<S: AsRef<str>>(method: ChineseBigNumberCountMethod, chinese_number: S) -> Result<u128, ChineseNumberParseError> {
+/// 將中文數字轉成isize數值。
+pub fn parse_chinese_number_to_isize<S: AsRef<str>>(_method: ChineseBigNumberCountMethod, _chinese_number: S) -> Result<isize, ChineseNumberParseError> {
     unimplemented!()
 }
 
-pub fn parse_chinese_number_to_isize<S: AsRef<str>>(method: ChineseBigNumberCountMethod, chinese_number: S) -> Result<isize, ChineseNumberParseError> {
+/// 將中文數字轉成usize數值。
+pub fn parse_chinese_number_to_usize<S: AsRef<str>>(_method: ChineseBigNumberCountMethod, _chinese_number: S) -> Result<usize, ChineseNumberParseError> {
     unimplemented!()
 }
 
-pub fn parse_chinese_number_to_usize<S: AsRef<str>>(method: ChineseBigNumberCountMethod, chinese_number: S) -> Result<usize, ChineseNumberParseError> {
+/// 將中文數字轉成f64數值。
+pub fn parse_chinese_number_to_f64<S: AsRef<str>>(_method: ChineseBigNumberCountMethod, _chinese_number: S) -> Result<f64, ChineseNumberParseError> {
     unimplemented!()
 }
 
-pub fn parse_chinese_number_to_f64<S: AsRef<str>>(method: ChineseBigNumberCountMethod, chinese_number: S) -> Result<f64, ChineseNumberParseError> {
+/// 將中文數字轉成f32數值。
+pub fn parse_chinese_number_to_f32<S: AsRef<str>>(_method: ChineseBigNumberCountMethod, _chinese_number: S) -> Result<f32, ChineseNumberParseError> {
     unimplemented!()
 }
 
-pub fn parse_chinese_number_to_f32<S: AsRef<str>>(method: ChineseBigNumberCountMethod, chinese_number: S) -> Result<f32, ChineseNumberParseError> {
-    unimplemented!()
-}
-
+/// 讓Rust程式語言的字串型別擁有中文數字的轉換能力。
 pub trait ChineseNumberToNumber<T> {
+    /// 將中文數字轉成基本型別之數值。
     fn parse_chinese_number(&self, method: ChineseBigNumberCountMethod) -> Result<T, ChineseNumberParseError>;
 }
 

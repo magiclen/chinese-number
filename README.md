@@ -13,7 +13,7 @@ This crate can convert Rust's primitive number data types to Chinese numbers as 
 ```rust
 extern crate chinese_number;
 
-use chinese_number::{ChineseNumber, ChineseVariant};
+use chinese_number::{ChineseNumber, ChineseVariant, ChineseNumberToNumber, ChineseBigNumberCountMethod};
 
 assert_eq!("壹佰貳拾參", 123i8.to_uppercase_ten_thousand(ChineseVariant::Traditional));
 assert_eq!("壹佰贰拾参", 123i8.to_uppercase_ten_thousand(ChineseVariant::Simple));
@@ -25,12 +25,15 @@ assert_eq!("十二萬三千四百五十六京七千八百九十萬一千二百�
 assert_eq!("十二穰三千四百五十六秭七千八百九十垓一千二百三十四京五千六百七十八兆九千零一十二億三千四百五十六萬七千八百九十", 123456789012345678901234567890i128.to_lowercase_ten_thousand(ChineseVariant::Traditional));
 assert_eq!("一极二载三正四涧五沟六穰七秭八垓九京零一亿二万三千四百五十六", 1234567890123456i64.to_lowercase_low(ChineseVariant::Simple));
 
+assert_eq!(123i8, "一百二十三".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+assert_eq!(-30303i16, "負三萬零三百零三".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+
 assert_eq!("一角二分", 0.12f64.to_lowercase_ten_thousand(ChineseVariant::Traditional));
 ```
 
 ## Todo
 
-1. Parsing Chinese numbers to primitive numbers.
+1. Parsing Chinese numbers to primitive numbers. (`i8`, `u8`, `i16`, `u16` have been implemented)
 
 ## Crates.io
 
