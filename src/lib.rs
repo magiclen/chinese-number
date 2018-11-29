@@ -1620,7 +1620,7 @@ pub fn parse_chinese_number_to_i32<S: AsRef<str>>(method: ChineseBigNumberCountM
                                     } else {
                                         if let Some(_) = chars.next() {
                                             Err(ChineseNumberParseError::ChineseNumberIncorrect {
-                                                char_index: 14
+                                                char_index: 20
                                             })
                                         } else {
                                             Ok((number as i64 * -1) as i32)
@@ -1670,7 +1670,7 @@ pub fn parse_chinese_number_to_i32<S: AsRef<str>>(method: ChineseBigNumberCountM
                             } else {
                                 if let Some(_) = chars.next() {
                                     Err(ChineseNumberParseError::ChineseNumberIncorrect {
-                                        char_index: 13
+                                        char_index: 19
                                     })
                                 } else {
                                     Ok(number as i32)
@@ -1732,7 +1732,7 @@ pub fn parse_chinese_number_to_u32<S: AsRef<str>>(method: ChineseBigNumberCountM
                         } else {
                             if let Some(_) = chars.next() {
                                 Err(ChineseNumberParseError::ChineseNumberIncorrect {
-                                    char_index: 13
+                                    char_index: 19
                                 })
                             } else {
                                 Ok(number as u32)
