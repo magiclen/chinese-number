@@ -804,7 +804,8 @@ pub(crate) fn chinese_digit_100000_low_compat(value: char, value2: Option<char>,
                     if let Some(value3) = value3 {
                         if CHINESE_NUMBERS_CHARS[0].contains(&value3) {
                             if let Some(value4) = value4 {
-                                let rds = chinese_digit_10000_low_compat(value4, value5, value6, value7, value8, value9, value10, value11, None).map_err(|err| err + 3)?;
+                                debug_assert_eq!(None, value11);
+                                let rds = chinese_digit_1000_compat(value4, value5, value6, value7, value8, value9, value10).map_err(|err| err + 3)?;
                                 Ok(msd as u32 * 100000 + rds as u32)
                             } else {
                                 Err(3)
@@ -852,7 +853,8 @@ pub(crate) fn chinese_digit_1000000_low_compat(value: char, value2: Option<char>
                     if let Some(value3) = value3 {
                         if CHINESE_NUMBERS_CHARS[0].contains(&value3) {
                             if let Some(value4) = value4 {
-                                let rds = chinese_digit_100000_low_compat(value4, value5, value6, value7, value8, value9, value10, value11, value12, value13, None).map_err(|err| err + 3)?;
+                                debug_assert_eq!(None, value13);
+                                let rds = chinese_digit_10000_low_compat(value4, value5, value6, value7, value8, value9, value10, value11, value12).map_err(|err| err + 3)?;
                                 Ok(msd as u32 * 1000000 + rds as u32)
                             } else {
                                 Err(3)
@@ -902,7 +904,8 @@ pub(crate) fn chinese_digit_10000000_low_compat(value: char, value2: Option<char
                     if let Some(value3) = value3 {
                         if CHINESE_NUMBERS_CHARS[0].contains(&value3) {
                             if let Some(value4) = value4 {
-                                let rds = chinese_digit_1000000_low_compat(value4, value5, value6, value7, value8, value9, value10, value11, value12, value13, value14, value15, None).map_err(|err| err + 3)?;
+                                debug_assert_eq!(None, value15);
+                                let rds = chinese_digit_100000_low_compat(value4, value5, value6, value7, value8, value9, value10, value11, value12, value13, value14).map_err(|err| err + 3)?;
                                 Ok(msd as u32 * 10000000 + rds as u32)
                             } else {
                                 Err(3)
@@ -954,7 +957,8 @@ pub(crate) fn chinese_digit_100000000_low_compat(value: char, value2: Option<cha
                     if let Some(value3) = value3 {
                         if CHINESE_NUMBERS_CHARS[0].contains(&value3) {
                             if let Some(value4) = value4 {
-                                let rds = chinese_digit_10000000_low_compat(value4, value5, value6, value7, value8, value9, value10, value11, value12, value13, value14, value15, value16, value17, None).map_err(|err| err + 3)?;
+                                debug_assert_eq!(None, value17);
+                                let rds = chinese_digit_1000000_low_compat(value4, value5, value6, value7, value8, value9, value10, value11, value12, value13, value14, value15, value16).map_err(|err| err + 3)?;
                                 Ok(msd as u32 * 100000000 + rds as u32)
                             } else {
                                 Err(3)
@@ -1008,7 +1012,8 @@ pub(crate) fn chinese_digit_1000000000_low_compat(value: char, value2: Option<ch
                     if let Some(value3) = value3 {
                         if CHINESE_NUMBERS_CHARS[0].contains(&value3) {
                             if let Some(value4) = value4 {
-                                let rds = chinese_digit_100000000_low_compat(value4, value5, value6, value7, value8, value9, value10, value11, value12, value13, value14, value15, value16, value17, value18, value19, None).map_err(|err| err + 3)?;
+                                debug_assert_eq!(None, value19);
+                                let rds = chinese_digit_10000000_low_compat(value4, value5, value6, value7, value8, value9, value10, value11, value12, value13, value14, value15, value16, value17, value18).map_err(|err| err + 3)?;
                                 Ok(msd as u64 * 1000000000 + rds as u64)
                             } else {
                                 Err(3)
