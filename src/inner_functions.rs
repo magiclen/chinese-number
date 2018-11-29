@@ -733,16 +733,868 @@ pub(crate) fn chinese_digit_1000_compat(value: char, value2: Option<char>, value
                 Err(_) => Err(err)
             }
         }
-        None => match chinese_digit_10_compat(value, None, None) {
-            Ok(number) => {
-                debug_assert_eq!(None, value3);
-                debug_assert_eq!(None, value4);
-                debug_assert_eq!(None, value5);
-                debug_assert_eq!(None, value6);
-                debug_assert_eq!(None, value7);
-                Ok(number as u16)
+        None => {
+            debug_assert_eq!(None, value3);
+            debug_assert_eq!(None, value4);
+            debug_assert_eq!(None, value5);
+            debug_assert_eq!(None, value6);
+            debug_assert_eq!(None, value7);
+            let n = chinese_digit_10_compat(value, None, None)?;
+            Ok(n as u16)
+        }
+    }
+}
+
+pub(crate) fn chinese_digit_10000_low_compat(value: char, value2: Option<char>, value3: Option<char>, value4: Option<char>, value5: Option<char>, value6: Option<char>, value7: Option<char>, value8: Option<char>, value9: Option<char>) -> Result<u32, usize> {
+    match value2 {
+        Some(value2) => {
+            if CHINESE_NUMBERS_CHARS[13].contains(&value2) {
+                let msd = chinese_digit_1(value)?;
+
+                if msd == 0 {
+                    Err(0)
+                } else {
+                    if let Some(value3) = value3 {
+                        if CHINESE_NUMBERS_CHARS[0].contains(&value3) {
+                            if let Some(value4) = value4 {
+                                debug_assert_eq!(None, value9);
+                                let rds = chinese_digit_100_compat(value4, value5, value6, value7, value8).map_err(|err| err + 3)?;
+                                Ok(msd as u32 * 10000 + rds as u32)
+                            } else {
+                                Err(3)
+                            }
+                        } else {
+                            let rds = chinese_digit_1000_compat(value3, value4, value5, value6, value7, value8, value9).map_err(|err| err + 2)?;
+                            Ok(msd as u32 * 10000 + rds as u32)
+                        }
+                    } else {
+                        Ok(msd as u32 * 10000)
+                    }
+                }
+            } else {
+                debug_assert_eq!(None, value8);
+                debug_assert_eq!(None, value9);
+                let rds = chinese_digit_1000_compat(value, Some(value2), value3, value4, value5, value6, value7)?;
+                Ok(rds as u32)
             }
-            Err(err) => Err(err)
+        }
+        None => {
+            debug_assert_eq!(None, value3);
+            debug_assert_eq!(None, value4);
+            debug_assert_eq!(None, value5);
+            debug_assert_eq!(None, value6);
+            debug_assert_eq!(None, value7);
+            debug_assert_eq!(None, value8);
+            debug_assert_eq!(None, value9);
+            let n = chinese_digit_10_compat(value, None, None)?;
+            Ok(n as u32)
+        }
+    }
+}
+
+pub(crate) fn chinese_digit_100000_low_compat(value: char, value2: Option<char>, value3: Option<char>, value4: Option<char>, value5: Option<char>, value6: Option<char>, value7: Option<char>, value8: Option<char>, value9: Option<char>, value10: Option<char>, value11: Option<char>) -> Result<u32, usize> {
+    match value2 {
+        Some(value2) => {
+            if CHINESE_NUMBERS_CHARS[14].contains(&value2) {
+                let msd = chinese_digit_1(value)?;
+
+                if msd == 0 {
+                    Err(0)
+                } else {
+                    if let Some(value3) = value3 {
+                        if CHINESE_NUMBERS_CHARS[0].contains(&value3) {
+                            if let Some(value4) = value4 {
+                                let rds = chinese_digit_10000_low_compat(value4, value5, value6, value7, value8, value9, value10, value11, None).map_err(|err| err + 3)?;
+                                Ok(msd as u32 * 100000 + rds as u32)
+                            } else {
+                                Err(3)
+                            }
+                        } else {
+                            let rds = chinese_digit_10000_low_compat(value3, value4, value5, value6, value7, value8, value9, value10, value11).map_err(|err| err + 2)?;
+                            Ok(msd as u32 * 100000 + rds as u32)
+                        }
+                    } else {
+                        Ok(msd as u32 * 100000)
+                    }
+                }
+            } else {
+                debug_assert_eq!(None, value10);
+                debug_assert_eq!(None, value11);
+                let rds = chinese_digit_10000_low_compat(value, Some(value2), value3, value4, value5, value6, value7, value8, value9)?;
+                Ok(rds as u32)
+            }
+        }
+        None => {
+            debug_assert_eq!(None, value3);
+            debug_assert_eq!(None, value4);
+            debug_assert_eq!(None, value5);
+            debug_assert_eq!(None, value6);
+            debug_assert_eq!(None, value7);
+            debug_assert_eq!(None, value8);
+            debug_assert_eq!(None, value9);
+            debug_assert_eq!(None, value10);
+            debug_assert_eq!(None, value11);
+            let n = chinese_digit_10_compat(value, None, None)?;
+            Ok(n as u32)
+        }
+    }
+}
+
+pub(crate) fn chinese_digit_1000000_low_compat(value: char, value2: Option<char>, value3: Option<char>, value4: Option<char>, value5: Option<char>, value6: Option<char>, value7: Option<char>, value8: Option<char>, value9: Option<char>, value10: Option<char>, value11: Option<char>, value12: Option<char>, value13: Option<char>) -> Result<u32, usize> {
+    match value2 {
+        Some(value2) => {
+            if CHINESE_NUMBERS_CHARS[15].contains(&value2) {
+                let msd = chinese_digit_1(value)?;
+
+                if msd == 0 {
+                    Err(0)
+                } else {
+                    if let Some(value3) = value3 {
+                        if CHINESE_NUMBERS_CHARS[0].contains(&value3) {
+                            if let Some(value4) = value4 {
+                                let rds = chinese_digit_100000_low_compat(value4, value5, value6, value7, value8, value9, value10, value11, value12, value13, None).map_err(|err| err + 3)?;
+                                Ok(msd as u32 * 1000000 + rds as u32)
+                            } else {
+                                Err(3)
+                            }
+                        } else {
+                            let rds = chinese_digit_100000_low_compat(value3, value4, value5, value6, value7, value8, value9, value10, value11, value12, value13).map_err(|err| err + 2)?;
+                            Ok(msd as u32 * 1000000 + rds as u32)
+                        }
+                    } else {
+                        Ok(msd as u32 * 1000000)
+                    }
+                }
+            } else {
+                debug_assert_eq!(None, value12);
+                debug_assert_eq!(None, value13);
+                let rds = chinese_digit_100000_low_compat(value, Some(value2), value3, value4, value5, value6, value7, value8, value9, value10, value11)?;
+                Ok(rds as u32)
+            }
+        }
+        None => {
+            debug_assert_eq!(None, value3);
+            debug_assert_eq!(None, value4);
+            debug_assert_eq!(None, value5);
+            debug_assert_eq!(None, value6);
+            debug_assert_eq!(None, value7);
+            debug_assert_eq!(None, value8);
+            debug_assert_eq!(None, value9);
+            debug_assert_eq!(None, value10);
+            debug_assert_eq!(None, value11);
+            debug_assert_eq!(None, value12);
+            debug_assert_eq!(None, value13);
+            let n = chinese_digit_10_compat(value, None, None)?;
+            Ok(n as u32)
+        }
+    }
+}
+
+pub(crate) fn chinese_digit_10000000_low_compat(value: char, value2: Option<char>, value3: Option<char>, value4: Option<char>, value5: Option<char>, value6: Option<char>, value7: Option<char>, value8: Option<char>, value9: Option<char>, value10: Option<char>, value11: Option<char>, value12: Option<char>, value13: Option<char>, value14: Option<char>, value15: Option<char>) -> Result<u32, usize> {
+    match value2 {
+        Some(value2) => {
+            if CHINESE_NUMBERS_CHARS[16].contains(&value2) {
+                let msd = chinese_digit_1(value)?;
+
+                if msd == 0 {
+                    Err(0)
+                } else {
+                    if let Some(value3) = value3 {
+                        if CHINESE_NUMBERS_CHARS[0].contains(&value3) {
+                            if let Some(value4) = value4 {
+                                let rds = chinese_digit_1000000_low_compat(value4, value5, value6, value7, value8, value9, value10, value11, value12, value13, value14, value15, None).map_err(|err| err + 3)?;
+                                Ok(msd as u32 * 10000000 + rds as u32)
+                            } else {
+                                Err(3)
+                            }
+                        } else {
+                            let rds = chinese_digit_1000000_low_compat(value3, value4, value5, value6, value7, value8, value9, value10, value11, value12, value13, value14, value15).map_err(|err| err + 2)?;
+                            Ok(msd as u32 * 10000000 + rds as u32)
+                        }
+                    } else {
+                        Ok(msd as u32 * 10000000)
+                    }
+                }
+            } else {
+                debug_assert_eq!(None, value14);
+                debug_assert_eq!(None, value15);
+                let rds = chinese_digit_1000000_low_compat(value, Some(value2), value3, value4, value5, value6, value7, value8, value9, value10, value11, value12, value13)?;
+                Ok(rds as u32)
+            }
+        }
+        None => {
+            debug_assert_eq!(None, value3);
+            debug_assert_eq!(None, value4);
+            debug_assert_eq!(None, value5);
+            debug_assert_eq!(None, value6);
+            debug_assert_eq!(None, value7);
+            debug_assert_eq!(None, value8);
+            debug_assert_eq!(None, value9);
+            debug_assert_eq!(None, value10);
+            debug_assert_eq!(None, value11);
+            debug_assert_eq!(None, value12);
+            debug_assert_eq!(None, value13);
+            debug_assert_eq!(None, value14);
+            debug_assert_eq!(None, value15);
+            let n = chinese_digit_10_compat(value, None, None)?;
+            Ok(n as u32)
+        }
+    }
+}
+
+pub(crate) fn chinese_digit_100000000_low_compat(value: char, value2: Option<char>, value3: Option<char>, value4: Option<char>, value5: Option<char>, value6: Option<char>, value7: Option<char>, value8: Option<char>, value9: Option<char>, value10: Option<char>, value11: Option<char>, value12: Option<char>, value13: Option<char>, value14: Option<char>, value15: Option<char>, value16: Option<char>, value17: Option<char>) -> Result<u32, usize> {
+    match value2 {
+        Some(value2) => {
+            if CHINESE_NUMBERS_CHARS[17].contains(&value2) {
+                let msd = chinese_digit_1(value)?;
+
+                if msd == 0 {
+                    Err(0)
+                } else {
+                    if let Some(value3) = value3 {
+                        if CHINESE_NUMBERS_CHARS[0].contains(&value3) {
+                            if let Some(value4) = value4 {
+                                let rds = chinese_digit_10000000_low_compat(value4, value5, value6, value7, value8, value9, value10, value11, value12, value13, value14, value15, value16, value17, None).map_err(|err| err + 3)?;
+                                Ok(msd as u32 * 100000000 + rds as u32)
+                            } else {
+                                Err(3)
+                            }
+                        } else {
+                            let rds = chinese_digit_10000000_low_compat(value3, value4, value5, value6, value7, value8, value9, value10, value11, value12, value13, value14, value15, value16, value17).map_err(|err| err + 2)?;
+                            Ok(msd as u32 * 100000000 + rds as u32)
+                        }
+                    } else {
+                        Ok(msd as u32 * 100000000)
+                    }
+                }
+            } else {
+                debug_assert_eq!(None, value16);
+                debug_assert_eq!(None, value17);
+                let rds = chinese_digit_10000000_low_compat(value, Some(value2), value3, value4, value5, value6, value7, value8, value9, value10, value11, value12, value13, value14, value15)?;
+                Ok(rds as u32)
+            }
+        }
+        None => {
+            debug_assert_eq!(None, value3);
+            debug_assert_eq!(None, value4);
+            debug_assert_eq!(None, value5);
+            debug_assert_eq!(None, value6);
+            debug_assert_eq!(None, value7);
+            debug_assert_eq!(None, value8);
+            debug_assert_eq!(None, value9);
+            debug_assert_eq!(None, value10);
+            debug_assert_eq!(None, value11);
+            debug_assert_eq!(None, value12);
+            debug_assert_eq!(None, value13);
+            debug_assert_eq!(None, value14);
+            debug_assert_eq!(None, value15);
+            debug_assert_eq!(None, value16);
+            debug_assert_eq!(None, value17);
+            let n = chinese_digit_10_compat(value, None, None)?;
+            Ok(n as u32)
+        }
+    }
+}
+
+pub(crate) fn chinese_digit_1000000000_low_compat(value: char, value2: Option<char>, value3: Option<char>, value4: Option<char>, value5: Option<char>, value6: Option<char>, value7: Option<char>, value8: Option<char>, value9: Option<char>, value10: Option<char>, value11: Option<char>, value12: Option<char>, value13: Option<char>, value14: Option<char>, value15: Option<char>, value16: Option<char>, value17: Option<char>, value18: Option<char>, value19: Option<char>) -> Result<u64, usize> {
+    match value2 {
+        Some(value2) => {
+            if CHINESE_NUMBERS_CHARS[18].contains(&value2) {
+                let msd = chinese_digit_1(value)?;
+
+                if msd == 0 {
+                    Err(0)
+                } else {
+                    if let Some(value3) = value3 {
+                        if CHINESE_NUMBERS_CHARS[0].contains(&value3) {
+                            if let Some(value4) = value4 {
+                                let rds = chinese_digit_100000000_low_compat(value4, value5, value6, value7, value8, value9, value10, value11, value12, value13, value14, value15, value16, value17, value18, value19, None).map_err(|err| err + 3)?;
+                                Ok(msd as u64 * 1000000000 + rds as u64)
+                            } else {
+                                Err(3)
+                            }
+                        } else {
+                            let rds = chinese_digit_100000000_low_compat(value3, value4, value5, value6, value7, value8, value9, value10, value11, value12, value13, value14, value15, value16, value17, value18, value19).map_err(|err| err + 2)?;
+                            Ok(msd as u64 * 1000000000 + rds as u64)
+                        }
+                    } else {
+                        Ok(msd as u64 * 1000000000)
+                    }
+                }
+            } else {
+                debug_assert_eq!(None, value18);
+                debug_assert_eq!(None, value19);
+                let rds = chinese_digit_100000000_low_compat(value, Some(value2), value3, value4, value5, value6, value7, value8, value9, value10, value11, value12, value13, value14, value15, value16, value17)?;
+                Ok(rds as u64)
+            }
+        }
+        None => {
+            debug_assert_eq!(None, value3);
+            debug_assert_eq!(None, value4);
+            debug_assert_eq!(None, value5);
+            debug_assert_eq!(None, value6);
+            debug_assert_eq!(None, value7);
+            debug_assert_eq!(None, value8);
+            debug_assert_eq!(None, value9);
+            debug_assert_eq!(None, value10);
+            debug_assert_eq!(None, value11);
+            debug_assert_eq!(None, value12);
+            debug_assert_eq!(None, value13);
+            debug_assert_eq!(None, value14);
+            debug_assert_eq!(None, value15);
+            debug_assert_eq!(None, value16);
+            debug_assert_eq!(None, value17);
+            debug_assert_eq!(None, value18);
+            debug_assert_eq!(None, value19);
+            let n = chinese_digit_10_compat(value, None, None)?;
+            Ok(n as u64)
+        }
+    }
+}
+
+pub(crate) fn chinese_digit_10000_ten_thousand_compat(value: char, value2: Option<char>, value3: Option<char>, value4: Option<char>, value5: Option<char>, value6: Option<char>, value7: Option<char>, value8: Option<char>, value9: Option<char>, value10: Option<char>, value11: Option<char>, value12: Option<char>, value13: Option<char>, value14: Option<char>, value15: Option<char>) -> Result<u32, usize> {
+    match value2 {
+        Some(value2) => {
+            if CHINESE_NUMBERS_CHARS[13].contains(&value2) {
+                let msd = chinese_digit_10_compat(value, None, None)?;
+
+                if msd == 0 {
+                    Err(0)
+                } else {
+                    if let Some(value3) = value3 {
+                        if CHINESE_NUMBERS_CHARS[0].contains(&value3) {
+                            if let Some(value4) = value4 {
+                                debug_assert_eq!(None, value9);
+                                debug_assert_eq!(None, value10);
+                                debug_assert_eq!(None, value11);
+                                debug_assert_eq!(None, value12);
+                                debug_assert_eq!(None, value13);
+                                debug_assert_eq!(None, value14);
+                                debug_assert_eq!(None, value15);
+                                let rds = chinese_digit_100_compat(value4, value5, value6, value7, value8).map_err(|err| err + 3)?;
+                                Ok(msd as u32 * 10000 + rds as u32)
+                            } else {
+                                Err(3)
+                            }
+                        } else {
+                            debug_assert_eq!(None, value10);
+                            debug_assert_eq!(None, value11);
+                            debug_assert_eq!(None, value12);
+                            debug_assert_eq!(None, value13);
+                            debug_assert_eq!(None, value14);
+                            debug_assert_eq!(None, value15);
+                            let rds = chinese_digit_1000_compat(value3, value4, value5, value6, value7, value8, value9).map_err(|err| err + 2)?;
+                            Ok(msd as u32 * 10000 + rds as u32)
+                        }
+                    } else {
+                        Ok(msd as u32 * 10000)
+                    }
+                }
+            } else {
+                match value3 {
+                    Some(value3) => {
+                        if CHINESE_NUMBERS_CHARS[13].contains(&value3) {
+                            let msd = chinese_digit_1000_compat(value, Some(value2), None, None, None, None, None)?;
+
+                            if msd == 0 {
+                                Err(0)
+                            } else {
+                                if let Some(value4) = value4 {
+                                    if CHINESE_NUMBERS_CHARS[0].contains(&value4) {
+                                        if let Some(value5) = value5 {
+                                            debug_assert_eq!(None, value10);
+                                            debug_assert_eq!(None, value11);
+                                            debug_assert_eq!(None, value12);
+                                            debug_assert_eq!(None, value13);
+                                            debug_assert_eq!(None, value14);
+                                            debug_assert_eq!(None, value15);
+                                            let rds = chinese_digit_100_compat(value5, value6, value7, value8, value9).map_err(|err| err + 4)?;
+                                            Ok(msd as u32 * 10000 + rds as u32)
+                                        } else {
+                                            Err(4)
+                                        }
+                                    } else {
+                                        debug_assert_eq!(None, value11);
+                                        debug_assert_eq!(None, value12);
+                                        debug_assert_eq!(None, value13);
+                                        debug_assert_eq!(None, value14);
+                                        debug_assert_eq!(None, value15);
+                                        let rds = chinese_digit_1000_compat(value4, value5, value6, value7, value8, value9, value10).map_err(|err| err + 3)?;
+                                        Ok(msd as u32 * 10000 + rds as u32)
+                                    }
+                                } else {
+                                    Ok(msd as u32 * 10000)
+                                }
+                            }
+                        } else {
+                            match value4 {
+                                Some(value4) => {
+                                    if CHINESE_NUMBERS_CHARS[13].contains(&value4) {
+                                        let msd = chinese_digit_1000_compat(value, Some(value2), Some(value3), None, None, None, None)?;
+
+                                        if msd == 0 {
+                                            Err(0)
+                                        } else {
+                                            if let Some(value5) = value5 {
+                                                if CHINESE_NUMBERS_CHARS[0].contains(&value5) {
+                                                    if let Some(value6) = value6 {
+                                                        debug_assert_eq!(None, value11);
+                                                        debug_assert_eq!(None, value12);
+                                                        debug_assert_eq!(None, value13);
+                                                        debug_assert_eq!(None, value14);
+                                                        debug_assert_eq!(None, value15);
+                                                        let rds = chinese_digit_100_compat(value6, value7, value8, value9, value10).map_err(|err| err + 5)?;
+                                                        Ok(msd as u32 * 10000 + rds as u32)
+                                                    } else {
+                                                        Err(5)
+                                                    }
+                                                } else {
+                                                    debug_assert_eq!(None, value12);
+                                                    debug_assert_eq!(None, value13);
+                                                    debug_assert_eq!(None, value14);
+                                                    debug_assert_eq!(None, value15);
+                                                    let rds = chinese_digit_1000_compat(value5, value6, value7, value8, value9, value10, value11).map_err(|err| err + 4)?;
+                                                    Ok(msd as u32 * 10000 + rds as u32)
+                                                }
+                                            } else {
+                                                Ok(msd as u32 * 10000)
+                                            }
+                                        }
+                                    } else {
+                                        match value5 {
+                                            Some(value5) => {
+                                                if CHINESE_NUMBERS_CHARS[13].contains(&value5) {
+                                                    let msd = chinese_digit_1000_compat(value, Some(value2), Some(value3), Some(value4), None, None, None)?;
+
+                                                    if msd == 0 {
+                                                        Err(0)
+                                                    } else {
+                                                        if let Some(value6) = value6 {
+                                                            if CHINESE_NUMBERS_CHARS[0].contains(&value6) {
+                                                                if let Some(value7) = value7 {
+                                                                    debug_assert_eq!(None, value12);
+                                                                    debug_assert_eq!(None, value13);
+                                                                    debug_assert_eq!(None, value14);
+                                                                    debug_assert_eq!(None, value15);
+                                                                    let rds = chinese_digit_100_compat(value7, value8, value9, value10, value11).map_err(|err| err + 6)?;
+                                                                    Ok(msd as u32 * 10000 + rds as u32)
+                                                                } else {
+                                                                    Err(6)
+                                                                }
+                                                            } else {
+                                                                debug_assert_eq!(None, value13);
+                                                                debug_assert_eq!(None, value14);
+                                                                debug_assert_eq!(None, value15);
+                                                                let rds = chinese_digit_1000_compat(value6, value7, value8, value9, value10, value11, value12).map_err(|err| err + 5)?;
+                                                                Ok(msd as u32 * 10000 + rds as u32)
+                                                            }
+                                                        } else {
+                                                            Ok(msd as u32 * 10000)
+                                                        }
+                                                    }
+                                                } else {
+                                                    match value6 {
+                                                        Some(value6) => {
+                                                            if CHINESE_NUMBERS_CHARS[13].contains(&value6) {
+                                                                let msd = chinese_digit_1000_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), None, None)?;
+
+                                                                if msd == 0 {
+                                                                    Err(0)
+                                                                } else {
+                                                                    if let Some(value7) = value7 {
+                                                                        if CHINESE_NUMBERS_CHARS[0].contains(&value7) {
+                                                                            if let Some(value8) = value8 {
+                                                                                debug_assert_eq!(None, value13);
+                                                                                debug_assert_eq!(None, value14);
+                                                                                debug_assert_eq!(None, value15);
+                                                                                let rds = chinese_digit_100_compat(value8, value9, value10, value11, value12).map_err(|err| err + 7)?;
+                                                                                Ok(msd as u32 * 10000 + rds as u32)
+                                                                            } else {
+                                                                                Err(7)
+                                                                            }
+                                                                        } else {
+                                                                            debug_assert_eq!(None, value14);
+                                                                            debug_assert_eq!(None, value15);
+                                                                            let rds = chinese_digit_1000_compat(value7, value8, value9, value10, value11, value12, value13).map_err(|err| err + 6)?;
+                                                                            Ok(msd as u32 * 10000 + rds as u32)
+                                                                        }
+                                                                    } else {
+                                                                        Ok(msd as u32 * 10000)
+                                                                    }
+                                                                }
+                                                            } else {
+                                                                match value7 {
+                                                                    Some(value7) => {
+                                                                        if CHINESE_NUMBERS_CHARS[13].contains(&value7) {
+                                                                            let msd = chinese_digit_1000_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), None)?;
+
+                                                                            if msd == 0 {
+                                                                                Err(0)
+                                                                            } else {
+                                                                                if let Some(value8) = value8 {
+                                                                                    if CHINESE_NUMBERS_CHARS[0].contains(&value8) {
+                                                                                        if let Some(value9) = value9 {
+                                                                                            debug_assert_eq!(None, value14);
+                                                                                            debug_assert_eq!(None, value15);
+                                                                                            let rds = chinese_digit_100_compat(value9, value10, value11, value12, value13).map_err(|err| err + 8)?;
+                                                                                            Ok(msd as u32 * 10000 + rds as u32)
+                                                                                        } else {
+                                                                                            Err(8)
+                                                                                        }
+                                                                                    } else {
+                                                                                        debug_assert_eq!(None, value15);
+                                                                                        let rds = chinese_digit_1000_compat(value8, value9, value10, value11, value12, value13, value14).map_err(|err| err + 7)?;
+                                                                                        Ok(msd as u32 * 10000 + rds as u32)
+                                                                                    }
+                                                                                } else {
+                                                                                    Ok(msd as u32 * 10000)
+                                                                                }
+                                                                            }
+                                                                        } else {
+                                                                            match value8 {
+                                                                                Some(value8) => {
+                                                                                    if CHINESE_NUMBERS_CHARS[13].contains(&value8) {
+                                                                                        let msd = chinese_digit_1000_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7))?;
+
+                                                                                        if msd == 0 {
+                                                                                            Err(0)
+                                                                                        } else {
+                                                                                            if let Some(value9) = value9 {
+                                                                                                if CHINESE_NUMBERS_CHARS[0].contains(&value9) {
+                                                                                                    if let Some(value10) = value10 {
+                                                                                                        debug_assert_eq!(None, value14);
+                                                                                                        debug_assert_eq!(None, value15);
+                                                                                                        let rds = chinese_digit_100_compat(value10, value11, value12, value13, value14).map_err(|err| err + 9)?;
+                                                                                                        Ok(msd as u32 * 10000 + rds as u32)
+                                                                                                    } else {
+                                                                                                        Err(9)
+                                                                                                    }
+                                                                                                } else {
+                                                                                                    let rds = chinese_digit_1000_compat(value9, value10, value11, value12, value13, value14, value15).map_err(|err| err + 8)?;
+                                                                                                    Ok(msd as u32 * 10000 + rds as u32)
+                                                                                                }
+                                                                                            } else {
+                                                                                                Ok(msd as u32 * 10000)
+                                                                                            }
+                                                                                        }
+                                                                                    } else {
+                                                                                        Err(7)
+                                                                                    }
+                                                                                }
+                                                                                None => {
+                                                                                    debug_assert_eq!(None, value9);
+                                                                                    debug_assert_eq!(None, value10);
+                                                                                    debug_assert_eq!(None, value11);
+                                                                                    debug_assert_eq!(None, value12);
+                                                                                    debug_assert_eq!(None, value13);
+                                                                                    debug_assert_eq!(None, value14);
+                                                                                    debug_assert_eq!(None, value15);
+                                                                                    let n = chinese_digit_1000_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7))?;
+                                                                                    Ok(n as u32)
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    None => {
+                                                                        debug_assert_eq!(None, value8);
+                                                                        debug_assert_eq!(None, value9);
+                                                                        debug_assert_eq!(None, value10);
+                                                                        debug_assert_eq!(None, value11);
+                                                                        debug_assert_eq!(None, value12);
+                                                                        debug_assert_eq!(None, value13);
+                                                                        debug_assert_eq!(None, value14);
+                                                                        debug_assert_eq!(None, value15);
+                                                                        let n = chinese_digit_1000_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), None)?;
+                                                                        Ok(n as u32)
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                        None => {
+                                                            debug_assert_eq!(None, value7);
+                                                            debug_assert_eq!(None, value8);
+                                                            debug_assert_eq!(None, value9);
+                                                            debug_assert_eq!(None, value10);
+                                                            debug_assert_eq!(None, value11);
+                                                            debug_assert_eq!(None, value12);
+                                                            debug_assert_eq!(None, value13);
+                                                            debug_assert_eq!(None, value14);
+                                                            debug_assert_eq!(None, value15);
+                                                            let n = chinese_digit_1000_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), None, None)?;
+                                                            Ok(n as u32)
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            None => {
+                                                debug_assert_eq!(None, value6);
+                                                debug_assert_eq!(None, value7);
+                                                debug_assert_eq!(None, value8);
+                                                debug_assert_eq!(None, value9);
+                                                debug_assert_eq!(None, value10);
+                                                debug_assert_eq!(None, value11);
+                                                debug_assert_eq!(None, value12);
+                                                debug_assert_eq!(None, value13);
+                                                debug_assert_eq!(None, value14);
+                                                debug_assert_eq!(None, value15);
+                                                let n = chinese_digit_1000_compat(value, Some(value2), Some(value3), Some(value4), None, None, None)?;
+                                                Ok(n as u32)
+                                            }
+                                        }
+                                    }
+                                }
+                                None => {
+                                    debug_assert_eq!(None, value5);
+                                    debug_assert_eq!(None, value6);
+                                    debug_assert_eq!(None, value7);
+                                    debug_assert_eq!(None, value8);
+                                    debug_assert_eq!(None, value9);
+                                    debug_assert_eq!(None, value10);
+                                    debug_assert_eq!(None, value11);
+                                    debug_assert_eq!(None, value12);
+                                    debug_assert_eq!(None, value13);
+                                    debug_assert_eq!(None, value14);
+                                    debug_assert_eq!(None, value15);
+                                    let n = chinese_digit_1000_compat(value, Some(value2), Some(value3), None, None, None, None)?;
+                                    Ok(n as u32)
+                                }
+                            }
+                        }
+                    }
+                    None => {
+                        debug_assert_eq!(None, value4);
+                        debug_assert_eq!(None, value5);
+                        debug_assert_eq!(None, value6);
+                        debug_assert_eq!(None, value7);
+                        debug_assert_eq!(None, value8);
+                        debug_assert_eq!(None, value9);
+                        debug_assert_eq!(None, value10);
+                        debug_assert_eq!(None, value11);
+                        debug_assert_eq!(None, value12);
+                        debug_assert_eq!(None, value13);
+                        debug_assert_eq!(None, value14);
+                        debug_assert_eq!(None, value15);
+                        let n = chinese_digit_1000_compat(value, Some(value2), None, None, None, None, None)?;
+                        Ok(n as u32)
+                    }
+                }
+            }
+        }
+        None => {
+            debug_assert_eq!(None, value3);
+            debug_assert_eq!(None, value4);
+            debug_assert_eq!(None, value5);
+            debug_assert_eq!(None, value6);
+            debug_assert_eq!(None, value7);
+            debug_assert_eq!(None, value8);
+            debug_assert_eq!(None, value9);
+            debug_assert_eq!(None, value10);
+            debug_assert_eq!(None, value11);
+            debug_assert_eq!(None, value12);
+            debug_assert_eq!(None, value13);
+            debug_assert_eq!(None, value14);
+            debug_assert_eq!(None, value15);
+            let n = chinese_digit_10_compat(value, None, None)?;
+            Ok(n as u32)
+        }
+    }
+}
+
+pub(crate) fn chinese_digit_100000000_ten_thousand_compat_u32(value: char, value2: Option<char>, value3: Option<char>, value4: Option<char>, value5: Option<char>, value6: Option<char>, value7: Option<char>, value8: Option<char>, value9: Option<char>, value10: Option<char>, value11: Option<char>, value12: Option<char>, value13: Option<char>, value14: Option<char>, value15: Option<char>, value16: Option<char>, value17: Option<char>, value18: Option<char>, value19: Option<char>) -> Result<u32, usize> {
+    match value2 {
+        Some(value2) => {
+            if CHINESE_NUMBERS_CHARS[14].contains(&value2) {
+                let msd = chinese_digit_10_compat(value, None, None)?;
+
+                if msd == 0 {
+                    Err(0)
+                } else {
+                    if let Some(value3) = value3 {
+                        if CHINESE_NUMBERS_CHARS[0].contains(&value3) {
+                            if let Some(value4) = value4 {
+                                debug_assert_eq!(None, value19);
+                                let rds = chinese_digit_10000_ten_thousand_compat(value4, value5, value6, value7, value8, value9, value10, value11, value12, value13, value14, value15, value16, value17, value18).map_err(|err| err + 3)?;
+
+                                let n = msd as u64 * 100000000 + rds as u64;
+
+                                if n > u32::max_value() as u64 {
+                                    Err(999)
+                                } else {
+                                    Ok(n as u32)
+                                }
+                            } else {
+                                Err(3)
+                            }
+                        } else {
+                            debug_assert_eq!(None, value18);
+                            debug_assert_eq!(None, value19);
+                            let rds = chinese_digit_10000_ten_thousand_compat(value3, value4, value5, value6, value7, value8, value9, value10, value11, value12, value13, value14, value15, value16, value17).map_err(|err| err + 2)?;
+
+                            let n = msd as u64 * 100000000 + rds as u64;
+
+                            if n > u32::max_value() as u64 {
+                                Err(999)
+                            } else {
+                                Ok(n as u32)
+                            }
+                        }
+                    } else {
+                        Ok(msd as u32 * 100000000)
+                    }
+                }
+            } else {
+                match value3 {
+                    Some(value3) => {
+                        if CHINESE_NUMBERS_CHARS[14].contains(&value3) {
+                            let msd = chinese_digit_10_compat(value, Some(value2), None)?;
+
+                            if msd == 0 {
+                                Err(0)
+                            } else {
+                                if let Some(value4) = value4 {
+                                    if CHINESE_NUMBERS_CHARS[0].contains(&value4) {
+                                        if let Some(value5) = value5 {
+                                            let rds = chinese_digit_10000_ten_thousand_compat(value5, value6, value7, value8, value9, value10, value11, value12, value13, value14, value15, value16, value17, value18, value19).map_err(|err| err + 4)?;
+
+                                            let n = msd as u64 * 100000000 + rds as u64;
+
+                                            if n > u32::max_value() as u64 {
+                                                Err(999)
+                                            } else {
+                                                Ok(n as u32)
+                                            }
+                                        } else {
+                                            Err(4)
+                                        }
+                                    } else {
+                                        debug_assert_eq!(None, value19);
+                                        let rds = chinese_digit_10000_ten_thousand_compat(value4, value5, value6, value7, value8, value9, value10, value11, value12, value13, value14, value15, value16, value17, value18).map_err(|err| err + 3)?;
+
+                                        let n = msd as u64 * 100000000 + rds as u64;
+
+                                        if n > u32::max_value() as u64 {
+                                            Err(999)
+                                        } else {
+                                            Ok(n as u32)
+                                        }
+                                    }
+                                } else {
+                                    Ok(msd as u32 * 100000000)
+                                }
+                            }
+                        } else {
+                            match value4 {
+                                Some(value4) => {
+                                    if CHINESE_NUMBERS_CHARS[14].contains(&value4) {
+                                        let msd = chinese_digit_10_compat(value, Some(value2), Some(value3))?;
+
+                                        if msd == 0 {
+                                            Err(0)
+                                        } else {
+                                            if let Some(value5) = value5 {
+                                                if CHINESE_NUMBERS_CHARS[0].contains(&value5) {
+                                                    if let Some(value6) = value6 {
+                                                        let rds = chinese_digit_10000_ten_thousand_compat(value6, value7, value8, value9, value10, value11, value12, value13, value14, value15, value16, value17, value18, value19, None).map_err(|err| err + 5)?;
+
+                                                        let n = msd as u64 * 100000000 + rds as u64;
+
+                                                        if n > u32::max_value() as u64 {
+                                                            Err(999)
+                                                        } else {
+                                                            Ok(n as u32)
+                                                        }
+                                                    } else {
+                                                        Err(5)
+                                                    }
+                                                } else {
+                                                    let rds = chinese_digit_10000_ten_thousand_compat(value5, value6, value7, value8, value9, value10, value11, value12, value13, value14, value15, value16, value17, value18, value19).map_err(|err| err + 4)?;
+
+                                                    let n = msd as u64 * 100000000 + rds as u64;
+
+                                                    if n > u32::max_value() as u64 {
+                                                        Err(999)
+                                                    } else {
+                                                        Ok(n as u32)
+                                                    }
+                                                }
+                                            } else {
+                                                Ok(msd as u32 * 100000000)
+                                            }
+                                        }
+                                    } else {
+                                        debug_assert_eq!(None, value16);
+                                        debug_assert_eq!(None, value17);
+                                        debug_assert_eq!(None, value18);
+                                        debug_assert_eq!(None, value19);
+                                        let n = chinese_digit_10000_ten_thousand_compat(value, Some(value2), Some(value3), Some(value4), value5, value6, value7, value8, value9, value10, value11, value12, value13, value14, value15)?;
+                                        Ok(n as u32)
+                                    }
+                                }
+                                None => {
+                                    debug_assert_eq!(None, value5);
+                                    debug_assert_eq!(None, value6);
+                                    debug_assert_eq!(None, value7);
+                                    debug_assert_eq!(None, value8);
+                                    debug_assert_eq!(None, value9);
+                                    debug_assert_eq!(None, value10);
+                                    debug_assert_eq!(None, value11);
+                                    debug_assert_eq!(None, value12);
+                                    debug_assert_eq!(None, value13);
+                                    debug_assert_eq!(None, value14);
+                                    debug_assert_eq!(None, value15);
+                                    debug_assert_eq!(None, value16);
+                                    debug_assert_eq!(None, value17);
+                                    debug_assert_eq!(None, value18);
+                                    debug_assert_eq!(None, value19);
+                                    let n = chinese_digit_10000_ten_thousand_compat(value, Some(value2), Some(value3), None, None, None, None, None, None, None, None, None, None, None, None)?;
+                                    Ok(n as u32)
+                                }
+                            }
+                        }
+                    }
+                    None => {
+                        debug_assert_eq!(None, value4);
+                        debug_assert_eq!(None, value5);
+                        debug_assert_eq!(None, value6);
+                        debug_assert_eq!(None, value7);
+                        debug_assert_eq!(None, value8);
+                        debug_assert_eq!(None, value9);
+                        debug_assert_eq!(None, value10);
+                        debug_assert_eq!(None, value11);
+                        debug_assert_eq!(None, value12);
+                        debug_assert_eq!(None, value13);
+                        debug_assert_eq!(None, value14);
+                        debug_assert_eq!(None, value15);
+                        debug_assert_eq!(None, value16);
+                        debug_assert_eq!(None, value17);
+                        debug_assert_eq!(None, value18);
+                        debug_assert_eq!(None, value19);
+                        let n = chinese_digit_10000_ten_thousand_compat(value, Some(value2), None, None, None, None, None, None, None, None, None, None, None, None, None)?;
+                        Ok(n as u32)
+                    }
+                }
+            }
+        }
+        None => {
+            debug_assert_eq!(None, value3);
+            debug_assert_eq!(None, value4);
+            debug_assert_eq!(None, value5);
+            debug_assert_eq!(None, value6);
+            debug_assert_eq!(None, value7);
+            debug_assert_eq!(None, value8);
+            debug_assert_eq!(None, value9);
+            debug_assert_eq!(None, value10);
+            debug_assert_eq!(None, value11);
+            debug_assert_eq!(None, value12);
+            debug_assert_eq!(None, value13);
+            debug_assert_eq!(None, value14);
+            debug_assert_eq!(None, value15);
+            debug_assert_eq!(None, value16);
+            debug_assert_eq!(None, value17);
+            debug_assert_eq!(None, value18);
+            debug_assert_eq!(None, value19);
+            let n = chinese_digit_10_compat(value, None, None)?;
+            Ok(n as u32)
         }
     }
 }

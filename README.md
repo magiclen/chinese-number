@@ -25,15 +25,16 @@ assert_eq!("十二萬三千四百五十六京七千八百九十萬一千二百�
 assert_eq!("十二穰三千四百五十六秭七千八百九十垓一千二百三十四京五千六百七十八兆九千零一十二億三千四百五十六萬七千八百九十", 123456789012345678901234567890i128.to_lowercase_ten_thousand(ChineseVariant::Traditional));
 assert_eq!("一极二载三正四涧五沟六穰七秭八垓九京零一亿二万三千四百五十六", 1234567890123456i64.to_lowercase_low(ChineseVariant::Simple));
 
+assert_eq!("一角二分", 0.12f64.to_lowercase_ten_thousand(ChineseVariant::Traditional));
+
 assert_eq!(123i8, "一百二十三".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
 assert_eq!(-30303i16, "負三萬零三百零三".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
-
-assert_eq!("一角二分", 0.12f64.to_lowercase_ten_thousand(ChineseVariant::Traditional));
+assert_eq!(3212345678u32, "三十二億一千二百三十四萬五千六百七十八".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
 ```
 
 ## Todo
 
-1. Parsing Chinese numbers to primitive numbers. (`i8`, `u8`, `i16`, `u16` have been implemented)
+1. Parsing Chinese numbers to primitive numbers. (`i8`, `u8`, `i16`, `u16`, `i32`, `u32`, `isize` (under 32-bit), `usize` (under 32-bit) have been implemented)
 
 ## Crates.io
 
