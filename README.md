@@ -27,9 +27,11 @@ assert_eq!("一极二载三正四涧五沟六穰七秭八垓九京零一亿二�
 
 assert_eq!("一角二分", 0.12f64.to_lowercase_ten_thousand(ChineseVariant::Traditional));
 
-assert_eq!(123i8, "一百二十三".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
-assert_eq!(-30303i16, "負三萬零三百零三".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
-assert_eq!(3212345678u32, "三十二億一千二百三十四萬五千六百七十八".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+assert_eq!(123i8, "一百二十三".parse_chinese_number(ChineseBigNumberCountMethod::TenThousand).unwrap());
+assert_eq!(-30303i16, "負三萬零三百零三".parse_chinese_number(ChineseBigNumberCountMethod::TenThousand).unwrap());
+assert_eq!(3212345678u32, "三十二億一千二百三十四萬五千六百七十八".parse_chinese_number(ChineseBigNumberCountMethod::TenThousand).unwrap());
+assert_eq!(10010001001001001000u64, "一千零一京零一兆零一十億零一百萬一千".parse_chinese_number(ChineseBigNumberCountMethod::TenThousand).unwrap());
+assert_eq!(1000000u64, "一兆".parse_chinese_number(ChineseBigNumberCountMethod::Low).unwrap());
 ```
 
 ## Todo
