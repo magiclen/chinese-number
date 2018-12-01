@@ -421,3 +421,12 @@ fn u64_middle() {
     assert_eq!(10000000000000001u64, "一兆零一".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
     assert_eq!(18446744073709551615u64, "一千八百四十四兆六千七百四十四萬零七百三十七億零九百五十五萬一千六百一十五".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
 }
+
+#[test]
+fn f64_ten_thousand() {
+    assert_eq!(0f64, "零".parse_chinese_number(ChineseBigNumberCountMethod::TenThousand).unwrap());
+    assert_eq!(1f64, "一".parse_chinese_number(ChineseBigNumberCountMethod::TenThousand).unwrap());
+    assert_eq!(1.2f64, "一二角".parse_chinese_number(ChineseBigNumberCountMethod::TenThousand).unwrap());
+    assert_eq!(1.23f64, "一二角三分".parse_chinese_number(ChineseBigNumberCountMethod::TenThousand).unwrap());
+    assert_eq!(1000.03f64, "一千三分".parse_chinese_number(ChineseBigNumberCountMethod::TenThousand).unwrap());
+}

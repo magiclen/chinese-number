@@ -40,7 +40,7 @@ assert_eq!(10000000000000000u64, "一兆".parse_chinese_number(ChineseBigNumberC
 
 ## Todo
 
-1. Parsing Chinese numbers to `i128`, `u128`, `f64`, `f32` primitive number types.
+1. Parsing Chinese numbers to `i128`, `u128` primitive number types.
 
 ## Crates.io
 

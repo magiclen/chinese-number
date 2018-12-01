@@ -1,6 +1,6 @@
 [package]
 name = "chinese-number"
-version = "0.4.6"
+version = "0.4.7"
 authors = ["Magic Len <len@magiclen.org>"]
 repository = "https://github.com/magiclen/chinese-number"
 homepage = "https://magiclen.org/chinese-number"

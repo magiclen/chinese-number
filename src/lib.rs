@@ -2032,13 +2032,121 @@ pub fn parse_chinese_number_to_usize<S: AsRef<str>>(method: ChineseBigNumberCoun
 }
 
 /// 將中文數字轉成f64數值。
-pub fn parse_chinese_number_to_f64<S: AsRef<str>>(_method: ChineseBigNumberCountMethod, _chinese_number: S) -> Result<f64, ChineseNumberParseError> {
-    unimplemented!()
+pub fn parse_chinese_number_to_f64<S: AsRef<str>>(method: ChineseBigNumberCountMethod, chinese_number: S) -> Result<f64, ChineseNumberParseError> {
+    let chinese_number = chinese_number.as_ref().replace(" ", "");
+
+    let len = chinese_number.len();
+
+    if len == 0 {
+        return Err(ChineseNumberParseError::ChineseNumberEmpty);
+    }
+
+    let mut integer_index = len;
+
+    for c in CHINESE_NUMBERS_FRACTION[0].iter() {
+        if let Some(index) = chinese_number.find(c) {
+            integer_index = index;
+            break;
+        }
+    }
+
+    if integer_index == len {
+        for c in CHINESE_NUMBERS_FRACTION[1].iter() {
+            if let Some(index) = chinese_number.find(c) {
+                integer_index = index;
+                break;
+            }
+        }
+    }
+
+    if integer_index == 0 {
+        Err(ChineseNumberParseError::ChineseNumberIncorrect {
+            char_index: 0
+        })
+    } else if integer_index == len {
+        parse_chinese_number_to_i64(method, chinese_number).map(|result| result as f64)
+    } else {
+        let mut integer_chars: Vec<char> = chinese_number[..integer_index].chars().collect();
+
+        let integer_chars_len_dec = integer_chars.len() - 1;
+
+        let last_char = integer_chars.remove(integer_chars_len_dec);
+
+        let integer_part: String = integer_chars.iter().collect();
+
+        let integer_number = parse_chinese_number_to_i64(method, integer_part)?;
+
+        let fd1 = chinese_digit_1(last_char).map_err(|_| ChineseNumberParseError::ChineseNumberIncorrect {
+            char_index: integer_chars_len_dec
+        })?;
+
+        let mut fraction_chars = chinese_number[integer_index..].chars();
+
+        let unit1 = fraction_chars.next().unwrap();
+
+        let next_char = fraction_chars.next();
+
+        if CHINESE_NUMBERS_FRACTION_CHARS[0].contains(&unit1) {
+            match next_char {
+                Some(next_char) => {
+                    let fd2 = chinese_digit_1(next_char).map_err(|_| ChineseNumberParseError::ChineseNumberIncorrect {
+                        char_index: integer_chars_len_dec + 2
+                    })?;
+
+                    let unit2 = fraction_chars.next();
+
+                    match unit2 {
+                        Some(unit2) => {
+                            if CHINESE_NUMBERS_FRACTION_CHARS[1].contains(&unit2) {
+                                if integer_number >= 0 {
+                                    Ok(integer_number as f64 + fd1 as f64 * 0.1 + fd2 as f64 * 0.01)
+                                } else {
+                                    Ok(integer_number as f64 - fd1 as f64 * 0.1 - fd2 as f64 * 0.01)
+                                }
+                            } else {
+                                Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                    char_index: integer_chars_len_dec + 3
+                                })
+                            }
+                        }
+                        None => Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                            char_index: integer_chars_len_dec + 3
+                        })
+                    }
+                }
+                None => {
+                    if integer_number >= 0 {
+                        Ok(integer_number as f64 + fd1 as f64 * 0.1)
+                    } else {
+                        Ok(integer_number as f64 - fd1 as f64 * 0.1)
+                    }
+                }
+            }
+        } else {
+            if CHINESE_NUMBERS_FRACTION_CHARS[1].contains(&unit1) {
+                if let Some(_) = next_char {
+                    Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                        char_index: integer_chars_len_dec + 2
+                    })
+                } else {
+                    if integer_number >= 0 {
+                        Ok(integer_number as f64 + fd1 as f64 * 0.01)
+                    } else {
+                        Ok(integer_number as f64 - fd1 as f64 * 0.01)
+                    }
+                }
+            } else {
+                Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                    char_index: integer_chars_len_dec + 1
+                })
+            }
+        }
+    }
 }
 
 /// 將中文數字轉成f32數值。
-pub fn parse_chinese_number_to_f32<S: AsRef<str>>(_method: ChineseBigNumberCountMethod, _chinese_number: S) -> Result<f32, ChineseNumberParseError> {
-    unimplemented!()
+pub fn parse_chinese_number_to_f32<S: AsRef<str>>(method: ChineseBigNumberCountMethod, chinese_number: S) -> Result<f32, ChineseNumberParseError> {
+    parse_chinese_number_to_f64(method, chinese_number).map(|result| result as f32)
 }
 
 /// 讓Rust程式語言的字串型別擁有中文數字的轉換能力。

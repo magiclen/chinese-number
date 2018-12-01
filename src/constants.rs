@@ -62,7 +62,6 @@ pub(crate) const CHINESE_NUMBERS_FRACTION: [[&'static str; 4]; 2] =
         ["分", "分", "分", "分"],
     ];
 
-#[allow(dead_code)]
 pub(crate) const CHINESE_NUMBERS_FRACTION_CHARS: [[char; 4]; 2] =
     [
         ['角', '角', '角', '角'],
