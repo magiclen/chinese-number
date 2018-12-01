@@ -334,3 +334,90 @@ fn u64_ten_thousand() {
     assert_eq!(10000000000000001u64, "一京零一".parse_chinese_number(ChineseBigNumberCountMethod::TenThousand).unwrap());
     assert_eq!(18446744073709551615u64, "一千八百四十四京六千七百四十四兆零七百三十七億零九百五十五萬一千六百一十五".parse_chinese_number(ChineseBigNumberCountMethod::TenThousand).unwrap());
 }
+
+#[test]
+fn i64_middle() {
+    assert_eq!(0i64, "零".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(1i64, "一".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(10i64, "十".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(10i64, "一十".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(12i64, "十二".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(108i64, "一百零八".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(127i64, "一百二十七".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(1000i64, "一千".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(1001i64, "一千零一".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(1010i64, "一千零一十".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(1011i64, "一千零一十一".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(1100i64, "一千一百".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(1101i64, "一千一百零一".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(1110i64, "一千一百一十".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(1111i64, "一千一百一十一".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(10000i64, "一萬".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(100000i64, "十萬".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(100000i64, "一十萬".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(10000001i64, "一千萬零一".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(10010000i64, "一千零一萬".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(10100000i64, "一千零一十萬".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(10110000i64, "一千零一十一萬".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(11000000i64, "一千一百萬".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(11010000i64, "一千一百零一萬".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(11100000i64, "一千一百一十萬".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(11110000i64, "一千一百一十一萬".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(100000000i64, "一億".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(100000001i64, "一億零一".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(1000000000i64, "十億".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(10000000000i64, "一百億".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(100000000000i64, "一千億".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(1000000000000i64, "一萬億".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(1000000000001i64, "一萬億零一".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(10000000000000i64, "十萬億".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(100000000000000i64, "一百萬億".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(1000000000000000i64, "一千萬億".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(10000000000000000i64, "一兆".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(10000000000000001i64, "一兆零一".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(9223372036854775807i64, "九百二十二兆三千三百七十二萬零三百六十八億五千四百七十七萬五千八百零七".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(-9223372036854775808i64, "負九百二十二兆三千三百七十二萬零三百六十八億五千四百七十七萬五千八百零八".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+}
+
+#[test]
+fn u64_middle() {
+    assert_eq!(0u64, "零".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(1u64, "一".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(10u64, "十".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(10u64, "一十".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(12u64, "十二".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(108u64, "一百零八".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(127u64, "一百二十七".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(1000u64, "一千".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(1001u64, "一千零一".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(1010u64, "一千零一十".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(1011u64, "一千零一十一".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(1100u64, "一千一百".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(1101u64, "一千一百零一".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(1110u64, "一千一百一十".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(1111u64, "一千一百一十一".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(10000u64, "一萬".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(100000u64, "十萬".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(100000u64, "一十萬".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(10000001u64, "一千萬零一".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(10010000u64, "一千零一萬".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(10100000u64, "一千零一十萬".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(10110000u64, "一千零一十一萬".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(11000000u64, "一千一百萬".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(11010000u64, "一千一百零一萬".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(11100000u64, "一千一百一十萬".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(11110000u64, "一千一百一十一萬".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(100000000u64, "一億".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(100000001u64, "一億零一".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(1000000000u64, "十億".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(10000000000u64, "一百億".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(100000000000u64, "一千億".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(1000000000000u64, "一萬億".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(1000000000001u64, "一萬億零一".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(10000000000000u64, "十萬億".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(100000000000000u64, "一百萬億".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(1000000000000000u64, "一千萬億".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(10000000000000000u64, "一兆".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(10000000000000001u64, "一兆零一".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+    assert_eq!(18446744073709551615u64, "一千八百四十四兆六千七百四十四萬零七百三十七億零九百五十五萬一千六百一十五".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+}

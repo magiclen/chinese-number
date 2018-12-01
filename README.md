@@ -31,12 +31,16 @@ assert_eq!(123i8, "一百二十三".parse_chinese_number(ChineseBigNumberCountMe
 assert_eq!(-30303i16, "負三萬零三百零三".parse_chinese_number(ChineseBigNumberCountMethod::TenThousand).unwrap());
 assert_eq!(3212345678u32, "三十二億一千二百三十四萬五千六百七十八".parse_chinese_number(ChineseBigNumberCountMethod::TenThousand).unwrap());
 assert_eq!(10010001001001001000u64, "一千零一京零一兆零一十億零一百萬一千".parse_chinese_number(ChineseBigNumberCountMethod::TenThousand).unwrap());
+
 assert_eq!(1000000u64, "一兆".parse_chinese_number(ChineseBigNumberCountMethod::Low).unwrap());
+assert_eq!(1000000000000u64, "一兆".parse_chinese_number(ChineseBigNumberCountMethod::TenThousand).unwrap());
+assert_eq!(10000000000000000u64, "一兆".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+assert_eq!(10000000000000000u64, "一兆".parse_chinese_number(ChineseBigNumberCountMethod::High).unwrap());
 ```
 
 ## Todo
 
-1. Parsing Chinese numbers to primitive numbers. (`i8`, `u8`, `i16`, `u16`, `i32`, `u32`, `isize` (under 32-bit), `usize` (under 32-bit) have been implemented)
+1. Parsing Chinese numbers to `i128`, `u128`, `f64`, `f32` primitive number types.
 
 ## Crates.io
 

@@ -28,7 +28,11 @@ assert_eq!(123i8, "一百二十三".parse_chinese_number(ChineseBigNumberCountMe
 assert_eq!(-30303i16, "負三萬零三百零三".parse_chinese_number(ChineseBigNumberCountMethod::TenThousand).unwrap());
 assert_eq!(3212345678u32, "三十二億一千二百三十四萬五千六百七十八".parse_chinese_number(ChineseBigNumberCountMethod::TenThousand).unwrap());
 assert_eq!(10010001001001001000u64, "一千零一京零一兆零一十億零一百萬一千".parse_chinese_number(ChineseBigNumberCountMethod::TenThousand).unwrap());
+
 assert_eq!(1000000u64, "一兆".parse_chinese_number(ChineseBigNumberCountMethod::Low).unwrap());
+assert_eq!(1000000000000u64, "一兆".parse_chinese_number(ChineseBigNumberCountMethod::TenThousand).unwrap());
+assert_eq!(10000000000000000u64, "一兆".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
+assert_eq!(10000000000000000u64, "一兆".parse_chinese_number(ChineseBigNumberCountMethod::High).unwrap());
 ```
 */
 mod constants;
@@ -1633,29 +1637,23 @@ pub fn parse_chinese_number_to_i32<S: AsRef<str>>(method: ChineseBigNumberCountM
                                     char_index: err + 1
                                 })
                             }
-                            ChineseBigNumberCountMethod::TenThousand | ChineseBigNumberCountMethod::Middle | ChineseBigNumberCountMethod::High => match chinese_digit_100000000_ten_thousand_compat_u32(next_char, chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next()) {
+                            ChineseBigNumberCountMethod::TenThousand | ChineseBigNumberCountMethod::Middle | ChineseBigNumberCountMethod::High => match chinese_digit_100000000_ten_thousand_compat(next_char, chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next()) {
                                 Ok(number) => {
-                                    if number > i32::max_value() as u32 + 1 {
+                                    if number > i32::max_value() as u64 + 1 {
                                         Err(ChineseNumberParseError::Underflow)
                                     } else {
                                         if let Some(_) = chars.next() {
                                             Err(ChineseNumberParseError::ChineseNumberIncorrect {
-                                                char_index: 20
+                                                char_index: 24
                                             })
                                         } else {
                                             Ok((number as i64 * -1) as i32)
                                         }
                                     }
                                 }
-                                Err(err) => {
-                                    if err == 999 {
-                                        Err(ChineseNumberParseError::Overflow)
-                                    } else {
-                                        Err(ChineseNumberParseError::ChineseNumberIncorrect {
-                                            char_index: err + 1
-                                        })
-                                    }
-                                }
+                                Err(err) => Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                    char_index: err + 1
+                                })
                             }
                         }
                     }
@@ -1683,29 +1681,23 @@ pub fn parse_chinese_number_to_i32<S: AsRef<str>>(method: ChineseBigNumberCountM
                             char_index: err
                         })
                     }
-                    ChineseBigNumberCountMethod::TenThousand | ChineseBigNumberCountMethod::Middle | ChineseBigNumberCountMethod::High => match chinese_digit_100000000_ten_thousand_compat_u32(first_char, chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next()) {
+                    ChineseBigNumberCountMethod::TenThousand | ChineseBigNumberCountMethod::Middle | ChineseBigNumberCountMethod::High => match chinese_digit_100000000_ten_thousand_compat(first_char, chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next()) {
                         Ok(number) => {
-                            if number > i32::max_value() as u32 {
+                            if number > i32::max_value() as u64 {
                                 Err(ChineseNumberParseError::Overflow)
                             } else {
                                 if let Some(_) = chars.next() {
                                     Err(ChineseNumberParseError::ChineseNumberIncorrect {
-                                        char_index: 19
+                                        char_index: 23
                                     })
                                 } else {
                                     Ok(number as i32)
                                 }
                             }
                         }
-                        Err(err) => {
-                            if err == 999 {
-                                Err(ChineseNumberParseError::Overflow)
-                            } else {
-                                Err(ChineseNumberParseError::ChineseNumberIncorrect {
-                                    char_index: err
-                                })
-                            }
-                        }
+                        Err(err) => Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                            char_index: err
+                        })
                     }
                 }
             }
@@ -1745,25 +1737,23 @@ pub fn parse_chinese_number_to_u32<S: AsRef<str>>(method: ChineseBigNumberCountM
                         char_index: err
                     })
                 }
-                ChineseBigNumberCountMethod::TenThousand | ChineseBigNumberCountMethod::Middle | ChineseBigNumberCountMethod::High => match chinese_digit_100000000_ten_thousand_compat_u32(first_char, chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next()) {
+                ChineseBigNumberCountMethod::TenThousand | ChineseBigNumberCountMethod::Middle | ChineseBigNumberCountMethod::High => match chinese_digit_100000000_ten_thousand_compat(first_char, chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next()) {
                     Ok(number) => {
-                        if let Some(_) = chars.next() {
-                            Err(ChineseNumberParseError::ChineseNumberIncorrect {
-                                char_index: 19
-                            })
-                        } else {
-                            Ok(number)
-                        }
-                    }
-                    Err(err) => {
-                        if err == 999 {
+                        if number > u32::max_value() as u64 {
                             Err(ChineseNumberParseError::Overflow)
                         } else {
-                            Err(ChineseNumberParseError::ChineseNumberIncorrect {
-                                char_index: err
-                            })
+                            if let Some(_) = chars.next() {
+                                Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                    char_index: 23
+                                })
+                            } else {
+                                Ok(number as u32)
+                            }
                         }
                     }
+                    Err(err) => Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                        char_index: err
+                    })
                 }
             }
         }
@@ -1821,7 +1811,24 @@ pub fn parse_chinese_number_to_i64<S: AsRef<str>>(method: ChineseBigNumberCountM
                                     char_index: err + 1
                                 })
                             }
-                            _ => unimplemented!()
+                            ChineseBigNumberCountMethod::Middle | ChineseBigNumberCountMethod::High => match chinese_digit_10000000000000000_middle_compat(next_char, chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next()) {
+                                Ok(number) => {
+                                    if number > i64::max_value() as u128 + 1 {
+                                        Err(ChineseNumberParseError::Underflow)
+                                    } else {
+                                        if let Some(_) = chars.next() {
+                                            Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                                char_index: 48
+                                            })
+                                        } else {
+                                            Ok((number as i128 * -1) as i64)
+                                        }
+                                    }
+                                }
+                                Err(err) => Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                    char_index: err + 1
+                                })
+                            }
                         }
                     }
                     None => Err(ChineseNumberParseError::ChineseNumberIncorrect {
@@ -1866,7 +1873,24 @@ pub fn parse_chinese_number_to_i64<S: AsRef<str>>(method: ChineseBigNumberCountM
                             char_index: err
                         })
                     }
-                    _ => unimplemented!()
+                    ChineseBigNumberCountMethod::Middle | ChineseBigNumberCountMethod::High => match chinese_digit_10000000000000000_middle_compat(first_char, chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next()) {
+                        Ok(number) => {
+                            if number > i64::max_value() as u128 {
+                                Err(ChineseNumberParseError::Overflow)
+                            } else {
+                                if let Some(_) = chars.next() {
+                                    Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                        char_index: 47
+                                    })
+                                } else {
+                                    Ok(number as i64)
+                                }
+                            }
+                        }
+                        Err(err) => Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                            char_index: err
+                        })
+                    }
                 }
             }
         }
@@ -1923,7 +1947,24 @@ pub fn parse_chinese_number_to_u64<S: AsRef<str>>(method: ChineseBigNumberCountM
                         char_index: err
                     })
                 }
-                _ => unimplemented!()
+                ChineseBigNumberCountMethod::Middle | ChineseBigNumberCountMethod::High => match chinese_digit_10000000000000000_middle_compat(first_char, chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next(), chars.next()) {
+                    Ok(number) => {
+                        if number > u64::max_value() as u128 {
+                            Err(ChineseNumberParseError::Overflow)
+                        } else {
+                            if let Some(_) = chars.next() {
+                                Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                                    char_index: 47
+                                })
+                            } else {
+                                Ok(number as u64)
+                            }
+                        }
+                    }
+                    Err(err) => Err(ChineseNumberParseError::ChineseNumberIncorrect {
+                        char_index: err
+                    })
+                }
             }
         }
         None => {
