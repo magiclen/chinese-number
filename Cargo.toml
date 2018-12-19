@@ -1,6 +1,6 @@
 [package]
 name = "chinese-number"
-version = "0.4.7"
+version = "0.4.8"
 authors = ["Magic Len <len@magiclen.org>"]
 repository = "https://github.com/magiclen/chinese-number"
 homepage = "https://magiclen.org/chinese-number"
@@ -15,3 +15,4 @@ travis-ci = { repository = "magiclen/chinese-number", branch = "master" }
 appveyor = { repository = "magiclen/chinese-number", branch = "master", service = "github" }
 
 [dependencies]
+chinese-variant = "1.0.1"

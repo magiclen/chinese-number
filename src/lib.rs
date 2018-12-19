@@ -35,13 +35,13 @@ assert_eq!(10000000000000000u64, "一兆".parse_chinese_number(ChineseBigNumberC
 assert_eq!(10000000000000000u64, "一兆".parse_chinese_number(ChineseBigNumberCountMethod::High).unwrap());
 ```
 */
+extern crate chinese_variant;
+
 mod constants;
 
 pub(crate) use constants::*;
 
-mod chinese_variant;
-
-pub use self::chinese_variant::ChineseVariant;
+pub use chinese_variant::ChineseVariant;
 
 mod chinese_number_case;
 
