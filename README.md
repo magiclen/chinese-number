@@ -13,7 +13,7 @@ This crate can convert Rust's primitive number data types to Chinese numbers as 
 ```rust
 extern crate chinese_number;
 
-use chinese_number::{ChineseNumber, ChineseVariant, ChineseNumberToNumber, ChineseBigNumberCountMethod};
+use chinese_number::{ChineseNumber, ChineseVariant, ChineseNumberToNumber, ChineseNumberCountMethod};
 
 assert_eq!("壹佰貳拾參", 123i8.to_uppercase_ten_thousand(ChineseVariant::Traditional));
 assert_eq!("壹佰贰拾参", 123i8.to_uppercase_ten_thousand(ChineseVariant::Simple));
@@ -27,15 +27,15 @@ assert_eq!("一极二载三正四涧五沟六穰七秭八垓九京零一亿二�
 
 assert_eq!("一角二分", 0.12f64.to_lowercase_ten_thousand(ChineseVariant::Traditional));
 
-assert_eq!(123i8, "一百二十三".parse_chinese_number(ChineseBigNumberCountMethod::TenThousand).unwrap());
-assert_eq!(-30303i16, "負三萬零三百零三".parse_chinese_number(ChineseBigNumberCountMethod::TenThousand).unwrap());
-assert_eq!(3212345678u32, "三十二億一千二百三十四萬五千六百七十八".parse_chinese_number(ChineseBigNumberCountMethod::TenThousand).unwrap());
-assert_eq!(10010001001001001000u64, "一千零一京零一兆零一十億零一百萬一千".parse_chinese_number(ChineseBigNumberCountMethod::TenThousand).unwrap());
+assert_eq!(123i8, "一百二十三".parse_chinese_number(ChineseNumberCountMethod::TenThousand).unwrap());
+assert_eq!(-30303i16, "負三萬零三百零三".parse_chinese_number(ChineseNumberCountMethod::TenThousand).unwrap());
+assert_eq!(3212345678u32, "三十二億一千二百三十四萬五千六百七十八".parse_chinese_number(ChineseNumberCountMethod::TenThousand).unwrap());
+assert_eq!(10010001001001001000u64, "一千零一京零一兆零一十億零一百萬一千".parse_chinese_number(ChineseNumberCountMethod::TenThousand).unwrap());
 
-assert_eq!(1000000u64, "一兆".parse_chinese_number(ChineseBigNumberCountMethod::Low).unwrap());
-assert_eq!(1000000000000u64, "一兆".parse_chinese_number(ChineseBigNumberCountMethod::TenThousand).unwrap());
-assert_eq!(10000000000000000u64, "一兆".parse_chinese_number(ChineseBigNumberCountMethod::Middle).unwrap());
-assert_eq!(10000000000000000u64, "一兆".parse_chinese_number(ChineseBigNumberCountMethod::High).unwrap());
+assert_eq!(1000000u64, "一兆".parse_chinese_number(ChineseNumberCountMethod::Low).unwrap());
+assert_eq!(1000000000000u64, "一兆".parse_chinese_number(ChineseNumberCountMethod::TenThousand).unwrap());
+assert_eq!(10000000000000000u64, "一兆".parse_chinese_number(ChineseNumberCountMethod::Middle).unwrap());
+assert_eq!(10000000000000000u64, "一兆".parse_chinese_number(ChineseNumberCountMethod::High).unwrap());
 ```
 
 ## Todo
