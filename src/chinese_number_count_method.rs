@@ -1,4 +1,5 @@
 /// 根據 **五經算術** 將大的單位分為上數、中數、下數三種類型，再加上現代使用的萬進。
+#[derive(Debug, Copy, Clone, Eq, PartialEq, Hash)]
 pub enum ChineseNumberCountMethod {
     /// 下數者，十十變之。若言十萬曰億，十億曰兆，十兆曰京也。
     Low,
