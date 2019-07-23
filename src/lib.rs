@@ -35,7 +35,15 @@ assert_eq!(10000000000000000u64, "一兆".parse_chinese_number(ChineseNumberCoun
 assert_eq!(10000000000000000u64, "一兆".parse_chinese_number(ChineseNumberCountMethod::High).unwrap());
 ```
 */
+
+#![no_std]
+
+extern crate alloc;
+
 extern crate chinese_variant;
+
+use alloc::string::String;
+use alloc::vec::Vec;
 
 mod constants;
 

@@ -2,10 +2,11 @@
 name = "chinese-number"
 version = "0.5.1"
 authors = ["Magic Len <len@magiclen.org>"]
+edition = "2018"
 repository = "https://github.com/magiclen/chinese-number"
 homepage = "https://magiclen.org/chinese-number"
 keywords = ["chinese", "number", "integer", "money", "float"]
-categories = ["localization", "parser-implementations", "value-formatting"]
+categories = ["no-std", "localization", "parser-implementations", "value-formatting"]
 description= "Convert primitive numbers to Chinese numbers, or parse Chinese numbers to primitive numbers."
 readme = "README.md"
 license = "MIT"

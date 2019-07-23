@@ -1,4 +1,5 @@
-use ::{constants::*, ChineseNumberCase, ChineseVariant};
+use crate::{constants::*, ChineseNumberCase, ChineseVariant};
+use alloc::string::String;
 
 pub(crate) fn get_chinese_number_index(variant: ChineseVariant, case: ChineseNumberCase) -> usize {
     (variant as usize * 2) + case as usize
