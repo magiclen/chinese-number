@@ -11,9 +11,9 @@ description= "Convert primitive numbers to Chinese numbers, or parse Chinese num
 readme = "README.md"
 license = "MIT"
 
-[badges]
-travis-ci = { repository = "magiclen/chinese-number", branch = "master" }
-appveyor = { repository = "magiclen/chinese-number", branch = "master", service = "github" }
+[badges.travis-ci]
+repository = "magiclen/chinese-number"
+branch = "master"
 
 [dependencies]
 chinese-variant = "1.0.1"
