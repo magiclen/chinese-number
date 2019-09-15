@@ -4,7 +4,8 @@ use super::*;
 fn test_digit_1() {
     let mut s = String::new();
 
-    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Upper);
+    let chinese_number_index =
+        get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Upper);
 
     for i in 0..=9 {
         digit_1(chinese_number_index, i, &mut s);
@@ -17,7 +18,8 @@ fn test_digit_1() {
 fn test_digit_10_independently() {
     let mut s = String::new();
 
-    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Upper);
+    let chinese_number_index =
+        get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Upper);
 
     digit_10(chinese_number_index, 10, &mut s, false);
     digit_10(chinese_number_index, 11, &mut s, false);
@@ -25,7 +27,8 @@ fn test_digit_10_independently() {
     digit_10(chinese_number_index, 30, &mut s, false);
     digit_10(chinese_number_index, 95, &mut s, false);
 
-    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
+    let chinese_number_index =
+        get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
 
     digit_10(chinese_number_index, 10, &mut s, false);
     digit_10(chinese_number_index, 11, &mut s, false);
@@ -40,7 +43,8 @@ fn test_digit_10_independently() {
 fn test_digit_10_dependently() {
     let mut s = String::new();
 
-    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Upper);
+    let chinese_number_index =
+        get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Upper);
 
     digit_10(chinese_number_index, 10, &mut s, true);
     digit_10(chinese_number_index, 11, &mut s, true);
@@ -48,7 +52,8 @@ fn test_digit_10_dependently() {
     digit_10(chinese_number_index, 30, &mut s, true);
     digit_10(chinese_number_index, 95, &mut s, true);
 
-    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
+    let chinese_number_index =
+        get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
 
     digit_10(chinese_number_index, 10, &mut s, true);
     digit_10(chinese_number_index, 11, &mut s, true);
@@ -63,7 +68,8 @@ fn test_digit_10_dependently() {
 fn test_digit_100() {
     let mut s = String::new();
 
-    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Upper);
+    let chinese_number_index =
+        get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Upper);
 
     digit_100(chinese_number_index, 100, &mut s);
     digit_100(chinese_number_index, 101, &mut s);
@@ -81,7 +87,8 @@ fn test_digit_100() {
 fn test_digit_1000() {
     let mut s = String::new();
 
-    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Upper);
+    let chinese_number_index =
+        get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Upper);
 
     digit_1000(chinese_number_index, 1000, &mut s);
     digit_1000(chinese_number_index, 1001, &mut s);
@@ -100,7 +107,8 @@ fn test_digit_1000() {
 fn test_digit_10000_independently() {
     let mut s = String::new();
 
-    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Upper);
+    let chinese_number_index =
+        get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Upper);
 
     digit_10000(chinese_number_index, 10000, &mut s, false);
     digit_10000(chinese_number_index, 10001, &mut s, false);
@@ -110,7 +118,8 @@ fn test_digit_10000_independently() {
     digit_10000(chinese_number_index, 1100101, &mut s, false);
     digit_10000(chinese_number_index, 99999999, &mut s, false);
 
-    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
+    let chinese_number_index =
+        get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
 
     digit_10000(chinese_number_index, 10000, &mut s, false);
     digit_10000(chinese_number_index, 10001, &mut s, false);
@@ -127,7 +136,8 @@ fn test_digit_10000_independently() {
 fn test_digit_10000_dependently() {
     let mut s = String::new();
 
-    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Upper);
+    let chinese_number_index =
+        get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Upper);
 
     digit_10000(chinese_number_index, 10000, &mut s, true);
     digit_10000(chinese_number_index, 10001, &mut s, true);
@@ -137,7 +147,8 @@ fn test_digit_10000_dependently() {
     digit_10000(chinese_number_index, 1100101, &mut s, true);
     digit_10000(chinese_number_index, 99999999, &mut s, true);
 
-    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
+    let chinese_number_index =
+        get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
 
     digit_10000(chinese_number_index, 10000, &mut s, true);
     digit_10000(chinese_number_index, 10001, &mut s, true);
@@ -154,7 +165,8 @@ fn test_digit_10000_dependently() {
 fn test_digit_1000_compat_independently() {
     let mut s = String::new();
 
-    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
+    let chinese_number_index =
+        get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
 
     digit_1000_compat(chinese_number_index, 0, &mut s, false);
     digit_1000_compat(chinese_number_index, 1, &mut s, false);
@@ -171,7 +183,8 @@ fn test_digit_1000_compat_independently() {
 fn test_digit_1000_compat_dependently() {
     let mut s = String::new();
 
-    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
+    let chinese_number_index =
+        get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
 
     digit_1000_compat(chinese_number_index, 0, &mut s, true);
     digit_1000_compat(chinese_number_index, 1, &mut s, true);
@@ -188,7 +201,8 @@ fn test_digit_1000_compat_dependently() {
 fn test_digit_10000_compat_independently() {
     let mut s = String::new();
 
-    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
+    let chinese_number_index =
+        get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
 
     digit_10000_compat(chinese_number_index, 0, &mut s, false);
     digit_10000_compat(chinese_number_index, 1, &mut s, false);
@@ -208,7 +222,8 @@ fn test_digit_10000_compat_independently() {
 fn test_digit_10000_compat_dependently() {
     let mut s = String::new();
 
-    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
+    let chinese_number_index =
+        get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
 
     digit_10000_compat(chinese_number_index, 0, &mut s, true);
     digit_10000_compat(chinese_number_index, 1, &mut s, true);
@@ -228,7 +243,8 @@ fn test_digit_10000_compat_dependently() {
 fn test_digit_100000000_compat_independently() {
     let mut s = String::new();
 
-    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
+    let chinese_number_index =
+        get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
 
     digit_100000000_compat(chinese_number_index, 0, &mut s, false);
     digit_100000000_compat(chinese_number_index, 1, &mut s, false);
@@ -247,7 +263,8 @@ fn test_digit_100000000_compat_independently() {
 fn test_digit_100000000_compat_dependently() {
     let mut s = String::new();
 
-    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
+    let chinese_number_index =
+        get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
 
     digit_100000000_compat(chinese_number_index, 0, &mut s, true);
     digit_100000000_compat(chinese_number_index, 1, &mut s, true);
@@ -266,7 +283,8 @@ fn test_digit_100000000_compat_dependently() {
 fn test_digit_10000000000000000_compat_independently() {
     let mut s = String::new();
 
-    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
+    let chinese_number_index =
+        get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
 
     digit_10000000000000000_compat(chinese_number_index, 0, &mut s, false);
     digit_10000000000000000_compat(chinese_number_index, 1, &mut s, false);
@@ -275,9 +293,24 @@ fn test_digit_10000000000000000_compat_independently() {
     digit_10000000000000000_compat(chinese_number_index, 3333333333, &mut s, false);
     digit_10000000000000000_compat(chinese_number_index, 44444444444444, &mut s, false);
     digit_10000000000000000_compat(chinese_number_index, 555555555555555555, &mut s, false);
-    digit_10000000000000000_compat(chinese_number_index, 1000000000000000000000000000, &mut s, false);
-    digit_10000000000000000_compat(chinese_number_index, 9999900009999000099990000909, &mut s, false);
-    digit_10000000000000000_compat(chinese_number_index, 10000000000000000000000000000000, &mut s, false);
+    digit_10000000000000000_compat(
+        chinese_number_index,
+        1000000000000000000000000000,
+        &mut s,
+        false,
+    );
+    digit_10000000000000000_compat(
+        chinese_number_index,
+        9999900009999000099990000909,
+        &mut s,
+        false,
+    );
+    digit_10000000000000000_compat(
+        chinese_number_index,
+        10000000000000000000000000000000,
+        &mut s,
+        false,
+    );
 
     assert_eq!("零一十二十二萬二千二百二十二三十三億三千三百三十三萬三千三百三十三四十四萬四千四百四十四億四千四百四十四萬四千四百四十四五十五兆五千五百五十五萬五千五百五十五億五千五百五十五萬五千五百五十五一千億兆九千九百九十九億九千萬零九百九十九兆九千萬零九百九十九億九千萬零九百零九一千萬億兆", s);
 }
@@ -286,7 +319,8 @@ fn test_digit_10000000000000000_compat_independently() {
 fn test_digit_10000000000000000_compat_dependently() {
     let mut s = String::new();
 
-    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
+    let chinese_number_index =
+        get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
 
     digit_10000000000000000_compat(chinese_number_index, 0, &mut s, true);
     digit_10000000000000000_compat(chinese_number_index, 1, &mut s, true);
@@ -295,9 +329,24 @@ fn test_digit_10000000000000000_compat_dependently() {
     digit_10000000000000000_compat(chinese_number_index, 3333333333, &mut s, true);
     digit_10000000000000000_compat(chinese_number_index, 44444444444444, &mut s, true);
     digit_10000000000000000_compat(chinese_number_index, 555555555555555555, &mut s, true);
-    digit_10000000000000000_compat(chinese_number_index, 1000000000000000000000000000, &mut s, true);
-    digit_10000000000000000_compat(chinese_number_index, 9999900009999000099990000909, &mut s, true);
-    digit_10000000000000000_compat(chinese_number_index, 10000000000000000000000000000000, &mut s, true);
+    digit_10000000000000000_compat(
+        chinese_number_index,
+        1000000000000000000000000000,
+        &mut s,
+        true,
+    );
+    digit_10000000000000000_compat(
+        chinese_number_index,
+        9999900009999000099990000909,
+        &mut s,
+        true,
+    );
+    digit_10000000000000000_compat(
+        chinese_number_index,
+        10000000000000000000000000000000,
+        &mut s,
+        true,
+    );
 
     assert_eq!("一一十二十二萬二千二百二十二三十三億三千三百三十三萬三千三百三十三四十四萬四千四百四十四億四千四百四十四萬四千四百四十四五十五兆五千五百五十五萬五千五百五十五億五千五百五十五萬五千五百五十五一千億兆九千九百九十九億九千萬零九百九十九兆九千萬零九百九十九億九千萬零九百零九一千萬億兆", s);
 }
@@ -306,17 +355,43 @@ fn test_digit_10000000000000000_compat_dependently() {
 fn test_digit_100000000000000000000000000000000_compat_independently() {
     let mut s = String::new();
 
-    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
+    let chinese_number_index =
+        get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
 
     digit_100000000000000000000000000000000_compat(chinese_number_index, 0, &mut s, false);
     digit_100000000000000000000000000000000_compat(chinese_number_index, 1, &mut s, false);
     digit_100000000000000000000000000000000_compat(chinese_number_index, 10, &mut s, false);
     digit_100000000000000000000000000000000_compat(chinese_number_index, 22222222, &mut s, false);
-    digit_100000000000000000000000000000000_compat(chinese_number_index, 33333333333333, &mut s, false);
-    digit_100000000000000000000000000000000_compat(chinese_number_index, 44444444444444444444, &mut s, false);
-    digit_100000000000000000000000000000000_compat(chinese_number_index, 55555555555555555555555555, &mut s, false);
-    digit_100000000000000000000000000000000_compat(chinese_number_index, 100000000000000000000000000000000000000, &mut s, false);
-    digit_100000000000000000000000000000000_compat(chinese_number_index, 333333000000333333000000333333000000303, &mut s, false);
+    digit_100000000000000000000000000000000_compat(
+        chinese_number_index,
+        33333333333333,
+        &mut s,
+        false,
+    );
+    digit_100000000000000000000000000000000_compat(
+        chinese_number_index,
+        44444444444444444444,
+        &mut s,
+        false,
+    );
+    digit_100000000000000000000000000000000_compat(
+        chinese_number_index,
+        55555555555555555555555555,
+        &mut s,
+        false,
+    );
+    digit_100000000000000000000000000000000_compat(
+        chinese_number_index,
+        100000000000000000000000000000000000000,
+        &mut s,
+        false,
+    );
+    digit_100000000000000000000000000000000_compat(
+        chinese_number_index,
+        333333000000333333000000333333000000303,
+        &mut s,
+        false,
+    );
 
     assert_eq!("零一十二千二百二十二萬二千二百二十二三十三萬三千三百三十三億三千三百三十三萬三千三百三十三四千四百四十四兆四千四百四十四萬四千四百四十四億四千四百四十四萬四千四百四十四五十五億五千五百五十五萬五千五百五十五兆五千五百五十五萬五千五百五十五億五千五百五十五萬五千五百五十五一百萬京三百三十三萬三千三百三十京零三百三十三億三千三百三十萬兆零三百三十三萬三千三百三十億零三百零三", s);
 }
@@ -325,17 +400,43 @@ fn test_digit_100000000000000000000000000000000_compat_independently() {
 fn test_digit_100000000000000000000000000000000_compat_dependently() {
     let mut s = String::new();
 
-    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
+    let chinese_number_index =
+        get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
 
     digit_100000000000000000000000000000000_compat(chinese_number_index, 0, &mut s, true);
     digit_100000000000000000000000000000000_compat(chinese_number_index, 1, &mut s, true);
     digit_100000000000000000000000000000000_compat(chinese_number_index, 10, &mut s, true);
     digit_100000000000000000000000000000000_compat(chinese_number_index, 22222222, &mut s, true);
-    digit_100000000000000000000000000000000_compat(chinese_number_index, 33333333333333, &mut s, true);
-    digit_100000000000000000000000000000000_compat(chinese_number_index, 44444444444444444444, &mut s, true);
-    digit_100000000000000000000000000000000_compat(chinese_number_index, 55555555555555555555555555, &mut s, true);
-    digit_100000000000000000000000000000000_compat(chinese_number_index, 100000000000000000000000000000000000000, &mut s, true);
-    digit_100000000000000000000000000000000_compat(chinese_number_index, 333333000000333333000000333333000000303, &mut s, true);
+    digit_100000000000000000000000000000000_compat(
+        chinese_number_index,
+        33333333333333,
+        &mut s,
+        true,
+    );
+    digit_100000000000000000000000000000000_compat(
+        chinese_number_index,
+        44444444444444444444,
+        &mut s,
+        true,
+    );
+    digit_100000000000000000000000000000000_compat(
+        chinese_number_index,
+        55555555555555555555555555,
+        &mut s,
+        true,
+    );
+    digit_100000000000000000000000000000000_compat(
+        chinese_number_index,
+        100000000000000000000000000000000000000,
+        &mut s,
+        true,
+    );
+    digit_100000000000000000000000000000000_compat(
+        chinese_number_index,
+        333333000000333333000000333333000000303,
+        &mut s,
+        true,
+    );
 
     assert_eq!("一一十二千二百二十二萬二千二百二十二三十三萬三千三百三十三億三千三百三十三萬三千三百三十三四千四百四十四兆四千四百四十四萬四千四百四十四億四千四百四十四萬四千四百四十四五十五億五千五百五十五萬五千五百五十五兆五千五百五十五萬五千五百五十五億五千五百五十五萬五千五百五十五一百萬京三百三十三萬三千三百三十京零三百三十三億三千三百三十萬兆零三百三十三萬三千三百三十億零三百零三", s);
 }
@@ -344,7 +445,8 @@ fn test_digit_100000000000000000000000000000000_compat_dependently() {
 fn test_digit_compat_low_u32() {
     let mut s = String::new();
 
-    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
+    let chinese_number_index =
+        get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
 
     digit_compat_low_u32(chinese_number_index, 0, &mut s);
     digit_compat_low_u32(chinese_number_index, 1, &mut s);
@@ -360,7 +462,8 @@ fn test_digit_compat_low_u32() {
 fn test_digit_compat_low_u64() {
     let mut s = String::new();
 
-    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
+    let chinese_number_index =
+        get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
 
     digit_compat_low_u64(chinese_number_index, 0, &mut s);
     digit_compat_low_u64(chinese_number_index, 1, &mut s);
@@ -378,7 +481,8 @@ fn test_digit_compat_low_u64() {
 fn test_digit_compat_ten_thousand_u32() {
     let mut s = String::new();
 
-    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
+    let chinese_number_index =
+        get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
 
     digit_compat_ten_thousand_u32(chinese_number_index, 0, &mut s);
     digit_compat_ten_thousand_u32(chinese_number_index, 1, &mut s);
@@ -395,7 +499,8 @@ fn test_digit_compat_ten_thousand_u32() {
 fn test_digit_compat_ten_thousand_u64() {
     let mut s = String::new();
 
-    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
+    let chinese_number_index =
+        get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
 
     digit_compat_ten_thousand_u64(chinese_number_index, 0, &mut s);
     digit_compat_ten_thousand_u64(chinese_number_index, 1, &mut s);
@@ -414,7 +519,8 @@ fn test_digit_compat_ten_thousand_u64() {
 fn test_digit_compat_ten_thousand_u128() {
     let mut s = String::new();
 
-    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
+    let chinese_number_index =
+        get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
 
     digit_compat_ten_thousand_u128(chinese_number_index, 0, &mut s);
     digit_compat_ten_thousand_u128(chinese_number_index, 1, &mut s);
@@ -434,7 +540,8 @@ fn test_digit_compat_ten_thousand_u128() {
 fn test_digit_compat_middle_u64() {
     let mut s = String::new();
 
-    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
+    let chinese_number_index =
+        get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
 
     digit_compat_middle_u64(chinese_number_index, 0, &mut s);
     digit_compat_middle_u64(chinese_number_index, 1, &mut s);
@@ -453,7 +560,8 @@ fn test_digit_compat_middle_u64() {
 fn test_digit_compat_middle_u128() {
     let mut s = String::new();
 
-    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
+    let chinese_number_index =
+        get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
 
     digit_compat_middle_u128(chinese_number_index, 0, &mut s);
     digit_compat_middle_u128(chinese_number_index, 1, &mut s);
@@ -473,7 +581,8 @@ fn test_digit_compat_middle_u128() {
 fn test_fraction_compat_low() {
     let mut s = String::new();
 
-    let chinese_number_index = get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
+    let chinese_number_index =
+        get_chinese_number_index(ChineseVariant::Traditional, ChineseNumberCase::Lower);
 
     fraction_compat_low(chinese_number_index, 0f64, &mut s);
     fraction_compat_low(chinese_number_index, 0.01f64, &mut s);
@@ -530,21 +639,55 @@ fn test_chinese_digit_100_compat() {
     assert_eq!(10, chinese_digit_100_compat('壹', Some('十'), None, None, None).unwrap());
     assert_eq!(25, chinese_digit_100_compat('贰', Some('拾'), Some('五'), None, None).unwrap());
     assert_eq!(100, chinese_digit_100_compat('壹', Some('百'), None, None, None).unwrap());
-    assert_eq!(204, chinese_digit_100_compat('二', Some('百'), Some('零'), Some('四'), None).unwrap());
-    assert_eq!(380, chinese_digit_100_compat('三', Some('百'), Some('八'), Some('十'), None).unwrap());
-    assert_eq!(999, chinese_digit_100_compat('九', Some('佰'), Some('玖'), Some('拾'), Some('玖')).unwrap());
+    assert_eq!(
+        204,
+        chinese_digit_100_compat('二', Some('百'), Some('零'), Some('四'), None).unwrap()
+    );
+    assert_eq!(
+        380,
+        chinese_digit_100_compat('三', Some('百'), Some('八'), Some('十'), None).unwrap()
+    );
+    assert_eq!(
+        999,
+        chinese_digit_100_compat('九', Some('佰'), Some('玖'), Some('拾'), Some('玖')).unwrap()
+    );
 }
 
 #[test]
 fn test_chinese_digit_1000() {
     assert_eq!(1000, chinese_digit_1000('壹', '千', None, None, None, None, None).unwrap());
-    assert_eq!(1001, chinese_digit_1000('一', '仟', Some('零'), Some('壹'), None, None, None).unwrap());
-    assert_eq!(1010, chinese_digit_1000('一', '仟', Some('零'), Some('壹'), Some('拾'), None, None).unwrap());
-    assert_eq!(1011, chinese_digit_1000('一', '仟', Some('零'), Some('壹'), Some('拾'), Some('一'), None).unwrap());
-    assert_eq!(2300, chinese_digit_1000('二', '千', Some('三'), Some('百'), None, None, None).unwrap());
-    assert_eq!(2301, chinese_digit_1000('二', '千', Some('三'), Some('百'), Some('零'), Some('一'), None).unwrap());
-    assert_eq!(2320, chinese_digit_1000('二', '千', Some('三'), Some('百'), Some('二'), Some('十'), None).unwrap());
-    assert_eq!(9999, chinese_digit_1000('九', '千', Some('玖'), Some('佰'), Some('玖'), Some('十'), Some('玖')).unwrap());
+    assert_eq!(
+        1001,
+        chinese_digit_1000('一', '仟', Some('零'), Some('壹'), None, None, None).unwrap()
+    );
+    assert_eq!(
+        1010,
+        chinese_digit_1000('一', '仟', Some('零'), Some('壹'), Some('拾'), None, None).unwrap()
+    );
+    assert_eq!(
+        1011,
+        chinese_digit_1000('一', '仟', Some('零'), Some('壹'), Some('拾'), Some('一'), None)
+            .unwrap()
+    );
+    assert_eq!(
+        2300,
+        chinese_digit_1000('二', '千', Some('三'), Some('百'), None, None, None).unwrap()
+    );
+    assert_eq!(
+        2301,
+        chinese_digit_1000('二', '千', Some('三'), Some('百'), Some('零'), Some('一'), None)
+            .unwrap()
+    );
+    assert_eq!(
+        2320,
+        chinese_digit_1000('二', '千', Some('三'), Some('百'), Some('二'), Some('十'), None)
+            .unwrap()
+    );
+    assert_eq!(
+        9999,
+        chinese_digit_1000('九', '千', Some('玖'), Some('佰'), Some('玖'), Some('十'), Some('玖'))
+            .unwrap()
+    );
 }
 
 #[test]
@@ -552,271 +695,5863 @@ fn test_chinese_digit_1000_compat() {
     assert_eq!(0, chinese_digit_1000_compat('零', None, None, None, None, None, None).unwrap());
     assert_eq!(1, chinese_digit_1000_compat('壹', None, None, None, None, None, None).unwrap());
     assert_eq!(10, chinese_digit_1000_compat('十', None, None, None, None, None, None).unwrap());
-    assert_eq!(10, chinese_digit_1000_compat('壹', Some('十'), None, None, None, None, None).unwrap());
-    assert_eq!(25, chinese_digit_1000_compat('贰', Some('拾'), Some('五'), None, None, None, None).unwrap());
-    assert_eq!(100, chinese_digit_1000_compat('壹', Some('百'), None, None, None, None, None).unwrap());
-    assert_eq!(204, chinese_digit_1000_compat('二', Some('百'), Some('零'), Some('四'), None, None, None).unwrap());
-    assert_eq!(380, chinese_digit_1000_compat('三', Some('百'), Some('八'), Some('十'), None, None, None).unwrap());
-    assert_eq!(999, chinese_digit_1000_compat('九', Some('佰'), Some('玖'), Some('拾'), Some('玖'), None, None).unwrap());
-    assert_eq!(1000, chinese_digit_1000_compat('壹', Some('千'), None, None, None, None, None).unwrap());
-    assert_eq!(1001, chinese_digit_1000_compat('一', Some('仟'), Some('零'), Some('壹'), None, None, None).unwrap());
-    assert_eq!(1010, chinese_digit_1000_compat('一', Some('仟'), Some('零'), Some('壹'), Some('拾'), None, None).unwrap());
-    assert_eq!(1011, chinese_digit_1000_compat('一', Some('仟'), Some('零'), Some('壹'), Some('拾'), Some('一'), None).unwrap());
-    assert_eq!(2300, chinese_digit_1000_compat('二', Some('千'), Some('三'), Some('百'), None, None, None).unwrap());
-    assert_eq!(2301, chinese_digit_1000_compat('二', Some('千'), Some('三'), Some('百'), Some('零'), Some('一'), None).unwrap());
-    assert_eq!(2320, chinese_digit_1000_compat('二', Some('千'), Some('三'), Some('百'), Some('二'), Some('十'), None).unwrap());
-    assert_eq!(9999, chinese_digit_1000_compat('九', Some('千'), Some('玖'), Some('佰'), Some('玖'), Some('十'), Some('玖')).unwrap());
+    assert_eq!(
+        10,
+        chinese_digit_1000_compat('壹', Some('十'), None, None, None, None, None).unwrap()
+    );
+    assert_eq!(
+        25,
+        chinese_digit_1000_compat('贰', Some('拾'), Some('五'), None, None, None, None).unwrap()
+    );
+    assert_eq!(
+        100,
+        chinese_digit_1000_compat('壹', Some('百'), None, None, None, None, None).unwrap()
+    );
+    assert_eq!(
+        204,
+        chinese_digit_1000_compat('二', Some('百'), Some('零'), Some('四'), None, None, None)
+            .unwrap()
+    );
+    assert_eq!(
+        380,
+        chinese_digit_1000_compat('三', Some('百'), Some('八'), Some('十'), None, None, None)
+            .unwrap()
+    );
+    assert_eq!(
+        999,
+        chinese_digit_1000_compat('九', Some('佰'), Some('玖'), Some('拾'), Some('玖'), None, None)
+            .unwrap()
+    );
+    assert_eq!(
+        1000,
+        chinese_digit_1000_compat('壹', Some('千'), None, None, None, None, None).unwrap()
+    );
+    assert_eq!(
+        1001,
+        chinese_digit_1000_compat('一', Some('仟'), Some('零'), Some('壹'), None, None, None)
+            .unwrap()
+    );
+    assert_eq!(
+        1010,
+        chinese_digit_1000_compat('一', Some('仟'), Some('零'), Some('壹'), Some('拾'), None, None)
+            .unwrap()
+    );
+    assert_eq!(
+        1011,
+        chinese_digit_1000_compat(
+            '一',
+            Some('仟'),
+            Some('零'),
+            Some('壹'),
+            Some('拾'),
+            Some('一'),
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        2300,
+        chinese_digit_1000_compat('二', Some('千'), Some('三'), Some('百'), None, None, None)
+            .unwrap()
+    );
+    assert_eq!(
+        2301,
+        chinese_digit_1000_compat(
+            '二',
+            Some('千'),
+            Some('三'),
+            Some('百'),
+            Some('零'),
+            Some('一'),
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        2320,
+        chinese_digit_1000_compat(
+            '二',
+            Some('千'),
+            Some('三'),
+            Some('百'),
+            Some('二'),
+            Some('十'),
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        9999,
+        chinese_digit_1000_compat(
+            '九',
+            Some('千'),
+            Some('玖'),
+            Some('佰'),
+            Some('玖'),
+            Some('十'),
+            Some('玖')
+        )
+        .unwrap()
+    );
 }
 
 #[test]
 fn test_chinese_digit_10000_low_compat() {
-    assert_eq!(0, chinese_digit_10000_low_compat('零', None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1, chinese_digit_10000_low_compat('壹', None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(25, chinese_digit_10000_low_compat('贰', Some('拾'), Some('五'), None, None, None, None, None, None).unwrap());
-    assert_eq!(10000, chinese_digit_10000_low_compat('一', Some('萬'), None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10001, chinese_digit_10000_low_compat('一', Some('萬'), Some('零'), Some('壹'), None, None, None, None, None).unwrap());
-    assert_eq!(11000, chinese_digit_10000_low_compat('一', Some('萬'), Some('一'), Some('仟'), None, None, None, None, None).unwrap());
-    assert_eq!(99999, chinese_digit_10000_low_compat('九', Some('萬'), Some('九'), Some('仟'), Some('玖'), Some('佰'), Some('玖'), Some('十'), Some('九')).unwrap());
+    assert_eq!(
+        0,
+        chinese_digit_10000_low_compat('零', None, None, None, None, None, None, None, None)
+            .unwrap()
+    );
+    assert_eq!(
+        1,
+        chinese_digit_10000_low_compat('壹', None, None, None, None, None, None, None, None)
+            .unwrap()
+    );
+    assert_eq!(
+        25,
+        chinese_digit_10000_low_compat(
+            '贰',
+            Some('拾'),
+            Some('五'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000,
+        chinese_digit_10000_low_compat('一', Some('萬'), None, None, None, None, None, None, None)
+            .unwrap()
+    );
+    assert_eq!(
+        10001,
+        chinese_digit_10000_low_compat(
+            '一',
+            Some('萬'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        11000,
+        chinese_digit_10000_low_compat(
+            '一',
+            Some('萬'),
+            Some('一'),
+            Some('仟'),
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        99999,
+        chinese_digit_10000_low_compat(
+            '九',
+            Some('萬'),
+            Some('九'),
+            Some('仟'),
+            Some('玖'),
+            Some('佰'),
+            Some('玖'),
+            Some('十'),
+            Some('九')
+        )
+        .unwrap()
+    );
 }
 
 #[test]
 fn test_chinese_digit_100000_low_compat() {
-    assert_eq!(0, chinese_digit_100000_low_compat('零', None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1, chinese_digit_100000_low_compat('壹', None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(25, chinese_digit_100000_low_compat('贰', Some('拾'), Some('五'), None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10000, chinese_digit_100000_low_compat('一', Some('萬'), None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10001, chinese_digit_100000_low_compat('一', Some('萬'), Some('零'), Some('壹'), None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000, chinese_digit_100000_low_compat('一', Some('億'), None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100001, chinese_digit_100000_low_compat('一', Some('億'), Some('零'), Some('壹'), None, None, None, None, None, None, None).unwrap());
-    assert_eq!(110000, chinese_digit_100000_low_compat('一', Some('億'), Some('一'), Some('萬'), None, None, None, None, None, None, None).unwrap());
-    assert_eq!(110001, chinese_digit_100000_low_compat('一', Some('億'), Some('一'), Some('萬'), Some('零'), Some('壹'), None, None, None, None, None).unwrap());
-    assert_eq!(999999, chinese_digit_100000_low_compat('九', Some('億'), Some('九'), Some('萬'), Some('九'), Some('仟'), Some('玖'), Some('佰'), Some('玖'), Some('十'), Some('九')).unwrap());
+    assert_eq!(
+        0,
+        chinese_digit_100000_low_compat(
+            '零', None, None, None, None, None, None, None, None, None, None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1,
+        chinese_digit_100000_low_compat(
+            '壹', None, None, None, None, None, None, None, None, None, None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        25,
+        chinese_digit_100000_low_compat(
+            '贰',
+            Some('拾'),
+            Some('五'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000,
+        chinese_digit_100000_low_compat(
+            '一',
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10001,
+        chinese_digit_100000_low_compat(
+            '一',
+            Some('萬'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000,
+        chinese_digit_100000_low_compat(
+            '一',
+            Some('億'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100001,
+        chinese_digit_100000_low_compat(
+            '一',
+            Some('億'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        110000,
+        chinese_digit_100000_low_compat(
+            '一',
+            Some('億'),
+            Some('一'),
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        110001,
+        chinese_digit_100000_low_compat(
+            '一',
+            Some('億'),
+            Some('一'),
+            Some('萬'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        999999,
+        chinese_digit_100000_low_compat(
+            '九',
+            Some('億'),
+            Some('九'),
+            Some('萬'),
+            Some('九'),
+            Some('仟'),
+            Some('玖'),
+            Some('佰'),
+            Some('玖'),
+            Some('十'),
+            Some('九')
+        )
+        .unwrap()
+    );
 }
 
 #[test]
 fn test_chinese_digit_1000000_low_compat() {
-    assert_eq!(0, chinese_digit_1000000_low_compat('零', None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1, chinese_digit_1000000_low_compat('壹', None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(25, chinese_digit_1000000_low_compat('贰', Some('拾'), Some('五'), None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10000, chinese_digit_1000000_low_compat('一', Some('萬'), None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10001, chinese_digit_1000000_low_compat('一', Some('萬'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000, chinese_digit_1000000_low_compat('一', Some('億'), None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100001, chinese_digit_1000000_low_compat('一', Some('億'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1000000, chinese_digit_1000000_low_compat('一', Some('兆'), None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1000001, chinese_digit_1000000_low_compat('一', Some('兆'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1010000, chinese_digit_1000000_low_compat('一', Some('兆'), Some('零'), Some('壹'), Some('萬'), None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1010001, chinese_digit_1000000_low_compat('一', Some('兆'), Some('零'), Some('壹'), Some('萬'), Some('零'), Some('壹'), None, None, None, None, None, None).unwrap());
-    assert_eq!(1100000, chinese_digit_1000000_low_compat('一', Some('兆'), Some('一'), Some('億'), None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1100001, chinese_digit_1000000_low_compat('一', Some('兆'), Some('一'), Some('億'), Some('零'), Some('壹'), None, None, None, None, None, None, None).unwrap());
-    assert_eq!(9999999, chinese_digit_1000000_low_compat('九', Some('兆'), Some('玖'), Some('億'), Some('九'), Some('萬'), Some('九'), Some('仟'), Some('玖'), Some('佰'), Some('玖'), Some('十'), Some('九')).unwrap());
+    assert_eq!(
+        0,
+        chinese_digit_1000000_low_compat(
+            '零', None, None, None, None, None, None, None, None, None, None, None, None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1,
+        chinese_digit_1000000_low_compat(
+            '壹', None, None, None, None, None, None, None, None, None, None, None, None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        25,
+        chinese_digit_1000000_low_compat(
+            '贰',
+            Some('拾'),
+            Some('五'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000,
+        chinese_digit_1000000_low_compat(
+            '一',
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10001,
+        chinese_digit_1000000_low_compat(
+            '一',
+            Some('萬'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000,
+        chinese_digit_1000000_low_compat(
+            '一',
+            Some('億'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100001,
+        chinese_digit_1000000_low_compat(
+            '一',
+            Some('億'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1000000,
+        chinese_digit_1000000_low_compat(
+            '一',
+            Some('兆'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1000001,
+        chinese_digit_1000000_low_compat(
+            '一',
+            Some('兆'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1010000,
+        chinese_digit_1000000_low_compat(
+            '一',
+            Some('兆'),
+            Some('零'),
+            Some('壹'),
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1010001,
+        chinese_digit_1000000_low_compat(
+            '一',
+            Some('兆'),
+            Some('零'),
+            Some('壹'),
+            Some('萬'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1100000,
+        chinese_digit_1000000_low_compat(
+            '一',
+            Some('兆'),
+            Some('一'),
+            Some('億'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1100001,
+        chinese_digit_1000000_low_compat(
+            '一',
+            Some('兆'),
+            Some('一'),
+            Some('億'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        9999999,
+        chinese_digit_1000000_low_compat(
+            '九',
+            Some('兆'),
+            Some('玖'),
+            Some('億'),
+            Some('九'),
+            Some('萬'),
+            Some('九'),
+            Some('仟'),
+            Some('玖'),
+            Some('佰'),
+            Some('玖'),
+            Some('十'),
+            Some('九')
+        )
+        .unwrap()
+    );
 }
 
 #[test]
 fn test_chinese_digit_10000000_low_compat() {
-    assert_eq!(0, chinese_digit_10000000_low_compat('零', None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1, chinese_digit_10000000_low_compat('壹', None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(25, chinese_digit_10000000_low_compat('贰', Some('拾'), Some('五'), None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10000, chinese_digit_10000000_low_compat('一', Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10001, chinese_digit_10000000_low_compat('一', Some('萬'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000, chinese_digit_10000000_low_compat('一', Some('億'), None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100001, chinese_digit_10000000_low_compat('一', Some('億'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1000000, chinese_digit_10000000_low_compat('一', Some('兆'), None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1000001, chinese_digit_10000000_low_compat('一', Some('兆'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10000000, chinese_digit_10000000_low_compat('一', Some('京'), None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10000001, chinese_digit_10000000_low_compat('一', Some('京'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(99999999, chinese_digit_10000000_low_compat('九', Some('京'), Some('九'), Some('兆'), Some('玖'), Some('億'), Some('九'), Some('萬'), Some('九'), Some('仟'), Some('玖'), Some('佰'), Some('玖'), Some('十'), Some('九')).unwrap());
+    assert_eq!(
+        0,
+        chinese_digit_10000000_low_compat(
+            '零', None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1,
+        chinese_digit_10000000_low_compat(
+            '壹', None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        25,
+        chinese_digit_10000000_low_compat(
+            '贰',
+            Some('拾'),
+            Some('五'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000,
+        chinese_digit_10000000_low_compat(
+            '一',
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10001,
+        chinese_digit_10000000_low_compat(
+            '一',
+            Some('萬'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000,
+        chinese_digit_10000000_low_compat(
+            '一',
+            Some('億'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100001,
+        chinese_digit_10000000_low_compat(
+            '一',
+            Some('億'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1000000,
+        chinese_digit_10000000_low_compat(
+            '一',
+            Some('兆'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1000001,
+        chinese_digit_10000000_low_compat(
+            '一',
+            Some('兆'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000000,
+        chinese_digit_10000000_low_compat(
+            '一',
+            Some('京'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000001,
+        chinese_digit_10000000_low_compat(
+            '一',
+            Some('京'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        99999999,
+        chinese_digit_10000000_low_compat(
+            '九',
+            Some('京'),
+            Some('九'),
+            Some('兆'),
+            Some('玖'),
+            Some('億'),
+            Some('九'),
+            Some('萬'),
+            Some('九'),
+            Some('仟'),
+            Some('玖'),
+            Some('佰'),
+            Some('玖'),
+            Some('十'),
+            Some('九')
+        )
+        .unwrap()
+    );
 }
 
 #[test]
 fn test_chinese_digit_100000000_low_compat() {
-    assert_eq!(0, chinese_digit_100000000_low_compat('零', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1, chinese_digit_100000000_low_compat('壹', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(25, chinese_digit_100000000_low_compat('贰', Some('拾'), Some('五'), None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10000, chinese_digit_100000000_low_compat('一', Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10001, chinese_digit_100000000_low_compat('一', Some('萬'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000, chinese_digit_100000000_low_compat('一', Some('億'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100001, chinese_digit_100000000_low_compat('一', Some('億'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1000000, chinese_digit_100000000_low_compat('一', Some('兆'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1000001, chinese_digit_100000000_low_compat('一', Some('兆'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10000000, chinese_digit_100000000_low_compat('一', Some('京'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10000001, chinese_digit_100000000_low_compat('一', Some('京'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000000, chinese_digit_100000000_low_compat('一', Some('垓'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000001, chinese_digit_100000000_low_compat('一', Some('垓'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(999999999, chinese_digit_100000000_low_compat('九', Some('垓'), Some('九'), Some('京'), Some('九'), Some('兆'), Some('玖'), Some('億'), Some('九'), Some('萬'), Some('九'), Some('仟'), Some('玖'), Some('佰'), Some('玖'), Some('十'), Some('九')).unwrap());
+    assert_eq!(
+        0,
+        chinese_digit_100000000_low_compat(
+            '零', None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None, None, None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1,
+        chinese_digit_100000000_low_compat(
+            '壹', None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None, None, None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        25,
+        chinese_digit_100000000_low_compat(
+            '贰',
+            Some('拾'),
+            Some('五'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000,
+        chinese_digit_100000000_low_compat(
+            '一',
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10001,
+        chinese_digit_100000000_low_compat(
+            '一',
+            Some('萬'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000,
+        chinese_digit_100000000_low_compat(
+            '一',
+            Some('億'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100001,
+        chinese_digit_100000000_low_compat(
+            '一',
+            Some('億'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1000000,
+        chinese_digit_100000000_low_compat(
+            '一',
+            Some('兆'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1000001,
+        chinese_digit_100000000_low_compat(
+            '一',
+            Some('兆'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000000,
+        chinese_digit_100000000_low_compat(
+            '一',
+            Some('京'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000001,
+        chinese_digit_100000000_low_compat(
+            '一',
+            Some('京'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000000,
+        chinese_digit_100000000_low_compat(
+            '一',
+            Some('垓'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000001,
+        chinese_digit_100000000_low_compat(
+            '一',
+            Some('垓'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        999999999,
+        chinese_digit_100000000_low_compat(
+            '九',
+            Some('垓'),
+            Some('九'),
+            Some('京'),
+            Some('九'),
+            Some('兆'),
+            Some('玖'),
+            Some('億'),
+            Some('九'),
+            Some('萬'),
+            Some('九'),
+            Some('仟'),
+            Some('玖'),
+            Some('佰'),
+            Some('玖'),
+            Some('十'),
+            Some('九')
+        )
+        .unwrap()
+    );
 }
 
 #[test]
 fn test_chinese_digit_1000000000_low_compat() {
-    assert_eq!(0, chinese_digit_1000000000_low_compat('零', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1, chinese_digit_1000000000_low_compat('壹', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(25, chinese_digit_1000000000_low_compat('贰', Some('拾'), Some('五'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10000, chinese_digit_1000000000_low_compat('一', Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10001, chinese_digit_1000000000_low_compat('一', Some('萬'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000, chinese_digit_1000000000_low_compat('一', Some('億'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100001, chinese_digit_1000000000_low_compat('一', Some('億'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1000000, chinese_digit_1000000000_low_compat('一', Some('兆'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1000001, chinese_digit_1000000000_low_compat('一', Some('兆'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10000000, chinese_digit_1000000000_low_compat('一', Some('京'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10000001, chinese_digit_1000000000_low_compat('一', Some('京'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000000, chinese_digit_1000000000_low_compat('一', Some('垓'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000001, chinese_digit_1000000000_low_compat('一', Some('垓'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1000000000, chinese_digit_1000000000_low_compat('一', Some('秭'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1000000001, chinese_digit_1000000000_low_compat('一', Some('秭'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(9999999999, chinese_digit_1000000000_low_compat('九', Some('秭'), Some('九'), Some('垓'), Some('九'), Some('京'), Some('九'), Some('兆'), Some('玖'), Some('億'), Some('九'), Some('萬'), Some('九'), Some('仟'), Some('玖'), Some('佰'), Some('玖'), Some('十'), Some('九')).unwrap());
+    assert_eq!(
+        0,
+        chinese_digit_1000000000_low_compat(
+            '零', None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None, None, None, None, None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1,
+        chinese_digit_1000000000_low_compat(
+            '壹', None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None, None, None, None, None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        25,
+        chinese_digit_1000000000_low_compat(
+            '贰',
+            Some('拾'),
+            Some('五'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000,
+        chinese_digit_1000000000_low_compat(
+            '一',
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10001,
+        chinese_digit_1000000000_low_compat(
+            '一',
+            Some('萬'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000,
+        chinese_digit_1000000000_low_compat(
+            '一',
+            Some('億'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100001,
+        chinese_digit_1000000000_low_compat(
+            '一',
+            Some('億'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1000000,
+        chinese_digit_1000000000_low_compat(
+            '一',
+            Some('兆'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1000001,
+        chinese_digit_1000000000_low_compat(
+            '一',
+            Some('兆'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000000,
+        chinese_digit_1000000000_low_compat(
+            '一',
+            Some('京'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000001,
+        chinese_digit_1000000000_low_compat(
+            '一',
+            Some('京'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000000,
+        chinese_digit_1000000000_low_compat(
+            '一',
+            Some('垓'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000001,
+        chinese_digit_1000000000_low_compat(
+            '一',
+            Some('垓'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1000000000,
+        chinese_digit_1000000000_low_compat(
+            '一',
+            Some('秭'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1000000001,
+        chinese_digit_1000000000_low_compat(
+            '一',
+            Some('秭'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        9999999999,
+        chinese_digit_1000000000_low_compat(
+            '九',
+            Some('秭'),
+            Some('九'),
+            Some('垓'),
+            Some('九'),
+            Some('京'),
+            Some('九'),
+            Some('兆'),
+            Some('玖'),
+            Some('億'),
+            Some('九'),
+            Some('萬'),
+            Some('九'),
+            Some('仟'),
+            Some('玖'),
+            Some('佰'),
+            Some('玖'),
+            Some('十'),
+            Some('九')
+        )
+        .unwrap()
+    );
 }
 
 #[test]
 fn test_chinese_digit_1000000000000000_low_compat() {
-    assert_eq!(0, chinese_digit_1000000000000000_low_compat('零', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1, chinese_digit_1000000000000000_low_compat('壹', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1000000000000000, chinese_digit_1000000000000000_low_compat('一', Some('極'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1000000000000001, chinese_digit_1000000000000000_low_compat('一', Some('極'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(9999999999999999, chinese_digit_1000000000000000_low_compat('九', Some('極'), Some('九'), Some('載'), Some('九'), Some('正'), Some('九'), Some('澗'), Some('玖'), Some('溝'), Some('九'), Some('穰'), Some('九'), Some('秭'), Some('玖'), Some('垓'), Some('玖'), Some('京'), Some('九'), Some('兆'), Some('玖'), Some('億'), Some('九'), Some('萬'), Some('九'), Some('仟'), Some('玖'), Some('佰'), Some('玖'), Some('十'), Some('九')).unwrap());
+    assert_eq!(
+        0,
+        chinese_digit_1000000000000000_low_compat(
+            '零', None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None, None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None, None, None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1,
+        chinese_digit_1000000000000000_low_compat(
+            '壹', None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None, None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None, None, None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1000000000000000,
+        chinese_digit_1000000000000000_low_compat(
+            '一',
+            Some('極'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1000000000000001,
+        chinese_digit_1000000000000000_low_compat(
+            '一',
+            Some('極'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        9999999999999999,
+        chinese_digit_1000000000000000_low_compat(
+            '九',
+            Some('極'),
+            Some('九'),
+            Some('載'),
+            Some('九'),
+            Some('正'),
+            Some('九'),
+            Some('澗'),
+            Some('玖'),
+            Some('溝'),
+            Some('九'),
+            Some('穰'),
+            Some('九'),
+            Some('秭'),
+            Some('玖'),
+            Some('垓'),
+            Some('玖'),
+            Some('京'),
+            Some('九'),
+            Some('兆'),
+            Some('玖'),
+            Some('億'),
+            Some('九'),
+            Some('萬'),
+            Some('九'),
+            Some('仟'),
+            Some('玖'),
+            Some('佰'),
+            Some('玖'),
+            Some('十'),
+            Some('九')
+        )
+        .unwrap()
+    );
 }
 
 #[test]
 fn test_chinese_digit_10000_ten_thousand_compat() {
-    assert_eq!(0, chinese_digit_10000_ten_thousand_compat('零', None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1, chinese_digit_10000_ten_thousand_compat('壹', None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(25, chinese_digit_10000_ten_thousand_compat('贰', Some('拾'), Some('五'), None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10000, chinese_digit_10000_ten_thousand_compat('一', Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10001, chinese_digit_10000_ten_thousand_compat('一', Some('萬'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(11000, chinese_digit_10000_ten_thousand_compat('一', Some('萬'), Some('一'), Some('仟'), None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(99999, chinese_digit_10000_ten_thousand_compat('九', Some('萬'), Some('九'), Some('仟'), Some('玖'), Some('佰'), Some('玖'), Some('十'), Some('九'), None, None, None, None, None, None).unwrap());
-    assert_eq!(100000, chinese_digit_10000_ten_thousand_compat('十', Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000, chinese_digit_10000_ten_thousand_compat('一', Some('十'), Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100001, chinese_digit_10000_ten_thousand_compat('十', Some('萬'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(110000, chinese_digit_10000_ten_thousand_compat('十', Some('壹'), Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(110001, chinese_digit_10000_ten_thousand_compat('十', Some('壹'), Some('萬'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1000000, chinese_digit_10000_ten_thousand_compat('一', Some('百'), Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1010000, chinese_digit_10000_ten_thousand_compat('一', Some('百'), Some('零'), Some('一'), Some('萬'), None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10000000, chinese_digit_10000_ten_thousand_compat('一', Some('千'), Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10010000, chinese_digit_10000_ten_thousand_compat('一', Some('千'), Some('零'), Some('一'), Some('萬'), None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(99999999, chinese_digit_10000_ten_thousand_compat('九', Some('千'), Some('九'), Some('百'), Some('玖'), Some('拾'), Some('九'), Some('萬'), Some('玖'), Some('仟'), Some('玖'), Some('百'), Some('九'), Some('十'), Some('九')).unwrap());
+    assert_eq!(
+        0,
+        chinese_digit_10000_ten_thousand_compat(
+            '零', None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1,
+        chinese_digit_10000_ten_thousand_compat(
+            '壹', None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        25,
+        chinese_digit_10000_ten_thousand_compat(
+            '贰',
+            Some('拾'),
+            Some('五'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000,
+        chinese_digit_10000_ten_thousand_compat(
+            '一',
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10001,
+        chinese_digit_10000_ten_thousand_compat(
+            '一',
+            Some('萬'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        11000,
+        chinese_digit_10000_ten_thousand_compat(
+            '一',
+            Some('萬'),
+            Some('一'),
+            Some('仟'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        99999,
+        chinese_digit_10000_ten_thousand_compat(
+            '九',
+            Some('萬'),
+            Some('九'),
+            Some('仟'),
+            Some('玖'),
+            Some('佰'),
+            Some('玖'),
+            Some('十'),
+            Some('九'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000,
+        chinese_digit_10000_ten_thousand_compat(
+            '十',
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000,
+        chinese_digit_10000_ten_thousand_compat(
+            '一',
+            Some('十'),
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100001,
+        chinese_digit_10000_ten_thousand_compat(
+            '十',
+            Some('萬'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        110000,
+        chinese_digit_10000_ten_thousand_compat(
+            '十',
+            Some('壹'),
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        110001,
+        chinese_digit_10000_ten_thousand_compat(
+            '十',
+            Some('壹'),
+            Some('萬'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1000000,
+        chinese_digit_10000_ten_thousand_compat(
+            '一',
+            Some('百'),
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1010000,
+        chinese_digit_10000_ten_thousand_compat(
+            '一',
+            Some('百'),
+            Some('零'),
+            Some('一'),
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000000,
+        chinese_digit_10000_ten_thousand_compat(
+            '一',
+            Some('千'),
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10010000,
+        chinese_digit_10000_ten_thousand_compat(
+            '一',
+            Some('千'),
+            Some('零'),
+            Some('一'),
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        99999999,
+        chinese_digit_10000_ten_thousand_compat(
+            '九',
+            Some('千'),
+            Some('九'),
+            Some('百'),
+            Some('玖'),
+            Some('拾'),
+            Some('九'),
+            Some('萬'),
+            Some('玖'),
+            Some('仟'),
+            Some('玖'),
+            Some('百'),
+            Some('九'),
+            Some('十'),
+            Some('九')
+        )
+        .unwrap()
+    );
 }
 
 #[test]
 fn test_chinese_digit_100000000_ten_thousand_compat() {
-    assert_eq!(0, chinese_digit_100000000_ten_thousand_compat('零', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1, chinese_digit_100000000_ten_thousand_compat('壹', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(25, chinese_digit_100000000_ten_thousand_compat('贰', Some('拾'), Some('五'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10000, chinese_digit_100000000_ten_thousand_compat('一', Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10001, chinese_digit_100000000_ten_thousand_compat('一', Some('萬'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(11000, chinese_digit_100000000_ten_thousand_compat('一', Some('萬'), Some('一'), Some('仟'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(99999, chinese_digit_100000000_ten_thousand_compat('九', Some('萬'), Some('九'), Some('仟'), Some('玖'), Some('佰'), Some('玖'), Some('十'), Some('九'), None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000, chinese_digit_100000000_ten_thousand_compat('十', Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000, chinese_digit_100000000_ten_thousand_compat('一', Some('十'), Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100001, chinese_digit_100000000_ten_thousand_compat('十', Some('萬'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(110000, chinese_digit_100000000_ten_thousand_compat('十', Some('壹'), Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(110001, chinese_digit_100000000_ten_thousand_compat('十', Some('壹'), Some('萬'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1000000, chinese_digit_100000000_ten_thousand_compat('一', Some('百'), Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1010000, chinese_digit_100000000_ten_thousand_compat('一', Some('百'), Some('零'), Some('一'), Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10000000, chinese_digit_100000000_ten_thousand_compat('一', Some('千'), Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10010000, chinese_digit_100000000_ten_thousand_compat('一', Some('千'), Some('零'), Some('一'), Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000000, chinese_digit_100000000_ten_thousand_compat('一', Some('億'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000001, chinese_digit_100000000_ten_thousand_compat('一', Some('億'), Some('零'), Some('一'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100010001, chinese_digit_100000000_ten_thousand_compat('一', Some('億'), Some('零'), Some('一'), Some('萬'), Some('零'), Some('一'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1000000000, chinese_digit_100000000_ten_thousand_compat('十', Some('億'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10000000000, chinese_digit_100000000_ten_thousand_compat('一', Some('百'), Some('億'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000000000, chinese_digit_100000000_ten_thousand_compat('一', Some('千'), Some('億'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000000001, chinese_digit_100000000_ten_thousand_compat('一', Some('千'), Some('億'), Some('零'), Some('一'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
+    assert_eq!(
+        0,
+        chinese_digit_100000000_ten_thousand_compat(
+            '零', None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None, None, None, None, None, None, None, None, None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1,
+        chinese_digit_100000000_ten_thousand_compat(
+            '壹', None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None, None, None, None, None, None, None, None, None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        25,
+        chinese_digit_100000000_ten_thousand_compat(
+            '贰',
+            Some('拾'),
+            Some('五'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000,
+        chinese_digit_100000000_ten_thousand_compat(
+            '一',
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10001,
+        chinese_digit_100000000_ten_thousand_compat(
+            '一',
+            Some('萬'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        11000,
+        chinese_digit_100000000_ten_thousand_compat(
+            '一',
+            Some('萬'),
+            Some('一'),
+            Some('仟'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        99999,
+        chinese_digit_100000000_ten_thousand_compat(
+            '九',
+            Some('萬'),
+            Some('九'),
+            Some('仟'),
+            Some('玖'),
+            Some('佰'),
+            Some('玖'),
+            Some('十'),
+            Some('九'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000,
+        chinese_digit_100000000_ten_thousand_compat(
+            '十',
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000,
+        chinese_digit_100000000_ten_thousand_compat(
+            '一',
+            Some('十'),
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100001,
+        chinese_digit_100000000_ten_thousand_compat(
+            '十',
+            Some('萬'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        110000,
+        chinese_digit_100000000_ten_thousand_compat(
+            '十',
+            Some('壹'),
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        110001,
+        chinese_digit_100000000_ten_thousand_compat(
+            '十',
+            Some('壹'),
+            Some('萬'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1000000,
+        chinese_digit_100000000_ten_thousand_compat(
+            '一',
+            Some('百'),
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1010000,
+        chinese_digit_100000000_ten_thousand_compat(
+            '一',
+            Some('百'),
+            Some('零'),
+            Some('一'),
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000000,
+        chinese_digit_100000000_ten_thousand_compat(
+            '一',
+            Some('千'),
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10010000,
+        chinese_digit_100000000_ten_thousand_compat(
+            '一',
+            Some('千'),
+            Some('零'),
+            Some('一'),
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000000,
+        chinese_digit_100000000_ten_thousand_compat(
+            '一',
+            Some('億'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000001,
+        chinese_digit_100000000_ten_thousand_compat(
+            '一',
+            Some('億'),
+            Some('零'),
+            Some('一'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100010001,
+        chinese_digit_100000000_ten_thousand_compat(
+            '一',
+            Some('億'),
+            Some('零'),
+            Some('一'),
+            Some('萬'),
+            Some('零'),
+            Some('一'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1000000000,
+        chinese_digit_100000000_ten_thousand_compat(
+            '十',
+            Some('億'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000000000,
+        chinese_digit_100000000_ten_thousand_compat(
+            '一',
+            Some('百'),
+            Some('億'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000000000,
+        chinese_digit_100000000_ten_thousand_compat(
+            '一',
+            Some('千'),
+            Some('億'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000000001,
+        chinese_digit_100000000_ten_thousand_compat(
+            '一',
+            Some('千'),
+            Some('億'),
+            Some('零'),
+            Some('一'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
 }
 
 #[test]
 fn test_chinese_digit_1000000000000_ten_thousand_compat() {
-    assert_eq!(0, chinese_digit_1000000000000_ten_thousand_compat('零', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1, chinese_digit_1000000000000_ten_thousand_compat('壹', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(25, chinese_digit_1000000000000_ten_thousand_compat('贰', Some('拾'), Some('五'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10000, chinese_digit_1000000000000_ten_thousand_compat('一', Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10001, chinese_digit_1000000000000_ten_thousand_compat('一', Some('萬'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(11000, chinese_digit_1000000000000_ten_thousand_compat('一', Some('萬'), Some('一'), Some('仟'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(99999, chinese_digit_1000000000000_ten_thousand_compat('九', Some('萬'), Some('九'), Some('仟'), Some('玖'), Some('佰'), Some('玖'), Some('十'), Some('九'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000, chinese_digit_1000000000000_ten_thousand_compat('十', Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000, chinese_digit_1000000000000_ten_thousand_compat('一', Some('十'), Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100001, chinese_digit_1000000000000_ten_thousand_compat('十', Some('萬'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(110000, chinese_digit_1000000000000_ten_thousand_compat('十', Some('壹'), Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(110001, chinese_digit_1000000000000_ten_thousand_compat('十', Some('壹'), Some('萬'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1000000, chinese_digit_1000000000000_ten_thousand_compat('一', Some('百'), Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1010000, chinese_digit_1000000000000_ten_thousand_compat('一', Some('百'), Some('零'), Some('一'), Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10000000, chinese_digit_1000000000000_ten_thousand_compat('一', Some('千'), Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10010000, chinese_digit_1000000000000_ten_thousand_compat('一', Some('千'), Some('零'), Some('一'), Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000000, chinese_digit_1000000000000_ten_thousand_compat('一', Some('億'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000001, chinese_digit_1000000000000_ten_thousand_compat('一', Some('億'), Some('零'), Some('一'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100010001, chinese_digit_1000000000000_ten_thousand_compat('一', Some('億'), Some('零'), Some('一'), Some('萬'), Some('零'), Some('一'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1000000000, chinese_digit_1000000000000_ten_thousand_compat('十', Some('億'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10000000000, chinese_digit_1000000000000_ten_thousand_compat('一', Some('百'), Some('億'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000000000, chinese_digit_1000000000000_ten_thousand_compat('一', Some('千'), Some('億'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000000001, chinese_digit_1000000000000_ten_thousand_compat('一', Some('千'), Some('億'), Some('零'), Some('一'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1000000000000, chinese_digit_1000000000000_ten_thousand_compat('一', Some('兆'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10000000000000, chinese_digit_1000000000000_ten_thousand_compat('十', Some('兆'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000000000000, chinese_digit_1000000000000_ten_thousand_compat('一', Some('百'), Some('兆'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1000000000000000, chinese_digit_1000000000000_ten_thousand_compat('一', Some('千'), Some('兆'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1000000000000001, chinese_digit_1000000000000_ten_thousand_compat('一', Some('千'), Some('兆'), Some('零'), Some('一'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
+    assert_eq!(
+        0,
+        chinese_digit_1000000000000_ten_thousand_compat(
+            '零', None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None, None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None, None, None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1,
+        chinese_digit_1000000000000_ten_thousand_compat(
+            '壹', None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None, None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None, None, None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        25,
+        chinese_digit_1000000000000_ten_thousand_compat(
+            '贰',
+            Some('拾'),
+            Some('五'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000,
+        chinese_digit_1000000000000_ten_thousand_compat(
+            '一',
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10001,
+        chinese_digit_1000000000000_ten_thousand_compat(
+            '一',
+            Some('萬'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        11000,
+        chinese_digit_1000000000000_ten_thousand_compat(
+            '一',
+            Some('萬'),
+            Some('一'),
+            Some('仟'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        99999,
+        chinese_digit_1000000000000_ten_thousand_compat(
+            '九',
+            Some('萬'),
+            Some('九'),
+            Some('仟'),
+            Some('玖'),
+            Some('佰'),
+            Some('玖'),
+            Some('十'),
+            Some('九'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000,
+        chinese_digit_1000000000000_ten_thousand_compat(
+            '十',
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000,
+        chinese_digit_1000000000000_ten_thousand_compat(
+            '一',
+            Some('十'),
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100001,
+        chinese_digit_1000000000000_ten_thousand_compat(
+            '十',
+            Some('萬'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        110000,
+        chinese_digit_1000000000000_ten_thousand_compat(
+            '十',
+            Some('壹'),
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        110001,
+        chinese_digit_1000000000000_ten_thousand_compat(
+            '十',
+            Some('壹'),
+            Some('萬'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1000000,
+        chinese_digit_1000000000000_ten_thousand_compat(
+            '一',
+            Some('百'),
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1010000,
+        chinese_digit_1000000000000_ten_thousand_compat(
+            '一',
+            Some('百'),
+            Some('零'),
+            Some('一'),
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000000,
+        chinese_digit_1000000000000_ten_thousand_compat(
+            '一',
+            Some('千'),
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10010000,
+        chinese_digit_1000000000000_ten_thousand_compat(
+            '一',
+            Some('千'),
+            Some('零'),
+            Some('一'),
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000000,
+        chinese_digit_1000000000000_ten_thousand_compat(
+            '一',
+            Some('億'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000001,
+        chinese_digit_1000000000000_ten_thousand_compat(
+            '一',
+            Some('億'),
+            Some('零'),
+            Some('一'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100010001,
+        chinese_digit_1000000000000_ten_thousand_compat(
+            '一',
+            Some('億'),
+            Some('零'),
+            Some('一'),
+            Some('萬'),
+            Some('零'),
+            Some('一'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1000000000,
+        chinese_digit_1000000000000_ten_thousand_compat(
+            '十',
+            Some('億'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000000000,
+        chinese_digit_1000000000000_ten_thousand_compat(
+            '一',
+            Some('百'),
+            Some('億'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000000000,
+        chinese_digit_1000000000000_ten_thousand_compat(
+            '一',
+            Some('千'),
+            Some('億'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000000001,
+        chinese_digit_1000000000000_ten_thousand_compat(
+            '一',
+            Some('千'),
+            Some('億'),
+            Some('零'),
+            Some('一'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1000000000000,
+        chinese_digit_1000000000000_ten_thousand_compat(
+            '一',
+            Some('兆'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000000000000,
+        chinese_digit_1000000000000_ten_thousand_compat(
+            '十',
+            Some('兆'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000000000000,
+        chinese_digit_1000000000000_ten_thousand_compat(
+            '一',
+            Some('百'),
+            Some('兆'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1000000000000000,
+        chinese_digit_1000000000000_ten_thousand_compat(
+            '一',
+            Some('千'),
+            Some('兆'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1000000000000001,
+        chinese_digit_1000000000000_ten_thousand_compat(
+            '一',
+            Some('千'),
+            Some('兆'),
+            Some('零'),
+            Some('一'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
 }
 
 #[test]
 fn test_chinese_digit_10000000000000000_ten_thousand_compat() {
-    assert_eq!(0, chinese_digit_10000000000000000_ten_thousand_compat('零', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1, chinese_digit_10000000000000000_ten_thousand_compat('壹', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(25, chinese_digit_10000000000000000_ten_thousand_compat('贰', Some('拾'), Some('五'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10000, chinese_digit_10000000000000000_ten_thousand_compat('一', Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10001, chinese_digit_10000000000000000_ten_thousand_compat('一', Some('萬'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(11000, chinese_digit_10000000000000000_ten_thousand_compat('一', Some('萬'), Some('一'), Some('仟'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(99999, chinese_digit_10000000000000000_ten_thousand_compat('九', Some('萬'), Some('九'), Some('仟'), Some('玖'), Some('佰'), Some('玖'), Some('十'), Some('九'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000, chinese_digit_10000000000000000_ten_thousand_compat('十', Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000, chinese_digit_10000000000000000_ten_thousand_compat('一', Some('十'), Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100001, chinese_digit_10000000000000000_ten_thousand_compat('十', Some('萬'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(110000, chinese_digit_10000000000000000_ten_thousand_compat('十', Some('壹'), Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(110001, chinese_digit_10000000000000000_ten_thousand_compat('十', Some('壹'), Some('萬'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1000000, chinese_digit_10000000000000000_ten_thousand_compat('一', Some('百'), Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1010000, chinese_digit_10000000000000000_ten_thousand_compat('一', Some('百'), Some('零'), Some('一'), Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10000000, chinese_digit_10000000000000000_ten_thousand_compat('一', Some('千'), Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10010000, chinese_digit_10000000000000000_ten_thousand_compat('一', Some('千'), Some('零'), Some('一'), Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000000, chinese_digit_10000000000000000_ten_thousand_compat('一', Some('億'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000001, chinese_digit_10000000000000000_ten_thousand_compat('一', Some('億'), Some('零'), Some('一'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100010001, chinese_digit_10000000000000000_ten_thousand_compat('一', Some('億'), Some('零'), Some('一'), Some('萬'), Some('零'), Some('一'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1000000000, chinese_digit_10000000000000000_ten_thousand_compat('十', Some('億'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10000000000, chinese_digit_10000000000000000_ten_thousand_compat('一', Some('百'), Some('億'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000000000, chinese_digit_10000000000000000_ten_thousand_compat('一', Some('千'), Some('億'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000000001, chinese_digit_10000000000000000_ten_thousand_compat('一', Some('千'), Some('億'), Some('零'), Some('一'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1000000000000, chinese_digit_10000000000000000_ten_thousand_compat('一', Some('兆'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10000000000000, chinese_digit_10000000000000000_ten_thousand_compat('十', Some('兆'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000000000000, chinese_digit_10000000000000000_ten_thousand_compat('一', Some('百'), Some('兆'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1000000000000000, chinese_digit_10000000000000000_ten_thousand_compat('一', Some('千'), Some('兆'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1000000000000001, chinese_digit_10000000000000000_ten_thousand_compat('一', Some('千'), Some('兆'), Some('零'), Some('一'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10000000000000000, chinese_digit_10000000000000000_ten_thousand_compat('一', Some('京'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000000000000000, chinese_digit_10000000000000000_ten_thousand_compat('十', Some('京'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1000000000000000000, chinese_digit_10000000000000000_ten_thousand_compat('一', Some('百'), Some('京'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10000000000000000000, chinese_digit_10000000000000000_ten_thousand_compat('一', Some('千'), Some('京'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10000000000000000001, chinese_digit_10000000000000000_ten_thousand_compat('一', Some('千'), Some('京'), Some('零'), Some('一'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
+    assert_eq!(
+        0,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '零', None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None, None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None, None, None, None, None, None, None, None, None, None, None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '壹', None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None, None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None, None, None, None, None, None, None, None, None, None, None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        25,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '贰',
+            Some('拾'),
+            Some('五'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '一',
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10001,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '一',
+            Some('萬'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        11000,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '一',
+            Some('萬'),
+            Some('一'),
+            Some('仟'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        99999,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '九',
+            Some('萬'),
+            Some('九'),
+            Some('仟'),
+            Some('玖'),
+            Some('佰'),
+            Some('玖'),
+            Some('十'),
+            Some('九'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '十',
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '一',
+            Some('十'),
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100001,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '十',
+            Some('萬'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        110000,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '十',
+            Some('壹'),
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        110001,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '十',
+            Some('壹'),
+            Some('萬'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1000000,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '一',
+            Some('百'),
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1010000,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '一',
+            Some('百'),
+            Some('零'),
+            Some('一'),
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000000,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '一',
+            Some('千'),
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10010000,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '一',
+            Some('千'),
+            Some('零'),
+            Some('一'),
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000000,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '一',
+            Some('億'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000001,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '一',
+            Some('億'),
+            Some('零'),
+            Some('一'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100010001,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '一',
+            Some('億'),
+            Some('零'),
+            Some('一'),
+            Some('萬'),
+            Some('零'),
+            Some('一'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1000000000,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '十',
+            Some('億'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000000000,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '一',
+            Some('百'),
+            Some('億'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000000000,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '一',
+            Some('千'),
+            Some('億'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000000001,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '一',
+            Some('千'),
+            Some('億'),
+            Some('零'),
+            Some('一'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1000000000000,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '一',
+            Some('兆'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000000000000,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '十',
+            Some('兆'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000000000000,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '一',
+            Some('百'),
+            Some('兆'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1000000000000000,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '一',
+            Some('千'),
+            Some('兆'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1000000000000001,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '一',
+            Some('千'),
+            Some('兆'),
+            Some('零'),
+            Some('一'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000000000000000,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '一',
+            Some('京'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000000000000000,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '十',
+            Some('京'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1000000000000000000,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '一',
+            Some('百'),
+            Some('京'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000000000000000000,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '一',
+            Some('千'),
+            Some('京'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000000000000000001,
+        chinese_digit_10000000000000000_ten_thousand_compat(
+            '一',
+            Some('千'),
+            Some('京'),
+            Some('零'),
+            Some('一'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
 }
 
 #[test]
 fn test_chinese_digit_100000000_middle_compat() {
-    assert_eq!(0, chinese_digit_100000000_middle_compat('零', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1, chinese_digit_100000000_middle_compat('壹', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(25, chinese_digit_100000000_middle_compat('贰', Some('拾'), Some('五'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10000, chinese_digit_100000000_middle_compat('一', Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10001, chinese_digit_100000000_middle_compat('一', Some('萬'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000000, chinese_digit_100000000_middle_compat('一', Some('億'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000001, chinese_digit_100000000_middle_compat('一', Some('億'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1000000000000, chinese_digit_100000000_middle_compat('一', Some('萬'), Some('億'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1000000000001, chinese_digit_100000000_middle_compat('一', Some('萬'), Some('億'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
+    assert_eq!(
+        0,
+        chinese_digit_100000000_middle_compat(
+            '零', None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None, None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None, None, None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1,
+        chinese_digit_100000000_middle_compat(
+            '壹', None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None, None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None, None, None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        25,
+        chinese_digit_100000000_middle_compat(
+            '贰',
+            Some('拾'),
+            Some('五'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000,
+        chinese_digit_100000000_middle_compat(
+            '一',
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10001,
+        chinese_digit_100000000_middle_compat(
+            '一',
+            Some('萬'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000000,
+        chinese_digit_100000000_middle_compat(
+            '一',
+            Some('億'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000001,
+        chinese_digit_100000000_middle_compat(
+            '一',
+            Some('億'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1000000000000,
+        chinese_digit_100000000_middle_compat(
+            '一',
+            Some('萬'),
+            Some('億'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1000000000001,
+        chinese_digit_100000000_middle_compat(
+            '一',
+            Some('萬'),
+            Some('億'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
 }
 
 #[test]
 fn test_chinese_digit_10000000000000000_middle_compat() {
-    assert_eq!(0, chinese_digit_10000000000000000_middle_compat('零', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1, chinese_digit_10000000000000000_middle_compat('壹', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(25, chinese_digit_10000000000000000_middle_compat('贰', Some('拾'), Some('五'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10000, chinese_digit_10000000000000000_middle_compat('一', Some('萬'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10001, chinese_digit_10000000000000000_middle_compat('一', Some('萬'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000000, chinese_digit_10000000000000000_middle_compat('一', Some('億'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000001, chinese_digit_10000000000000000_middle_compat('一', Some('億'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1000000000000, chinese_digit_10000000000000000_middle_compat('一', Some('萬'), Some('億'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(1000000000001, chinese_digit_10000000000000000_middle_compat('一', Some('萬'), Some('億'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10000000000000000, chinese_digit_10000000000000000_middle_compat('一', Some('兆'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(10000000000000001, chinese_digit_10000000000000000_middle_compat('一', Some('兆'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000000000000000000, chinese_digit_10000000000000000_middle_compat('一', Some('萬'), Some('兆'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
-    assert_eq!(100000000000000000001, chinese_digit_10000000000000000_middle_compat('一', Some('萬'), Some('兆'), Some('零'), Some('壹'), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None).unwrap());
+    assert_eq!(
+        0,
+        chinese_digit_10000000000000000_middle_compat(
+            '零', None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None, None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None, None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None, None, None, None, None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1,
+        chinese_digit_10000000000000000_middle_compat(
+            '壹', None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None, None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None, None, None, None, None, None, None, None, None, None, None, None, None, None,
+            None, None, None, None, None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        25,
+        chinese_digit_10000000000000000_middle_compat(
+            '贰',
+            Some('拾'),
+            Some('五'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000,
+        chinese_digit_10000000000000000_middle_compat(
+            '一',
+            Some('萬'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10001,
+        chinese_digit_10000000000000000_middle_compat(
+            '一',
+            Some('萬'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000000,
+        chinese_digit_10000000000000000_middle_compat(
+            '一',
+            Some('億'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000001,
+        chinese_digit_10000000000000000_middle_compat(
+            '一',
+            Some('億'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1000000000000,
+        chinese_digit_10000000000000000_middle_compat(
+            '一',
+            Some('萬'),
+            Some('億'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        1000000000001,
+        chinese_digit_10000000000000000_middle_compat(
+            '一',
+            Some('萬'),
+            Some('億'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000000000000000,
+        chinese_digit_10000000000000000_middle_compat(
+            '一',
+            Some('兆'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        10000000000000001,
+        chinese_digit_10000000000000000_middle_compat(
+            '一',
+            Some('兆'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000000000000000000,
+        chinese_digit_10000000000000000_middle_compat(
+            '一',
+            Some('萬'),
+            Some('兆'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
+    assert_eq!(
+        100000000000000000001,
+        chinese_digit_10000000000000000_middle_compat(
+            '一',
+            Some('萬'),
+            Some('兆'),
+            Some('零'),
+            Some('壹'),
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
+        .unwrap()
+    );
 }
