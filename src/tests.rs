@@ -1,6 +1,7 @@
 use super::*;
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_digit_1() {
     let mut s = String::new();
 
@@ -15,6 +16,7 @@ fn test_digit_1() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_digit_10_independently() {
     let mut s = String::new();
 
@@ -40,6 +42,7 @@ fn test_digit_10_independently() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_digit_10_dependently() {
     let mut s = String::new();
 
@@ -65,6 +68,7 @@ fn test_digit_10_dependently() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_digit_100() {
     let mut s = String::new();
 
@@ -84,6 +88,7 @@ fn test_digit_100() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_digit_1000() {
     let mut s = String::new();
 
@@ -104,6 +109,7 @@ fn test_digit_1000() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_digit_10000_independently() {
     let mut s = String::new();
 
@@ -133,6 +139,7 @@ fn test_digit_10000_independently() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_digit_10000_dependently() {
     let mut s = String::new();
 
@@ -162,6 +169,7 @@ fn test_digit_10000_dependently() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_digit_1000_compat_independently() {
     let mut s = String::new();
 
@@ -180,6 +188,7 @@ fn test_digit_1000_compat_independently() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_digit_1000_compat_dependently() {
     let mut s = String::new();
 
@@ -198,6 +207,7 @@ fn test_digit_1000_compat_dependently() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_digit_10000_compat_independently() {
     let mut s = String::new();
 
@@ -219,6 +229,7 @@ fn test_digit_10000_compat_independently() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_digit_10000_compat_dependently() {
     let mut s = String::new();
 
@@ -240,6 +251,7 @@ fn test_digit_10000_compat_dependently() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_digit_100000000_compat_independently() {
     let mut s = String::new();
 
@@ -260,6 +272,7 @@ fn test_digit_100000000_compat_independently() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_digit_100000000_compat_dependently() {
     let mut s = String::new();
 
@@ -280,6 +293,7 @@ fn test_digit_100000000_compat_dependently() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_digit_10000000000000000_compat_independently() {
     let mut s = String::new();
 
@@ -316,6 +330,7 @@ fn test_digit_10000000000000000_compat_independently() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_digit_10000000000000000_compat_dependently() {
     let mut s = String::new();
 
@@ -352,6 +367,7 @@ fn test_digit_10000000000000000_compat_dependently() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_digit_100000000000000000000000000000000_compat_independently() {
     let mut s = String::new();
 
@@ -397,6 +413,7 @@ fn test_digit_100000000000000000000000000000000_compat_independently() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_digit_100000000000000000000000000000000_compat_dependently() {
     let mut s = String::new();
 
@@ -442,6 +459,7 @@ fn test_digit_100000000000000000000000000000000_compat_dependently() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_digit_compat_low_u32() {
     let mut s = String::new();
 
@@ -459,6 +477,7 @@ fn test_digit_compat_low_u32() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_digit_compat_low_u64() {
     let mut s = String::new();
 
@@ -478,6 +497,7 @@ fn test_digit_compat_low_u64() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_digit_compat_ten_thousand_u32() {
     let mut s = String::new();
 
@@ -496,6 +516,7 @@ fn test_digit_compat_ten_thousand_u32() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_digit_compat_ten_thousand_u64() {
     let mut s = String::new();
 
@@ -516,6 +537,7 @@ fn test_digit_compat_ten_thousand_u64() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_digit_compat_ten_thousand_u128() {
     let mut s = String::new();
 
@@ -530,13 +552,14 @@ fn test_digit_compat_ten_thousand_u128() {
     digit_compat_ten_thousand_u128(chinese_number_index, 1000000001, &mut s);
     digit_compat_ten_thousand_u128(chinese_number_index, 1000000000000000, &mut s);
     digit_compat_ten_thousand_u128(chinese_number_index, 1001000000000101, &mut s);
-    digit_compat_ten_thousand_u128(chinese_number_index, u64::max_value() as u128, &mut s);
+    digit_compat_ten_thousand_u128(chinese_number_index, u128::from(u64::max_value()), &mut s);
     digit_compat_ten_thousand_u128(chinese_number_index, u128::max_value(), &mut s);
 
     assert_eq!("零一十九萬九千九百九十九十萬十億零一一千兆一千零一兆零一百零一一千八百四十四京六千七百四十四兆零七百三十七億零九百五十五萬一千六百一十五三百四十澗二千八百二十三溝六千六百九十二穰零九百三十八秭四千六百三十四垓六千三百三十七京四千六百零七兆四千三百一十七億六千八百二十一萬一千四百五十五", s);
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_digit_compat_middle_u64() {
     let mut s = String::new();
 
@@ -557,6 +580,7 @@ fn test_digit_compat_middle_u64() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_digit_compat_middle_u128() {
     let mut s = String::new();
 
@@ -571,13 +595,14 @@ fn test_digit_compat_middle_u128() {
     digit_compat_middle_u128(chinese_number_index, 1000000001, &mut s);
     digit_compat_middle_u128(chinese_number_index, 1000000000000000, &mut s);
     digit_compat_middle_u128(chinese_number_index, 1001000000000101, &mut s);
-    digit_compat_middle_u128(chinese_number_index, u64::max_value() as u128, &mut s);
+    digit_compat_middle_u128(chinese_number_index, u128::from(u64::max_value()), &mut s);
     digit_compat_middle_u128(chinese_number_index, u128::max_value(), &mut s);
 
     assert_eq!("零一十九萬九千九百九十九十萬十億零一一千萬億一千零一萬億零一百零一一千八百四十四兆六千七百四十四萬零七百三十七億零九百五十五萬一千六百一十五三百四十萬二千八百二十三垓六千六百九十二萬零九百三十八京四千六百三十四萬六千三百三十七兆四千六百零七萬四千三百一十七億六千八百二十一萬一千四百五十五", s);
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_fraction_compat_low() {
     let mut s = String::new();
 
@@ -593,6 +618,7 @@ fn test_fraction_compat_low() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_chinese_digit_1() {
     assert_eq!(0, chinese_digit_1('零').unwrap());
     assert_eq!(1, chinese_digit_1('壹').unwrap());
@@ -607,6 +633,7 @@ fn test_chinese_digit_1() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_chinese_digit_10() {
     assert_eq!(10, chinese_digit_10('十', None, None).unwrap());
     assert_eq!(10, chinese_digit_10('壹', Some('十'), None).unwrap());
@@ -614,6 +641,7 @@ fn test_chinese_digit_10() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_chinese_digit_10_compat() {
     assert_eq!(0, chinese_digit_10_compat('零', None, None).unwrap());
     assert_eq!(1, chinese_digit_10_compat('壹', None, None).unwrap());
@@ -624,6 +652,7 @@ fn test_chinese_digit_10_compat() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_chinese_digit_100() {
     assert_eq!(100, chinese_digit_100('壹', '百', None, None, None).unwrap());
     assert_eq!(204, chinese_digit_100('二', '百', Some('零'), Some('四'), None).unwrap());
@@ -632,6 +661,7 @@ fn test_chinese_digit_100() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_chinese_digit_100_compat() {
     assert_eq!(0, chinese_digit_100_compat('零', None, None, None, None).unwrap());
     assert_eq!(1, chinese_digit_100_compat('壹', None, None, None, None).unwrap());
@@ -654,6 +684,7 @@ fn test_chinese_digit_100_compat() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_chinese_digit_1000() {
     assert_eq!(1000, chinese_digit_1000('壹', '千', None, None, None, None, None).unwrap());
     assert_eq!(
@@ -691,6 +722,7 @@ fn test_chinese_digit_1000() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_chinese_digit_1000_compat() {
     assert_eq!(0, chinese_digit_1000_compat('零', None, None, None, None, None, None).unwrap());
     assert_eq!(1, chinese_digit_1000_compat('壹', None, None, None, None, None, None).unwrap());
@@ -796,6 +828,7 @@ fn test_chinese_digit_1000_compat() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_chinese_digit_10000_low_compat() {
     assert_eq!(
         0,
@@ -875,6 +908,7 @@ fn test_chinese_digit_10000_low_compat() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_chinese_digit_100000_low_compat() {
     assert_eq!(
         0,
@@ -1029,6 +1063,7 @@ fn test_chinese_digit_100000_low_compat() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_chinese_digit_1000000_low_compat() {
     assert_eq!(
         0,
@@ -1275,6 +1310,7 @@ fn test_chinese_digit_1000000_low_compat() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_chinese_digit_10000000_low_compat() {
     assert_eq!(
         0,
@@ -1505,6 +1541,7 @@ fn test_chinese_digit_10000000_low_compat() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_chinese_digit_100000000_low_compat() {
     assert_eq!(
         0,
@@ -1801,6 +1838,7 @@ fn test_chinese_digit_100000000_low_compat() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_chinese_digit_1000000000_low_compat() {
     assert_eq!(
         0,
@@ -2171,6 +2209,7 @@ fn test_chinese_digit_1000000000_low_compat() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_chinese_digit_1000000000000000_low_compat() {
     assert_eq!(
         0,
@@ -2304,6 +2343,7 @@ fn test_chinese_digit_1000000000000000_low_compat() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_chinese_digit_10000_ten_thousand_compat() {
     assert_eq!(
         0,
@@ -2639,6 +2679,7 @@ fn test_chinese_digit_10000_ten_thousand_compat() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_chinese_digit_100000000_ten_thousand_compat() {
     assert_eq!(
         0,
@@ -3268,6 +3309,7 @@ fn test_chinese_digit_100000000_ten_thousand_compat() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_chinese_digit_1000000000000_ten_thousand_compat() {
     assert_eq!(
         0,
@@ -4252,6 +4294,7 @@ fn test_chinese_digit_1000000000000_ten_thousand_compat() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_chinese_digit_10000000000000000_ten_thousand_compat() {
     assert_eq!(
         0,
@@ -5669,6 +5712,7 @@ fn test_chinese_digit_10000000000000000_ten_thousand_compat() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_chinese_digit_100000000_middle_compat() {
     assert_eq!(
         0,
@@ -5950,6 +5994,7 @@ fn test_chinese_digit_100000000_middle_compat() {
 }
 
 #[test]
+#[allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
 fn test_chinese_digit_10000000000000000_middle_compat() {
     assert_eq!(
         0,

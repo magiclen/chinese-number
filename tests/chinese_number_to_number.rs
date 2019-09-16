@@ -1,4 +1,9 @@
+#![allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
+
 extern crate chinese_number;
+
+#[macro_use]
+extern crate assert_approx_eq;
 
 use chinese_number::{ChineseNumberCountMethod, ChineseNumberToNumber};
 
@@ -1134,18 +1139,27 @@ fn u64_middle() {
 
 #[test]
 fn f64_ten_thousand() {
-    assert_eq!(0f64, "零".parse_chinese_number(ChineseNumberCountMethod::TenThousand).unwrap());
-    assert_eq!(1f64, "一".parse_chinese_number(ChineseNumberCountMethod::TenThousand).unwrap());
-    assert_eq!(
-        1.2f64,
-        "一二角".parse_chinese_number(ChineseNumberCountMethod::TenThousand).unwrap()
-    );
-    assert_eq!(
-        1.23f64,
-        "一二角三分".parse_chinese_number(ChineseNumberCountMethod::TenThousand).unwrap()
-    );
-    assert_eq!(
-        1000.03f64,
-        "一千三分".parse_chinese_number(ChineseNumberCountMethod::TenThousand).unwrap()
-    );
+    assert_approx_eq!(0f64, {
+        let a: f64 = "零".parse_chinese_number(ChineseNumberCountMethod::TenThousand).unwrap();
+
+        a
+    });
+    assert_approx_eq!(1f64, {
+        let a: f64 = "一".parse_chinese_number(ChineseNumberCountMethod::TenThousand).unwrap();
+        a
+    });
+    assert_approx_eq!(1.2f64, {
+        let a: f64 = "一二角".parse_chinese_number(ChineseNumberCountMethod::TenThousand).unwrap();
+        a
+    });
+    assert_approx_eq!(1.23f64, {
+        let a: f64 =
+            "一二角三分".parse_chinese_number(ChineseNumberCountMethod::TenThousand).unwrap();
+        a
+    });
+    assert_approx_eq!(1000.03f64, {
+        let a: f64 =
+            "一千三分".parse_chinese_number(ChineseNumberCountMethod::TenThousand).unwrap();
+        a
+    });
 }
