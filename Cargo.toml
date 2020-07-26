@@ -10,7 +10,7 @@ categories = ["no-std", "localization", "parser-implementations", "value-formatt
 description= "Convert primitive numbers to Chinese numbers, or parse Chinese numbers to primitive numbers."
 readme = "README.md"
 license = "MIT"
-include = ["src/**/*", "Cargo.toml"]
+include = ["src/**/*", "Cargo.toml", "README.md", "LICENSE"]
 
 [badges.travis-ci]
 repository = "magiclen/chinese-number"
