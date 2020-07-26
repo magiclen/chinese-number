@@ -1,11 +1,12 @@
+use crate::chinese_characters::*;
+
 use super::super::{
-    chinese_digit_100000000_middle_compat, chinese_digit_10000_ten_thousand_compat,
+    chinese_digit_100_000_000_middle_compat, chinese_digit_10_000_ten_thousand_compat,
     chinese_digit_10_compat,
 };
-use crate::constants::*;
 
-#[allow(clippy::too_many_arguments, clippy::cognitive_complexity)]
-pub(crate) fn chinese_digit_10000000000000000_middle_compat(
+#[allow(clippy::too_many_arguments)]
+pub(crate) fn chinese_digit_10_000_000_000_000_000_middle_compat(
     value: char,
     value2: Option<char>,
     value3: Option<char>,
@@ -77,7 +78,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                             debug_assert_eq!(None, value45);
                             debug_assert_eq!(None, value46);
                             debug_assert_eq!(None, value47);
-                            let rds = chinese_digit_100000000_middle_compat(
+                            let rds = chinese_digit_100_000_000_middle_compat(
                                 value4, value5, value6, value7, value8, value9, value10, value11,
                                 value12, value13, value14, value15, value16, value17, value18,
                                 value19, value20, value21, value22, value23, value24, value25,
@@ -105,7 +106,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                         debug_assert_eq!(None, value45);
                         debug_assert_eq!(None, value46);
                         debug_assert_eq!(None, value47);
-                        let rds = chinese_digit_100000000_middle_compat(
+                        let rds = chinese_digit_100_000_000_middle_compat(
                             value3, value4, value5, value6, value7, value8, value9, value10,
                             value11, value12, value13, value14, value15, value16, value17, value18,
                             value19, value20, value21, value22, value23, value24, value25, value26,
@@ -122,7 +123,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                 match value3 {
                     Some(value3) => {
                         if CHINESE_NUMBERS_CHARS[15].contains(&value3) {
-                            let msd = chinese_digit_10000_ten_thousand_compat(
+                            let msd = chinese_digit_10_000_ten_thousand_compat(
                                 value,
                                 Some(value2),
                                 None,
@@ -157,7 +158,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                         debug_assert_eq!(None, value45);
                                         debug_assert_eq!(None, value46);
                                         debug_assert_eq!(None, value47);
-                                        let rds = chinese_digit_100000000_middle_compat(
+                                        let rds = chinese_digit_100_000_000_middle_compat(
                                             value5, value6, value7, value8, value9, value10,
                                             value11, value12, value13, value14, value15, value16,
                                             value17, value18, value19, value20, value21, value22,
@@ -186,7 +187,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                     debug_assert_eq!(None, value45);
                                     debug_assert_eq!(None, value46);
                                     debug_assert_eq!(None, value47);
-                                    let rds = chinese_digit_100000000_middle_compat(
+                                    let rds = chinese_digit_100_000_000_middle_compat(
                                         value4, value5, value6, value7, value8, value9, value10,
                                         value11, value12, value13, value14, value15, value16,
                                         value17, value18, value19, value20, value21, value22,
@@ -204,7 +205,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                             match value4 {
                                 Some(value4) => {
                                     if CHINESE_NUMBERS_CHARS[15].contains(&value4) {
-                                        let msd = chinese_digit_10000_ten_thousand_compat(
+                                        let msd = chinese_digit_10_000_ten_thousand_compat(
                                             value,
                                             Some(value2),
                                             Some(value3),
@@ -239,7 +240,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                     debug_assert_eq!(None, value46);
                                                     debug_assert_eq!(None, value47);
                                                     let rds =
-                                                        chinese_digit_100000000_middle_compat(
+                                                        chinese_digit_100_000_000_middle_compat(
                                                             value6, value7, value8, value9,
                                                             value10, value11, value12, value13,
                                                             value14, value15, value16, value17,
@@ -269,7 +270,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                 debug_assert_eq!(None, value45);
                                                 debug_assert_eq!(None, value46);
                                                 debug_assert_eq!(None, value47);
-                                                let rds = chinese_digit_100000000_middle_compat(
+                                                let rds = chinese_digit_100_000_000_middle_compat(
                                                     value5, value6, value7, value8, value9,
                                                     value10, value11, value12, value13, value14,
                                                     value15, value16, value17, value18, value19,
@@ -291,7 +292,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                             Some(value5) => {
                                                 if CHINESE_NUMBERS_CHARS[15].contains(&value5) {
                                                     let msd =
-                                                        chinese_digit_10000_ten_thousand_compat(
+                                                        chinese_digit_10_000_ten_thousand_compat(
                                                             value,
                                                             Some(value2),
                                                             Some(value3),
@@ -326,7 +327,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                 debug_assert_eq!(None, value45);
                                                                 debug_assert_eq!(None, value46);
                                                                 debug_assert_eq!(None, value47);
-                                                                let rds = chinese_digit_100000000_middle_compat(value7, value8, value9, value10, value11, value12, value13, value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37).map_err(|err| err + 6)?;
+                                                                let rds = chinese_digit_100_000_000_middle_compat(value7, value8, value9, value10, value11, value12, value13, value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37).map_err(|err| err + 6)?;
 
                                                                 Ok(u128::from(msd)
                                                                     * 10_000_000_000_000_000
@@ -346,7 +347,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                             debug_assert_eq!(None, value45);
                                                             debug_assert_eq!(None, value46);
                                                             debug_assert_eq!(None, value47);
-                                                            let rds = chinese_digit_100000000_middle_compat(value6, value7, value8, value9, value10, value11, value12, value13, value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36).map_err(|err| err + 5)?;
+                                                            let rds = chinese_digit_100_000_000_middle_compat(value6, value7, value8, value9, value10, value11, value12, value13, value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36).map_err(|err| err + 5)?;
 
                                                             Ok(u128::from(msd)
                                                                 * 10_000_000_000_000_000
@@ -361,7 +362,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                             if CHINESE_NUMBERS_CHARS[15]
                                                                 .contains(&value6)
                                                             {
-                                                                let msd = chinese_digit_10000_ten_thousand_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), None, None, None, None, None, None, None, None, None, None)?;
+                                                                let msd = chinese_digit_10_000_ten_thousand_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), None, None, None, None, None, None, None, None, None, None)?;
 
                                                                 if msd == 0 {
                                                                     Err(0)
@@ -408,7 +409,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                 None,
                                                                                 value47
                                                                             );
-                                                                            let rds = chinese_digit_100000000_middle_compat(value8, value9, value10, value11, value12, value13, value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38).map_err(|err| err + 7)?;
+                                                                            let rds = chinese_digit_100_000_000_middle_compat(value8, value9, value10, value11, value12, value13, value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38).map_err(|err| err + 7)?;
 
                                                                             Ok(u128::from(msd) * 10_000_000_000_000_000 + u128::from(rds))
                                                                         } else {
@@ -455,7 +456,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                             None,
                                                                             value47
                                                                         );
-                                                                        let rds = chinese_digit_100000000_middle_compat(value7, value8, value9, value10, value11, value12, value13, value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37).map_err(|err| err + 6)?;
+                                                                        let rds = chinese_digit_100_000_000_middle_compat(value7, value8, value9, value10, value11, value12, value13, value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37).map_err(|err| err + 6)?;
 
                                                                         Ok(u128::from(msd)
                                                                             * 10_000_000_000_000_000
@@ -471,7 +472,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                         if CHINESE_NUMBERS_CHARS[15]
                                                                             .contains(&value7)
                                                                         {
-                                                                            let msd = chinese_digit_10000_ten_thousand_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), None, None, None, None, None, None, None, None, None)?;
+                                                                            let msd = chinese_digit_10_000_ten_thousand_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), None, None, None, None, None, None, None, None, None)?;
 
                                                                             if msd == 0 {
                                                                                 Err(0)
@@ -489,7 +490,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                         debug_assert_eq!(None, value45);
                                                                                         debug_assert_eq!(None, value46);
                                                                                         debug_assert_eq!(None, value47);
-                                                                                        let rds = chinese_digit_100000000_middle_compat(value9, value10, value11, value12, value13, value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39).map_err(|err| err + 8)?;
+                                                                                        let rds = chinese_digit_100_000_000_middle_compat(value9, value10, value11, value12, value13, value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39).map_err(|err| err + 8)?;
 
                                                                                         Ok(u128::from(msd) * 10_000_000_000_000_000 + u128::from(rds))
                                                                                     } else {
@@ -505,7 +506,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                     debug_assert_eq!(None, value45);
                                                                                     debug_assert_eq!(None, value46);
                                                                                     debug_assert_eq!(None, value47);
-                                                                                    let rds = chinese_digit_100000000_middle_compat(value8, value9, value10, value11, value12, value13, value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38).map_err(|err| err + 7)?;
+                                                                                    let rds = chinese_digit_100_000_000_middle_compat(value8, value9, value10, value11, value12, value13, value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38).map_err(|err| err + 7)?;
 
                                                                                     Ok(u128::from(msd) * 10_000_000_000_000_000 + u128::from(rds))
                                                                                 }
@@ -516,7 +517,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                             match value8 {
                                                                                 Some(value8) => {
                                                                                     if CHINESE_NUMBERS_CHARS[15].contains(&value8) {
-                                                                                        let msd = chinese_digit_10000_ten_thousand_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), None, None, None, None, None, None, None, None)?;
+                                                                                        let msd = chinese_digit_10_000_ten_thousand_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), None, None, None, None, None, None, None, None)?;
 
                                                                                         if msd == 0 {
                                                                                             Err(0)
@@ -530,7 +531,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                                     debug_assert_eq!(None, value45);
                                                                                                     debug_assert_eq!(None, value46);
                                                                                                     debug_assert_eq!(None, value47);
-                                                                                                    let rds = chinese_digit_100000000_middle_compat(value10, value11, value12, value13, value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40).map_err(|err| err + 9)?;
+                                                                                                    let rds = chinese_digit_100_000_000_middle_compat(value10, value11, value12, value13, value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40).map_err(|err| err + 9)?;
 
                                                                                                     Ok(u128::from(msd) * 10_000_000_000_000_000 + u128::from(rds))
                                                                                                 } else {
@@ -545,7 +546,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                                 debug_assert_eq!(None, value45);
                                                                                                 debug_assert_eq!(None, value46);
                                                                                                 debug_assert_eq!(None, value47);
-                                                                                                let rds = chinese_digit_100000000_middle_compat(value9, value10, value11, value12, value13, value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39).map_err(|err| err + 8)?;
+                                                                                                let rds = chinese_digit_100_000_000_middle_compat(value9, value10, value11, value12, value13, value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39).map_err(|err| err + 8)?;
 
                                                                                                 Ok(u128::from(msd) * 10_000_000_000_000_000 + u128::from(rds))
                                                                                             }
@@ -556,7 +557,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                         match value9 {
                                                                                             Some(value9) => {
                                                                                                 if CHINESE_NUMBERS_CHARS[15].contains(&value9) {
-                                                                                                    let msd = chinese_digit_10000_ten_thousand_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), None, None, None, None, None, None, None)?;
+                                                                                                    let msd = chinese_digit_10_000_ten_thousand_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), None, None, None, None, None, None, None)?;
 
                                                                                                     if msd == 0 {
                                                                                                         Err(0)
@@ -569,7 +570,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                                                 debug_assert_eq!(None, value45);
                                                                                                                 debug_assert_eq!(None, value46);
                                                                                                                 debug_assert_eq!(None, value47);
-                                                                                                                let rds = chinese_digit_100000000_middle_compat(value11, value12, value13, value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40, value41).map_err(|err| err + 10)?;
+                                                                                                                let rds = chinese_digit_100_000_000_middle_compat(value11, value12, value13, value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40, value41).map_err(|err| err + 10)?;
 
                                                                                                                 Ok(u128::from(msd) * 10_000_000_000_000_000 + u128::from(rds))
                                                                                                             } else {
@@ -583,7 +584,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                                             debug_assert_eq!(None, value45);
                                                                                                             debug_assert_eq!(None, value46);
                                                                                                             debug_assert_eq!(None, value47);
-                                                                                                            let rds = chinese_digit_100000000_middle_compat(value10, value11, value12, value13, value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40).map_err(|err| err + 9)?;
+                                                                                                            let rds = chinese_digit_100_000_000_middle_compat(value10, value11, value12, value13, value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40).map_err(|err| err + 9)?;
 
                                                                                                             Ok(u128::from(msd) * 10_000_000_000_000_000 + u128::from(rds))
                                                                                                         }
@@ -594,7 +595,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                                     match value10 {
                                                                                                         Some(value10) => {
                                                                                                             if CHINESE_NUMBERS_CHARS[15].contains(&value10) {
-                                                                                                                let msd = chinese_digit_10000_ten_thousand_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), Some(value9), None, None, None, None, None, None)?;
+                                                                                                                let msd = chinese_digit_10_000_ten_thousand_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), Some(value9), None, None, None, None, None, None)?;
 
                                                                                                                 if msd == 0 {
                                                                                                                     Err(0)
@@ -606,7 +607,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                                                             debug_assert_eq!(None, value45);
                                                                                                                             debug_assert_eq!(None, value46);
                                                                                                                             debug_assert_eq!(None, value47);
-                                                                                                                            let rds = chinese_digit_100000000_middle_compat(value12, value13, value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40, value41, value42).map_err(|err| err + 11)?;
+                                                                                                                            let rds = chinese_digit_100_000_000_middle_compat(value12, value13, value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40, value41, value42).map_err(|err| err + 11)?;
 
                                                                                                                             Ok(u128::from(msd) * 10_000_000_000_000_000 + u128::from(rds))
                                                                                                                         } else {
@@ -619,7 +620,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                                                         debug_assert_eq!(None, value45);
                                                                                                                         debug_assert_eq!(None, value46);
                                                                                                                         debug_assert_eq!(None, value47);
-                                                                                                                        let rds = chinese_digit_100000000_middle_compat(value11, value12, value13, value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40, value41).map_err(|err| err + 10)?;
+                                                                                                                        let rds = chinese_digit_100_000_000_middle_compat(value11, value12, value13, value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40, value41).map_err(|err| err + 10)?;
 
                                                                                                                         Ok(u128::from(msd) * 10_000_000_000_000_000 + u128::from(rds))
                                                                                                                     }
@@ -630,7 +631,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                                                 match value11 {
                                                                                                                     Some(value11) => {
                                                                                                                         if CHINESE_NUMBERS_CHARS[15].contains(&value11) {
-                                                                                                                            let msd = chinese_digit_10000_ten_thousand_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), Some(value9), Some(value10), None, None, None, None, None)?;
+                                                                                                                            let msd = chinese_digit_10_000_ten_thousand_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), Some(value9), Some(value10), None, None, None, None, None)?;
 
                                                                                                                             if msd == 0 {
                                                                                                                                 Err(0)
@@ -641,7 +642,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                                                                         debug_assert_eq!(None, value45);
                                                                                                                                         debug_assert_eq!(None, value46);
                                                                                                                                         debug_assert_eq!(None, value47);
-                                                                                                                                        let rds = chinese_digit_100000000_middle_compat(value13, value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40, value41, value42, value43).map_err(|err| err + 12)?;
+                                                                                                                                        let rds = chinese_digit_100_000_000_middle_compat(value13, value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40, value41, value42, value43).map_err(|err| err + 12)?;
 
                                                                                                                                         Ok(u128::from(msd) * 10_000_000_000_000_000 + u128::from(rds))
                                                                                                                                     } else {
@@ -653,7 +654,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                                                                     debug_assert_eq!(None, value45);
                                                                                                                                     debug_assert_eq!(None, value46);
                                                                                                                                     debug_assert_eq!(None, value47);
-                                                                                                                                    let rds = chinese_digit_100000000_middle_compat(value12, value13, value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40, value41, value42).map_err(|err| err + 11)?;
+                                                                                                                                    let rds = chinese_digit_100_000_000_middle_compat(value12, value13, value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40, value41, value42).map_err(|err| err + 11)?;
 
                                                                                                                                     Ok(u128::from(msd) * 10_000_000_000_000_000 + u128::from(rds))
                                                                                                                                 }
@@ -664,7 +665,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                                                             match value12 {
                                                                                                                                 Some(value12) => {
                                                                                                                                     if CHINESE_NUMBERS_CHARS[15].contains(&value12) {
-                                                                                                                                        let msd = chinese_digit_10000_ten_thousand_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), Some(value9), Some(value10), Some(value11), None, None, None, None)?;
+                                                                                                                                        let msd = chinese_digit_10_000_ten_thousand_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), Some(value9), Some(value10), Some(value11), None, None, None, None)?;
 
                                                                                                                                         if msd == 0 {
                                                                                                                                             Err(0)
@@ -674,7 +675,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                                                                                     debug_assert_eq!(None, value45);
                                                                                                                                                     debug_assert_eq!(None, value46);
                                                                                                                                                     debug_assert_eq!(None, value47);
-                                                                                                                                                    let rds = chinese_digit_100000000_middle_compat(value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40, value41, value42, value43, value44).map_err(|err| err + 13)?;
+                                                                                                                                                    let rds = chinese_digit_100_000_000_middle_compat(value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40, value41, value42, value43, value44).map_err(|err| err + 13)?;
 
                                                                                                                                                     Ok(u128::from(msd) * 10_000_000_000_000_000 + u128::from(rds))
                                                                                                                                                 } else {
@@ -685,7 +686,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                                                                                 debug_assert_eq!(None, value45);
                                                                                                                                                 debug_assert_eq!(None, value46);
                                                                                                                                                 debug_assert_eq!(None, value47);
-                                                                                                                                                let rds = chinese_digit_100000000_middle_compat(value13, value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40, value41, value42, value43).map_err(|err| err + 12)?;
+                                                                                                                                                let rds = chinese_digit_100_000_000_middle_compat(value13, value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40, value41, value42, value43).map_err(|err| err + 12)?;
 
                                                                                                                                                 Ok(u128::from(msd) * 10_000_000_000_000_000 + u128::from(rds))
                                                                                                                                             }
@@ -696,7 +697,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                                                                         match value13 {
                                                                                                                                             Some(value13) => {
                                                                                                                                                 if CHINESE_NUMBERS_CHARS[15].contains(&value13) {
-                                                                                                                                                    let msd = chinese_digit_10000_ten_thousand_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), Some(value9), Some(value10), Some(value11), Some(value12), None, None, None)?;
+                                                                                                                                                    let msd = chinese_digit_10_000_ten_thousand_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), Some(value9), Some(value10), Some(value11), Some(value12), None, None, None)?;
 
                                                                                                                                                     if msd == 0 {
                                                                                                                                                         Err(0)
@@ -705,7 +706,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                                                                                             if let Some(value15) = value15 {
                                                                                                                                                                 debug_assert_eq!(None, value46);
                                                                                                                                                                 debug_assert_eq!(None, value47);
-                                                                                                                                                                let rds = chinese_digit_100000000_middle_compat(value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40, value41, value42, value43, value44, value45).map_err(|err| err + 14)?;
+                                                                                                                                                                let rds = chinese_digit_100_000_000_middle_compat(value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40, value41, value42, value43, value44, value45).map_err(|err| err + 14)?;
 
                                                                                                                                                                 Ok(u128::from(msd) * 10_000_000_000_000_000 + u128::from(rds))
                                                                                                                                                             } else {
@@ -715,7 +716,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                                                                                             debug_assert_eq!(None, value45);
                                                                                                                                                             debug_assert_eq!(None, value46);
                                                                                                                                                             debug_assert_eq!(None, value47);
-                                                                                                                                                            let rds = chinese_digit_100000000_middle_compat(value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40, value41, value42, value43, value44).map_err(|err| err + 13)?;
+                                                                                                                                                            let rds = chinese_digit_100_000_000_middle_compat(value14, value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40, value41, value42, value43, value44).map_err(|err| err + 13)?;
 
                                                                                                                                                             Ok(u128::from(msd) * 10_000_000_000_000_000 + u128::from(rds))
                                                                                                                                                         }
@@ -726,7 +727,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                                                                                     match value14 {
                                                                                                                                                         Some(value14) => {
                                                                                                                                                             if CHINESE_NUMBERS_CHARS[15].contains(&value14) {
-                                                                                                                                                                let msd = chinese_digit_10000_ten_thousand_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), Some(value9), Some(value10), Some(value11), Some(value12), Some(value13), None, None)?;
+                                                                                                                                                                let msd = chinese_digit_10_000_ten_thousand_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), Some(value9), Some(value10), Some(value11), Some(value12), Some(value13), None, None)?;
 
                                                                                                                                                                 if msd == 0 {
                                                                                                                                                                     Err(0)
@@ -734,7 +735,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                                                                                                     if CHINESE_NUMBERS_CHARS[0].contains(&value15) {
                                                                                                                                                                         if let Some(value16) = value16 {
                                                                                                                                                                             debug_assert_eq!(None, value47);
-                                                                                                                                                                            let rds = chinese_digit_100000000_middle_compat(value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40, value41, value42, value43, value44, value45, value46).map_err(|err| err + 15)?;
+                                                                                                                                                                            let rds = chinese_digit_100_000_000_middle_compat(value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40, value41, value42, value43, value44, value45, value46).map_err(|err| err + 15)?;
 
                                                                                                                                                                             Ok(u128::from(msd) * 10_000_000_000_000_000 + u128::from(rds))
                                                                                                                                                                         } else {
@@ -743,7 +744,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                                                                                                     } else {
                                                                                                                                                                         debug_assert_eq!(None, value46);
                                                                                                                                                                         debug_assert_eq!(None, value47);
-                                                                                                                                                                        let rds = chinese_digit_100000000_middle_compat(value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40, value41, value42, value43, value44, value45).map_err(|err| err + 14)?;
+                                                                                                                                                                        let rds = chinese_digit_100_000_000_middle_compat(value15, value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40, value41, value42, value43, value44, value45).map_err(|err| err + 14)?;
 
                                                                                                                                                                         Ok(u128::from(msd) * 10_000_000_000_000_000 + u128::from(rds))
                                                                                                                                                                     }
@@ -754,14 +755,14 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                                                                                                 match value15 {
                                                                                                                                                                     Some(value15) => {
                                                                                                                                                                         if CHINESE_NUMBERS_CHARS[15].contains(&value15) {
-                                                                                                                                                                            let msd = chinese_digit_10000_ten_thousand_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), Some(value9), Some(value10), Some(value11), Some(value12), Some(value13), Some(value14), None)?;
+                                                                                                                                                                            let msd = chinese_digit_10_000_ten_thousand_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), Some(value9), Some(value10), Some(value11), Some(value12), Some(value13), Some(value14), None)?;
 
                                                                                                                                                                             if msd == 0 {
                                                                                                                                                                                 Err(0)
                                                                                                                                                                             } else if let Some(value16) = value16 {
                                                                                                                                                                                 if CHINESE_NUMBERS_CHARS[0].contains(&value16) {
                                                                                                                                                                                     if let Some(value17) = value17 {
-                                                                                                                                                                                        let rds = chinese_digit_100000000_middle_compat(value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40, value41, value42, value43, value44, value45, value46, value47).map_err(|err| err + 16)?;
+                                                                                                                                                                                        let rds = chinese_digit_100_000_000_middle_compat(value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40, value41, value42, value43, value44, value45, value46, value47).map_err(|err| err + 16)?;
 
                                                                                                                                                                                         Ok(u128::from(msd) * 10_000_000_000_000_000 + u128::from(rds))
                                                                                                                                                                                     } else {
@@ -769,7 +770,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                                                                                                                     }
                                                                                                                                                                                 } else {
                                                                                                                                                                                     debug_assert_eq!(None, value47);
-                                                                                                                                                                                    let rds = chinese_digit_100000000_middle_compat(value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40, value41, value42, value43, value44, value45, value46).map_err(|err| err + 15)?;
+                                                                                                                                                                                    let rds = chinese_digit_100_000_000_middle_compat(value16, value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40, value41, value42, value43, value44, value45, value46).map_err(|err| err + 15)?;
 
                                                                                                                                                                                     Ok(u128::from(msd) * 10_000_000_000_000_000 + u128::from(rds))
                                                                                                                                                                                 }
@@ -780,21 +781,21 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                                                                                                             match value16 {
                                                                                                                                                                                 Some(value16) => {
                                                                                                                                                                                     if CHINESE_NUMBERS_CHARS[15].contains(&value16) {
-                                                                                                                                                                                        let msd = chinese_digit_10000_ten_thousand_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), Some(value9), Some(value10), Some(value11), Some(value12), Some(value13), Some(value14), Some(value15))?;
+                                                                                                                                                                                        let msd = chinese_digit_10_000_ten_thousand_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), Some(value9), Some(value10), Some(value11), Some(value12), Some(value13), Some(value14), Some(value15))?;
 
                                                                                                                                                                                         if msd == 0 {
                                                                                                                                                                                             Err(0)
                                                                                                                                                                                         } else if let Some(value17) = value17 {
                                                                                                                                                                                             if CHINESE_NUMBERS_CHARS[0].contains(&value17) {
                                                                                                                                                                                                 if let Some(value18) = value18 {
-                                                                                                                                                                                                    let rds = chinese_digit_100000000_middle_compat(value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40, value41, value42, value43, value44, value45, value46, value47, None).map_err(|err| err + 17)?;
+                                                                                                                                                                                                    let rds = chinese_digit_100_000_000_middle_compat(value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40, value41, value42, value43, value44, value45, value46, value47, None).map_err(|err| err + 17)?;
 
                                                                                                                                                                                                     Ok(u128::from(msd) * 10_000_000_000_000_000 + u128::from(rds))
                                                                                                                                                                                                 } else {
                                                                                                                                                                                                     Err(17)
                                                                                                                                                                                                 }
                                                                                                                                                                                             } else {
-                                                                                                                                                                                                let rds = chinese_digit_100000000_middle_compat(value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40, value41, value42, value43, value44, value45, value46, value47).map_err(|err| err + 16)?;
+                                                                                                                                                                                                let rds = chinese_digit_100_000_000_middle_compat(value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37, value38, value39, value40, value41, value42, value43, value44, value45, value46, value47).map_err(|err| err + 16)?;
 
                                                                                                                                                                                                 Ok(u128::from(msd) * 10_000_000_000_000_000 + u128::from(rds))
                                                                                                                                                                                             }
@@ -818,7 +819,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                                                                                                                         debug_assert_eq!(None, value45);
                                                                                                                                                                                         debug_assert_eq!(None, value46);
                                                                                                                                                                                         debug_assert_eq!(None, value47);
-                                                                                                                                                                                        let n = chinese_digit_100000000_middle_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), Some(value9), Some(value10), Some(value11), Some(value12), Some(value13), Some(value14), Some(value15), Some(value16), value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31)?;
+                                                                                                                                                                                        let n = chinese_digit_100_000_000_middle_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), Some(value9), Some(value10), Some(value11), Some(value12), Some(value13), Some(value14), Some(value15), Some(value16), value17, value18, value19, value20, value21, value22, value23, value24, value25, value26, value27, value28, value29, value30, value31)?;
                                                                                                                                                                                         Ok(u128::from(n))
                                                                                                                                                                                     }
                                                                                                                                                                                 }
@@ -854,7 +855,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                                                                                                                     debug_assert_eq!(None, value45);
                                                                                                                                                                                     debug_assert_eq!(None, value46);
                                                                                                                                                                                     debug_assert_eq!(None, value47);
-                                                                                                                                                                                    let n = chinese_digit_100000000_middle_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), Some(value9), Some(value10), Some(value11), Some(value12), Some(value13), Some(value14), Some(value15), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None)?;
+                                                                                                                                                                                    let n = chinese_digit_100_000_000_middle_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), Some(value9), Some(value10), Some(value11), Some(value12), Some(value13), Some(value14), Some(value15), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None)?;
                                                                                                                                                                                     Ok(u128::from(n))
                                                                                                                                                                                 }
                                                                                                                                                                             }
@@ -893,7 +894,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                                                                                                         debug_assert_eq!(None, value45);
                                                                                                                                                                         debug_assert_eq!(None, value46);
                                                                                                                                                                         debug_assert_eq!(None, value47);
-                                                                                                                                                                        let n = chinese_digit_100000000_middle_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), Some(value9), Some(value10), Some(value11), Some(value12), Some(value13), Some(value14), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None)?;
+                                                                                                                                                                        let n = chinese_digit_100_000_000_middle_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), Some(value9), Some(value10), Some(value11), Some(value12), Some(value13), Some(value14), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None)?;
                                                                                                                                                                         Ok(u128::from(n))
                                                                                                                                                                     }
                                                                                                                                                                 }
@@ -933,7 +934,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                                                                                             debug_assert_eq!(None, value45);
                                                                                                                                                             debug_assert_eq!(None, value46);
                                                                                                                                                             debug_assert_eq!(None, value47);
-                                                                                                                                                            let n = chinese_digit_100000000_middle_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), Some(value9), Some(value10), Some(value11), Some(value12), Some(value13), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None)?;
+                                                                                                                                                            let n = chinese_digit_100_000_000_middle_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), Some(value9), Some(value10), Some(value11), Some(value12), Some(value13), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None)?;
                                                                                                                                                             Ok(u128::from(n))
                                                                                                                                                         }
                                                                                                                                                     }
@@ -974,7 +975,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                                                                                 debug_assert_eq!(None, value45);
                                                                                                                                                 debug_assert_eq!(None, value46);
                                                                                                                                                 debug_assert_eq!(None, value47);
-                                                                                                                                                let n = chinese_digit_100000000_middle_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), Some(value9), Some(value10), Some(value11), Some(value12), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None)?;
+                                                                                                                                                let n = chinese_digit_100_000_000_middle_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), Some(value9), Some(value10), Some(value11), Some(value12), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None)?;
                                                                                                                                                 Ok(u128::from(n))
                                                                                                                                             }
                                                                                                                                         }
@@ -1016,7 +1017,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                                                                     debug_assert_eq!(None, value45);
                                                                                                                                     debug_assert_eq!(None, value46);
                                                                                                                                     debug_assert_eq!(None, value47);
-                                                                                                                                    let n = chinese_digit_100000000_middle_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), Some(value9), Some(value10), Some(value11), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None)?;
+                                                                                                                                    let n = chinese_digit_100_000_000_middle_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), Some(value9), Some(value10), Some(value11), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None)?;
                                                                                                                                     Ok(u128::from(n))
                                                                                                                                 }
                                                                                                                             }
@@ -1059,7 +1060,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                                                         debug_assert_eq!(None, value45);
                                                                                                                         debug_assert_eq!(None, value46);
                                                                                                                         debug_assert_eq!(None, value47);
-                                                                                                                        let n = chinese_digit_100000000_middle_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), Some(value9), Some(value10), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None)?;
+                                                                                                                        let n = chinese_digit_100_000_000_middle_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), Some(value9), Some(value10), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None)?;
                                                                                                                         Ok(u128::from(n))
                                                                                                                     }
                                                                                                                 }
@@ -1103,7 +1104,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                                             debug_assert_eq!(None, value45);
                                                                                                             debug_assert_eq!(None, value46);
                                                                                                             debug_assert_eq!(None, value47);
-                                                                                                            let n = chinese_digit_100000000_middle_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), Some(value9), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None)?;
+                                                                                                            let n = chinese_digit_100_000_000_middle_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), Some(value9), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None)?;
                                                                                                             Ok(u128::from(n))
                                                                                                         }
                                                                                                     }
@@ -1148,7 +1149,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                                 debug_assert_eq!(None, value45);
                                                                                                 debug_assert_eq!(None, value46);
                                                                                                 debug_assert_eq!(None, value47);
-                                                                                                let n = chinese_digit_100000000_middle_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None)?;
+                                                                                                let n = chinese_digit_100_000_000_middle_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), Some(value8), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None)?;
                                                                                                 Ok(u128::from(n))
                                                                                             }
                                                                                         }
@@ -1194,7 +1195,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                                     debug_assert_eq!(None, value45);
                                                                                     debug_assert_eq!(None, value46);
                                                                                     debug_assert_eq!(None, value47);
-                                                                                    let n = chinese_digit_100000000_middle_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None)?;
+                                                                                    let n = chinese_digit_100_000_000_middle_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), Some(value7), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None)?;
                                                                                     Ok(u128::from(n))
                                                                                 }
                                                                             }
@@ -1361,7 +1362,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                                             None,
                                                                             value47
                                                                         );
-                                                                        let n = chinese_digit_100000000_middle_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None)?;
+                                                                        let n = chinese_digit_100_000_000_middle_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), Some(value6), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None)?;
                                                                         Ok(u128::from(n))
                                                                     }
                                                                 }
@@ -1409,7 +1410,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                             debug_assert_eq!(None, value45);
                                                             debug_assert_eq!(None, value46);
                                                             debug_assert_eq!(None, value47);
-                                                            let n = chinese_digit_100000000_middle_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None)?;
+                                                            let n = chinese_digit_100_000_000_middle_compat(value, Some(value2), Some(value3), Some(value4), Some(value5), None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None)?;
                                                             Ok(u128::from(n))
                                                         }
                                                     }
@@ -1458,7 +1459,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                                 debug_assert_eq!(None, value45);
                                                 debug_assert_eq!(None, value46);
                                                 debug_assert_eq!(None, value47);
-                                                let n = chinese_digit_100000000_middle_compat(
+                                                let n = chinese_digit_100_000_000_middle_compat(
                                                     value,
                                                     Some(value2),
                                                     Some(value3),
@@ -1540,7 +1541,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                                     debug_assert_eq!(None, value45);
                                     debug_assert_eq!(None, value46);
                                     debug_assert_eq!(None, value47);
-                                    let n = chinese_digit_100000000_middle_compat(
+                                    let n = chinese_digit_100_000_000_middle_compat(
                                         value,
                                         Some(value2),
                                         Some(value3),
@@ -1623,7 +1624,7 @@ pub(crate) fn chinese_digit_10000000000000000_middle_compat(
                         debug_assert_eq!(None, value45);
                         debug_assert_eq!(None, value46);
                         debug_assert_eq!(None, value47);
-                        let n = chinese_digit_100000000_middle_compat(
+                        let n = chinese_digit_100_000_000_middle_compat(
                             value,
                             Some(value2),
                             None,

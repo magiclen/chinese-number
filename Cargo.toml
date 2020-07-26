@@ -1,6 +1,6 @@
 [package]
 name = "chinese-number"
-version = "0.5.8"
+version = "0.6.0"
 authors = ["Magic Len <len@magiclen.org>"]
 edition = "2018"
 repository = "https://github.com/magiclen/chinese-number"
@@ -17,7 +17,14 @@ repository = "magiclen/chinese-number"
 branch = "master"
 
 [dependencies]
-chinese-variant = "1.0.1"
+chinese-variant = "1"
 
 [dev-dependencies]
 assert_approx_eq = "1.1"
+
+[features]
+default = ["std"]
+std = []
+
+[package.metadata.docs.rs]
+all-features = true
