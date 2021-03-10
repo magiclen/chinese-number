@@ -47,7 +47,7 @@ pub(crate) fn digit_10(
     value: usize,
     buffer: &mut String,
 ) {
-    debug_assert!(10 <= value && value < 100);
+    debug_assert!((10..100).contains(&value));
 
     let msd = value / 10;
     let lsd = value % 10;
@@ -74,7 +74,7 @@ pub(crate) fn digit_100(
     value: usize,
     buffer: &mut String,
 ) {
-    debug_assert!(100 <= value && value < 1000);
+    debug_assert!((100..1000).contains(&value));
 
     let msd = value / 100;
     let rds = value % 100;
@@ -118,7 +118,7 @@ pub(crate) fn digit_1000(
     value: usize,
     buffer: &mut String,
 ) {
-    debug_assert!(1000 <= value && value < 10000);
+    debug_assert!((1000..10000).contains(&value));
 
     let msd = value / 1000;
     let rds = value % 1000;
@@ -160,7 +160,7 @@ pub(crate) fn digit_10_000(
     value: usize,
     buffer: &mut String,
 ) {
-    debug_assert!(10_000 <= value && value < 100_000_000);
+    debug_assert!((10_000..100_000_000).contains(&value));
 
     let msds = value / 10_000;
     let rds = value % 10_000;
