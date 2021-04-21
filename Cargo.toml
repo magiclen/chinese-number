@@ -1,6 +1,6 @@
 [package]
 name = "chinese-number"
-version = "0.6.1"
+version = "0.6.2"
 authors = ["Magic Len <len@magiclen.org>"]
 edition = "2018"
 repository = "https://github.com/magiclen/chinese-number"
@@ -11,10 +11,6 @@ description = "Convert primitive numbers to Chinese numbers, or parse Chinese nu
 readme = "README.md"
 license = "MIT"
 include = ["src/**/*", "Cargo.toml", "README.md", "LICENSE"]
-
-[badges.travis-ci]
-repository = "magiclen/chinese-number"
-branch = "master"
 
 [dependencies]
 chinese-variant = "1"

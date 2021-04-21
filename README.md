@@ -1,7 +1,7 @@
 Chinese Number
 ====================
 
-[![Build Status](https://travis-ci.org/magiclen/chinese-number.svg?branch=master)](https://travis-ci.org/magiclen/chinese-number)
+[![CI](https://github.com/magiclen/chinese-number/actions/workflows/ci.yml/badge.svg)](https://github.com/magiclen/chinese-number/actions/workflows/ci.yml)
 
 Convert primitive numbers to Chinese numbers, or parse Chinese numbers to primitive numbers.
 
