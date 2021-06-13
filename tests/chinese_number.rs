@@ -1,5 +1,3 @@
-#![allow(clippy::unreadable_literal, clippy::cognitive_complexity)]
-
 extern crate chinese_number;
 
 use chinese_number::{ChineseNumber, ChineseVariant};
