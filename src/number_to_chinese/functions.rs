@@ -274,7 +274,7 @@ pub(crate) fn digit_100_000_000_000_000_000_000_000_000_000_000_compat(
         buffer.push_str(chinese_number_table[16]);
 
         if rds > 0 {
-            if rds < 100_000_000_000_000_000_000_000_000_000_000 {
+            if rds < 10_000_000_000_000_000_000_000_000_000_000 {
                 buffer.push_str(chinese_number_table[0]);
             }
 
