@@ -8,8 +8,6 @@ This crate can convert Rust's primitive number data types to Chinese numbers as 
 ## Example
 
 ```rust
-extern crate chinese_number;
-
 use chinese_number::{ChineseNumber, ChineseVariant, ChineseNumberToNumber, ChineseNumberCountMethod};
 
 assert_eq!("壹佰貳拾參", 123i8.to_uppercase_ten_thousand(ChineseVariant::Traditional));
@@ -49,8 +47,6 @@ default-features = false
 #![cfg_attr(not(feature = "std"), no_std)]
 
 extern crate alloc;
-
-extern crate chinese_variant;
 
 mod chinese_characters;
 mod chinese_number_case;

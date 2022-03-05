@@ -1,5 +1,3 @@
-extern crate chinese_number;
-
 use chinese_number::{ChineseNumber, ChineseVariant};
 
 macro_rules! batch_test1 {
