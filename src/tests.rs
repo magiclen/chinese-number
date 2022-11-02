@@ -651,7 +651,7 @@ fn test_digit_compat_low_u32() {
     digit_compat_low_u32(chinese_number_table, ChineseNumberCase::Lower, 10, &mut s);
     digit_compat_low_u32(chinese_number_table, ChineseNumberCase::Lower, 99999, &mut s);
     digit_compat_low_u32(chinese_number_table, ChineseNumberCase::Lower, 100000, &mut s);
-    digit_compat_low_u32(chinese_number_table, ChineseNumberCase::Lower, u32::max_value(), &mut s);
+    digit_compat_low_u32(chinese_number_table, ChineseNumberCase::Lower, u32::MAX, &mut s);
 
     assert_eq!("零一十九萬九千九百九十九一億四秭二垓九京四兆九億六萬七千二百九十五", s);
 }
@@ -693,12 +693,7 @@ fn test_digit_compat_ten_thousand_u32() {
         1000000001,
         &mut s,
     );
-    digit_compat_ten_thousand_u32(
-        chinese_number_table,
-        ChineseNumberCase::Lower,
-        u32::max_value(),
-        &mut s,
-    );
+    digit_compat_ten_thousand_u32(chinese_number_table, ChineseNumberCase::Lower, u32::MAX, &mut s);
 
     assert_eq!("零一十九萬九千九百九十九十萬十億零一四十二億九千四百九十六萬七千二百九十五", s);
 }
@@ -733,12 +728,7 @@ fn test_digit_compat_ten_thousand_u64() {
         1001000000000101,
         &mut s,
     );
-    digit_compat_ten_thousand_u64(
-        chinese_number_table,
-        ChineseNumberCase::Lower,
-        u64::max_value(),
-        &mut s,
-    );
+    digit_compat_ten_thousand_u64(chinese_number_table, ChineseNumberCase::Lower, u64::MAX, &mut s);
 
     assert_eq!("零一十九萬九千九百九十九十萬十億零一一千兆一千零一兆零一百零一一千八百四十四京六千七百四十四兆零七百三十七億零九百五十五萬一千六百一十五", s);
 }
@@ -776,13 +766,13 @@ fn test_digit_compat_ten_thousand_u128() {
     digit_compat_ten_thousand_u128(
         chinese_number_table,
         ChineseNumberCase::Lower,
-        u128::from(u64::max_value()),
+        u128::from(u64::MAX),
         &mut s,
     );
     digit_compat_ten_thousand_u128(
         chinese_number_table,
         ChineseNumberCase::Lower,
-        u128::max_value(),
+        u128::MAX,
         &mut s,
     );
 
@@ -814,12 +804,7 @@ fn test_digit_compat_middle_u64() {
         1001000000000101,
         &mut s,
     );
-    digit_compat_middle_u64(
-        chinese_number_table,
-        ChineseNumberCase::Lower,
-        u64::max_value(),
-        &mut s,
-    );
+    digit_compat_middle_u64(chinese_number_table, ChineseNumberCase::Lower, u64::MAX, &mut s);
 
     assert_eq!("零一十九萬九千九百九十九十萬十億零一一千萬億一千零一萬億零一百零一一千八百四十四兆六千七百四十四萬零七百三十七億零九百五十五萬一千六百一十五", s);
 }
@@ -852,15 +837,10 @@ fn test_digit_compat_middle_u128() {
     digit_compat_middle_u128(
         chinese_number_table,
         ChineseNumberCase::Lower,
-        u128::from(u64::max_value()),
+        u128::from(u64::MAX),
         &mut s,
     );
-    digit_compat_middle_u128(
-        chinese_number_table,
-        ChineseNumberCase::Lower,
-        u128::max_value(),
-        &mut s,
-    );
+    digit_compat_middle_u128(chinese_number_table, ChineseNumberCase::Lower, u128::MAX, &mut s);
 
     assert_eq!("零一十九萬九千九百九十九十萬十億零一一千萬億一千零一萬億零一百零一一千八百四十四兆六千七百四十四萬零七百三十七億零九百五十五萬一千六百一十五三百四十萬二千八百二十三垓六千六百九十二萬零九百三十八京四千六百三十四萬六千三百三十七兆四千六百零七萬四千三百一十七億六千八百二十一萬一千四百五十五", s);
 }

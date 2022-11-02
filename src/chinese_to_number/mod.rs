@@ -31,7 +31,7 @@ pub fn parse_chinese_number_to_u8<S: AsRef<str>>(
                 chars.next(),
             ) {
                 Ok(number) => {
-                    if number > u16::from(u8::max_value()) {
+                    if number > u16::from(u8::MAX) {
                         Err(ChineseNumberParseError::Overflow)
                     } else if chars.next().is_some() {
                         Err(ChineseNumberParseError::ChineseNumberIncorrect {
@@ -80,7 +80,7 @@ pub fn parse_chinese_number_to_u16<S: AsRef<str>>(
                 chars.next(),
             ) {
                 Ok(number) => {
-                    if number > u32::from(u16::max_value()) {
+                    if number > u32::from(u16::MAX) {
                         Err(ChineseNumberParseError::Overflow)
                     } else if chars.next().is_some() {
                         Err(ChineseNumberParseError::ChineseNumberIncorrect {
@@ -136,7 +136,7 @@ pub fn parse_chinese_number_to_u32<S: AsRef<str>>(
                         chars.next(),
                     ) {
                         Ok(number) => {
-                            if number > u64::from(u32::max_value()) {
+                            if number > u64::from(u32::MAX) {
                                 Err(ChineseNumberParseError::Overflow)
                             } else if chars.next().is_some() {
                                 Err(ChineseNumberParseError::ChineseNumberIncorrect {
@@ -182,7 +182,7 @@ pub fn parse_chinese_number_to_u32<S: AsRef<str>>(
                         chars.next(),
                     ) {
                         Ok(number) => {
-                            if number > u64::from(u32::max_value()) {
+                            if number > u64::from(u32::MAX) {
                                 Err(ChineseNumberParseError::Overflow)
                             } else if chars.next().is_some() {
                                 Err(ChineseNumberParseError::ChineseNumberIncorrect {
@@ -252,9 +252,7 @@ pub fn parse_chinese_number_to_u64<S: AsRef<str>>(
                         chars.next(),
                     ) {
                         Ok(number) => {
-                            if number > u64::max_value() {
-                                Err(ChineseNumberParseError::Overflow)
-                            } else if chars.next().is_some() {
+                            if chars.next().is_some() {
                                 Err(ChineseNumberParseError::ChineseNumberIncorrect {
                                     char_index: 31,
                                 })
@@ -312,7 +310,7 @@ pub fn parse_chinese_number_to_u64<S: AsRef<str>>(
                         chars.next(),
                     ) {
                         Ok(number) => {
-                            if number > u128::from(u64::max_value()) {
+                            if number > u128::from(u64::MAX) {
                                 Err(ChineseNumberParseError::Overflow)
                             } else if chars.next().is_some() {
                                 Err(ChineseNumberParseError::ChineseNumberIncorrect {
@@ -380,7 +378,7 @@ pub fn parse_chinese_number_to_u64<S: AsRef<str>>(
                         chars.next(),
                     ) {
                         Ok(number) => {
-                            if number > u128::from(u64::max_value()) {
+                            if number > u128::from(u64::MAX) {
                                 Err(ChineseNumberParseError::Overflow)
                             } else if chars.next().is_some() {
                                 Err(ChineseNumberParseError::ChineseNumberIncorrect {
@@ -484,7 +482,7 @@ pub fn parse_chinese_number_to_i8<S: AsRef<str>>(
                             chars.next(),
                         ) {
                             Ok(number) => {
-                                if number > i8::max_value() as u16 + 1 {
+                                if number > i8::MAX as u16 + 1 {
                                     Err(ChineseNumberParseError::Underflow)
                                 } else if chars.next().is_some() {
                                     Err(ChineseNumberParseError::ChineseNumberIncorrect {
@@ -516,7 +514,7 @@ pub fn parse_chinese_number_to_i8<S: AsRef<str>>(
                     chars.next(),
                 ) {
                     Ok(number) => {
-                        if number > i8::max_value() as u16 {
+                        if number > i8::MAX as u16 {
                             Err(ChineseNumberParseError::Overflow)
                         } else if chars.next().is_some() {
                             Err(ChineseNumberParseError::ChineseNumberIncorrect {
@@ -571,7 +569,7 @@ pub fn parse_chinese_number_to_i16<S: AsRef<str>>(
                             chars.next(),
                         ) {
                             Ok(number) => {
-                                if number > i16::max_value() as u32 + 1 {
+                                if number > i16::MAX as u32 + 1 {
                                     Err(ChineseNumberParseError::Underflow)
                                 } else if chars.next().is_some() {
                                     Err(ChineseNumberParseError::ChineseNumberIncorrect {
@@ -613,7 +611,7 @@ pub fn parse_chinese_number_to_i16<S: AsRef<str>>(
                     chars.next(),
                 ) {
                     Ok(number) => {
-                        if number > i16::max_value() as u32 {
+                        if number > i16::MAX as u32 {
                             Err(ChineseNumberParseError::Overflow)
                         } else if chars.next().is_some() {
                             Err(ChineseNumberParseError::ChineseNumberIncorrect {
@@ -675,7 +673,7 @@ pub fn parse_chinese_number_to_i32<S: AsRef<str>>(
                                     chars.next(),
                                 ) {
                                     Ok(number) => {
-                                        if number > i32::max_value() as u64 + 1 {
+                                        if number > i32::MAX as u64 + 1 {
                                             Err(ChineseNumberParseError::Underflow)
                                         } else if chars.next().is_some() {
                                             Err(ChineseNumberParseError::ChineseNumberIncorrect {
@@ -721,7 +719,7 @@ pub fn parse_chinese_number_to_i32<S: AsRef<str>>(
                                     chars.next(),
                                 ) {
                                     Ok(number) => {
-                                        if number > i32::max_value() as u64 + 1 {
+                                        if number > i32::MAX as u64 + 1 {
                                             Err(ChineseNumberParseError::Underflow)
                                         } else if chars.next().is_some() {
                                             Err(ChineseNumberParseError::ChineseNumberIncorrect {
@@ -771,7 +769,7 @@ pub fn parse_chinese_number_to_i32<S: AsRef<str>>(
                             chars.next(),
                         ) {
                             Ok(number) => {
-                                if number > i32::max_value() as u64 {
+                                if number > i32::MAX as u64 {
                                     Err(ChineseNumberParseError::Overflow)
                                 } else if chars.next().is_some() {
                                     Err(ChineseNumberParseError::ChineseNumberIncorrect {
@@ -817,7 +815,7 @@ pub fn parse_chinese_number_to_i32<S: AsRef<str>>(
                             chars.next(),
                         ) {
                             Ok(number) => {
-                                if number > i32::max_value() as u64 {
+                                if number > i32::MAX as u64 {
                                     Err(ChineseNumberParseError::Overflow)
                                 } else if chars.next().is_some() {
                                     Err(ChineseNumberParseError::ChineseNumberIncorrect {
@@ -951,7 +949,7 @@ pub fn parse_chinese_number_to_i64<S: AsRef<str>>(
                                     chars.next(),
                                 ) {
                                     Ok(number) => {
-                                        if number > i64::max_value() as u128 + 1 {
+                                        if number > i64::MAX as u128 + 1 {
                                             Err(ChineseNumberParseError::Underflow)
                                         } else if chars.next().is_some() {
                                             Err(ChineseNumberParseError::ChineseNumberIncorrect {
@@ -1019,7 +1017,7 @@ pub fn parse_chinese_number_to_i64<S: AsRef<str>>(
                                     chars.next(),
                                 ) {
                                     Ok(number) => {
-                                        if number > i64::max_value() as u128 + 1 {
+                                        if number > i64::MAX as u128 + 1 {
                                             Err(ChineseNumberParseError::Underflow)
                                         } else if chars.next().is_some() {
                                             Err(ChineseNumberParseError::ChineseNumberIncorrect {
@@ -1081,7 +1079,7 @@ pub fn parse_chinese_number_to_i64<S: AsRef<str>>(
                             chars.next(),
                         ) {
                             Ok(number) => {
-                                if number > i64::max_value() as u64 {
+                                if number > i64::MAX as u64 {
                                     Err(ChineseNumberParseError::Overflow)
                                 } else if chars.next().is_some() {
                                     Err(ChineseNumberParseError::ChineseNumberIncorrect {
@@ -1141,7 +1139,7 @@ pub fn parse_chinese_number_to_i64<S: AsRef<str>>(
                             chars.next(),
                         ) {
                             Ok(number) => {
-                                if number > i64::max_value() as u128 {
+                                if number > i64::MAX as u128 {
                                     Err(ChineseNumberParseError::Overflow)
                                 } else if chars.next().is_some() {
                                     Err(ChineseNumberParseError::ChineseNumberIncorrect {
@@ -1209,7 +1207,7 @@ pub fn parse_chinese_number_to_i64<S: AsRef<str>>(
                             chars.next(),
                         ) {
                             Ok(number) => {
-                                if number > i64::max_value() as u128 {
+                                if number > i64::MAX as u128 {
                                     Err(ChineseNumberParseError::Overflow)
                                 } else if chars.next().is_some() {
                                     Err(ChineseNumberParseError::ChineseNumberIncorrect {

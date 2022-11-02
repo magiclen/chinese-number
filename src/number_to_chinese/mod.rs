@@ -228,7 +228,7 @@ pub fn from_i8_to_string(
     if value < 0 {
         buffer.push_str(get_chinese_negative_str(variant));
 
-        if value == i8::min_value() {
+        if value == i8::MIN {
             from_u8_to_string(variant, case, -(i16::from(value)) as u8, buffer)
         } else {
             from_u8_to_string(variant, case, -value as u8, buffer)
@@ -249,7 +249,7 @@ pub fn from_i16_to_string(
     if value < 0 {
         buffer.push_str(get_chinese_negative_str(variant));
 
-        if value == i16::min_value() {
+        if value == i16::MIN {
             from_u16_to_string(variant, case, -(i32::from(value)) as u16, buffer)
         } else {
             from_u16_to_string(variant, case, -value as u16, buffer)
@@ -271,7 +271,7 @@ pub fn from_i32_to_string(
     if value < 0 {
         buffer.push_str(get_chinese_negative_str(variant));
 
-        if value == i32::min_value() {
+        if value == i32::MIN {
             from_u32_to_string(variant, case, method, -(i64::from(value)) as u32, buffer)
         } else {
             from_u32_to_string(variant, case, method, -value as u32, buffer)
@@ -297,7 +297,7 @@ pub fn from_i64_to_string(
 
         buffer.push_str(get_chinese_negative_str(variant));
 
-        if value == i64::min_value() {
+        if value == i64::MIN {
             from_u64_to_string(variant, case, method, -(i128::from(value)) as u64, buffer)
         } else {
             from_u64_to_string(variant, case, method, -value as u64, buffer)
@@ -323,8 +323,8 @@ pub fn from_i128_to_string(
 
         buffer.push_str(get_chinese_negative_str(variant));
 
-        if value == i128::min_value() {
-            from_u128_to_string(variant, case, method, -((value + 1) as i128) as u128 + 1, buffer)
+        if value == i128::MIN {
+            from_u128_to_string(variant, case, method, -(value + 1) as u128 + 1, buffer)
         } else {
             from_u128_to_string(variant, case, method, -value as u128, buffer)
         }
