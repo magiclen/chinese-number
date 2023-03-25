@@ -1,6 +1,6 @@
 [package]
 name = "chinese-number"
-version = "0.6.5"
+version = "0.7.0"
 authors = ["Magic Len <len@magiclen.org>"]
 edition = "2021"
 repository = "https://github.com/magiclen/chinese-number"
@@ -14,13 +14,16 @@ include = ["src/**/*", "Cargo.toml", "README.md", "LICENSE"]
 
 [dependencies]
 chinese-variant = "1"
+enum-ordinalize = "3"
 
-[dev-dependencies]
-assert_approx_eq = "1.1"
+num-bigint = { version = "0.4", default-features = false, optional = true }
+num-traits = { version = "0.2", default-features = false, optional = true }
+
+chinese-numerals = "0.2"
 
 [features]
-default = ["std"]
-std = []
+default = ["std", "number-to-chinese", "chinese-to-number"]
 
-[package.metadata.docs.rs]
-all-features = true
+std = []
+number-to-chinese = ["num-bigint", "num-traits"]
+chinese-to-number = ["num-traits"]

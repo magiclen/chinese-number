@@ -4,8 +4,8 @@ use core::fmt::{self, Display, Formatter};
 use std::error::Error;
 
 /// 將中文數字轉成數值時發生的錯誤。
-#[derive(Debug, Clone, Copy, Eq, PartialEq)]
-pub enum ChineseNumberParseError {
+#[derive(Debug, Copy, Clone, Eq, PartialEq)]
+pub enum ChineseToNumberError {
     ChineseNumberEmpty,
     ChineseNumberIncorrect {
         char_index: usize,
@@ -14,26 +14,26 @@ pub enum ChineseNumberParseError {
     Underflow,
 }
 
-impl Display for ChineseNumberParseError {
+impl Display for ChineseToNumberError {
     #[inline]
     fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), fmt::Error> {
         match self {
-            ChineseNumberParseError::ChineseNumberEmpty => {
+            ChineseToNumberError::ChineseNumberEmpty => {
                 f.write_str("a chinese number cannot be empty")
             }
-            ChineseNumberParseError::ChineseNumberIncorrect {
+            ChineseToNumberError::ChineseNumberIncorrect {
                 char_index,
             } => {
                 f.write_fmt(format_args!(
-                    "the chinese number is incorrect (whitespace-ignored position: {})",
+                    "the chinese number is incorrect (position: {})",
                     char_index
                 ))
             }
-            ChineseNumberParseError::Overflow => f.write_str("the chinese number is too large"),
-            ChineseNumberParseError::Underflow => f.write_str("the chinese number is too small"),
+            ChineseToNumberError::Overflow => f.write_str("number is too large"),
+            ChineseToNumberError::Underflow => f.write_str("number is too small"),
         }
     }
 }
 
 #[cfg(feature = "std")]
-impl Error for ChineseNumberParseError {}
+impl Error for ChineseToNumberError {}

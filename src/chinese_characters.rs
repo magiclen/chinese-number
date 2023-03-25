@@ -1,61 +1,282 @@
-pub(crate) static CHINESE_NUMBERS_TRADITIONAL_LOWER: [&str; 25] = [
-    "零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "百", "千", "萬", "億", "兆",
-    "京", "垓", "秭", "穰", "溝", "澗", "正", "載", "極",
-];
+use crate::{ChineseCase, ChineseVariant};
 
-pub(crate) static CHINESE_NUMBERS_TRADITIONAL_UPPER: [&str; 25] = [
-    "零", "壹", "貳", "參", "肆", "伍", "陸", "柒", "捌", "玖", "拾", "佰", "仟", "萬", "億", "兆",
-    "京", "垓", "秭", "穰", "溝", "澗", "正", "載", "極",
-];
+#[derive(Debug, Copy, Clone, Eq, PartialEq, Ordinalize)]
+#[repr(u8)]
+pub(crate) enum ChineseNumber {
+    零,
+    一,
+    二,
+    三,
+    四,
+    五,
+    六,
+    七,
+    八,
+    九,
+    十,
+}
 
-pub(crate) static CHINESE_NUMBERS_SIMPLE_LOWER: [&str; 25] = [
-    "零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "百", "千", "万", "亿", "兆",
-    "京", "垓", "秭", "穰", "沟", "涧", "正", "载", "极",
-];
+impl ChineseNumber {
+    #[inline]
+    pub(crate) const fn to_str(
+        self,
+        chinese_variant: ChineseVariant,
+        chinese_case: ChineseCase,
+    ) -> &'static str {
+        match self {
+            Self::零 => "零",
+            Self::一 => {
+                match chinese_case {
+                    ChineseCase::Upper => "壹",
+                    ChineseCase::Lower => "一",
+                }
+            }
+            Self::二 => {
+                match chinese_case {
+                    ChineseCase::Upper => {
+                        match chinese_variant {
+                            ChineseVariant::Traditional => "貳",
+                            ChineseVariant::Simple => "贰",
+                        }
+                    }
+                    ChineseCase::Lower => "二",
+                }
+            }
+            Self::三 => {
+                match chinese_case {
+                    ChineseCase::Upper => {
+                        match chinese_variant {
+                            ChineseVariant::Traditional => "參",
+                            ChineseVariant::Simple => "参",
+                        }
+                    }
+                    ChineseCase::Lower => "三",
+                }
+            }
+            Self::四 => {
+                match chinese_case {
+                    ChineseCase::Upper => "肆",
+                    ChineseCase::Lower => "四",
+                }
+            }
+            Self::五 => {
+                match chinese_case {
+                    ChineseCase::Upper => "伍",
+                    ChineseCase::Lower => "五",
+                }
+            }
+            Self::六 => {
+                match chinese_case {
+                    ChineseCase::Upper => {
+                        match chinese_variant {
+                            ChineseVariant::Traditional => "陸",
+                            ChineseVariant::Simple => "陆",
+                        }
+                    }
+                    ChineseCase::Lower => "六",
+                }
+            }
+            Self::七 => {
+                match chinese_case {
+                    ChineseCase::Upper => "柒",
+                    ChineseCase::Lower => "七",
+                }
+            }
+            Self::八 => {
+                match chinese_case {
+                    ChineseCase::Upper => "捌",
+                    ChineseCase::Lower => "八",
+                }
+            }
+            Self::九 => {
+                match chinese_case {
+                    ChineseCase::Upper => "玖",
+                    ChineseCase::Lower => "九",
+                }
+            }
+            Self::十 => {
+                match chinese_case {
+                    ChineseCase::Upper => "拾",
+                    ChineseCase::Lower => "十",
+                }
+            }
+        }
+    }
 
-pub(crate) static CHINESE_NUMBERS_SIMPLE_UPPER: [&str; 25] = [
-    "零", "壹", "贰", "参", "肆", "伍", "陆", "柒", "捌", "玖", "拾", "佰", "仟", "万", "亿", "兆",
-    "京", "垓", "秭", "穰", "沟", "涧", "正", "载", "极",
-];
+    #[inline]
+    pub(crate) const fn from_char(character: char) -> Option<Self> {
+        match character {
+            '零' | '0' | '〇' => Some(Self::零),
+            '一' | '壹' | '1' => Some(Self::一),
+            '二' | '貳' | '贰' | '兩' | '2' => Some(Self::二),
+            '三' | '參' | '参' | '3' => Some(Self::三),
+            '四' | '肆' | '4' => Some(Self::四),
+            '五' | '伍' | '5' => Some(Self::五),
+            '六' | '陸' | '陆' | '6' => Some(Self::六),
+            '七' | '柒' | '7' => Some(Self::七),
+            '八' | '捌' | '8' => Some(Self::八),
+            '九' | '玖' | '9' => Some(Self::九),
+            '十' | '拾' => Some(Self::十),
+            _ => None,
+        }
+    }
+}
 
-pub(crate) type ChineseNumberTable = &'static [&'static str; 25];
+#[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Ordinalize)]
+#[repr(u8)]
+pub(crate) enum ChineseExponent {
+    分,
+    角,
+    個,
+    十,
+    百,
+    千,
+    萬,
+    億,
+    兆,
+    京,
+    垓,
+    秭,
+    穰,
+    溝,
+    澗,
+    正,
+    載,
+    極,
+}
 
-pub(crate) static CHINESE_NUMBERS_FRACTION: [&str; 2] = ["角", "分"];
+impl ChineseExponent {
+    #[inline]
+    pub(crate) const fn to_str(
+        self,
+        chinese_variant: ChineseVariant,
+        chinese_case: ChineseCase,
+    ) -> &'static str {
+        match self {
+            Self::分 => "分",
+            Self::角 => "角",
+            Self::個 => {
+                match chinese_variant {
+                    ChineseVariant::Traditional => "個",
+                    ChineseVariant::Simple => "个",
+                }
+            }
+            Self::十 => {
+                match chinese_case {
+                    ChineseCase::Upper => "拾",
+                    ChineseCase::Lower => "十",
+                }
+            }
+            Self::百 => {
+                match chinese_case {
+                    ChineseCase::Upper => "佰",
+                    ChineseCase::Lower => "百",
+                }
+            }
+            Self::千 => {
+                match chinese_case {
+                    ChineseCase::Upper => "仟",
+                    ChineseCase::Lower => "千",
+                }
+            }
+            Self::萬 => {
+                match chinese_variant {
+                    ChineseVariant::Traditional => "萬",
+                    ChineseVariant::Simple => "万",
+                }
+            }
+            Self::億 => {
+                match chinese_variant {
+                    ChineseVariant::Traditional => "億",
+                    ChineseVariant::Simple => "亿",
+                }
+            }
+            Self::兆 => "兆",
+            Self::京 => "京",
+            Self::垓 => "垓",
+            Self::秭 => "秭",
+            Self::穰 => "穰",
+            Self::溝 => {
+                match chinese_variant {
+                    ChineseVariant::Traditional => "溝",
+                    ChineseVariant::Simple => "沟",
+                }
+            }
+            Self::澗 => {
+                match chinese_variant {
+                    ChineseVariant::Traditional => "澗",
+                    ChineseVariant::Simple => "涧",
+                }
+            }
+            Self::正 => "正",
+            Self::載 => {
+                match chinese_variant {
+                    ChineseVariant::Traditional => "載",
+                    ChineseVariant::Simple => "载",
+                }
+            }
+            Self::極 => {
+                match chinese_variant {
+                    ChineseVariant::Traditional => "極",
+                    ChineseVariant::Simple => "极",
+                }
+            }
+        }
+    }
 
-pub(crate) const CHINESE_NEGATIVE_TRADITIONAL: &str = "負";
-pub(crate) const CHINESE_NEGATIVE_SIMPLE: &str = "负";
+    #[inline]
+    pub(crate) const fn from_char(character: char) -> Option<Self> {
+        match character {
+            '分' => Some(Self::分),
+            '角' => Some(Self::角),
+            '個' | '个' => Some(Self::個),
+            '十' | '拾' => Some(Self::十),
+            '百' | '佰' => Some(Self::百),
+            '千' | '仟' => Some(Self::千),
+            '萬' | '万' => Some(Self::萬),
+            '億' | '亿' => Some(Self::億),
+            '兆' => Some(Self::兆),
+            '京' => Some(Self::京),
+            '垓' => Some(Self::垓),
+            '秭' => Some(Self::秭),
+            '穰' => Some(Self::穰),
+            '溝' | '沟' => Some(Self::溝),
+            '澗' | '涧' => Some(Self::澗),
+            '正' => Some(Self::正),
+            '載' | '载' => Some(Self::載),
+            '極' | '极' => Some(Self::極),
+            _ => None,
+        }
+    }
+}
 
-// TODO
+#[derive(Debug, Copy, Clone, Eq, PartialEq, Ordinalize)]
+#[repr(u8)]
+pub(crate) enum ChineseSign {
+    正,
+    負,
+}
 
-pub(crate) static CHINESE_NUMBERS_CHARS: [[char; 4]; 25] = [
-    ['零', '零', '零', '零'],
-    ['壹', '一', '壹', '一'],
-    ['貳', '二', '贰', '二'],
-    ['參', '三', '参', '三'],
-    ['肆', '四', '肆', '四'],
-    ['伍', '五', '伍', '五'],
-    ['陸', '六', '陆', '六'],
-    ['柒', '七', '柒', '七'],
-    ['捌', '八', '捌', '八'],
-    ['玖', '九', '玖', '九'],
-    ['拾', '十', '拾', '十'],
-    ['佰', '百', '佰', '百'],
-    ['仟', '千', '仟', '千'],
-    ['萬', '萬', '万', '万'],
-    ['億', '億', '亿', '亿'],
-    ['兆', '兆', '兆', '兆'],
-    ['京', '京', '京', '京'],
-    ['垓', '垓', '垓', '垓'],
-    ['秭', '秭', '秭', '秭'],
-    ['穰', '穰', '穰', '穰'],
-    ['溝', '溝', '沟', '沟'],
-    ['澗', '澗', '涧', '涧'],
-    ['正', '正', '正', '正'],
-    ['載', '載', '载', '载'],
-    ['極', '極', '极', '极'],
-];
+impl ChineseSign {
+    #[inline]
+    pub(crate) const fn to_str(self, chinese_variant: ChineseVariant) -> &'static str {
+        match self {
+            Self::正 => "正",
+            Self::負 => {
+                match chinese_variant {
+                    ChineseVariant::Traditional => "負",
+                    ChineseVariant::Simple => "负",
+                }
+            }
+        }
+    }
 
-pub(crate) const ONE_TENTH_CHAR: char = '角';
-pub(crate) const ONE_HUNDRED_PERCENT: char = '分';
-
-pub(crate) static CHINESE_NEGATIVE_SIGN_CHARS: [char; 2] = ['負', '负'];
+    #[inline]
+    pub(crate) const fn from_char(character: char) -> Option<Self> {
+        match character {
+            '正' => Some(Self::正),
+            '負' | '负' => Some(Self::負),
+            _ => None,
+        }
+    }
+}

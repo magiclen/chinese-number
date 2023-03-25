@@ -1,484 +1,545 @@
-mod error;
 mod functions;
+mod number_to_chinese_error;
+mod traits;
+
+mod functions_test;
 
 use alloc::string::String;
 
-use crate::{ChineseNumberCase, ChineseNumberCountMethod, ChineseVariant};
+use functions::*;
 
-pub use error::*;
-pub(crate) use functions::*;
+pub use number_to_chinese_error::*;
+pub use traits::*;
 
-/// 將u8整數轉成中文數字。
+use crate::{ChineseCase, ChineseCountMethod, ChineseSign, ChineseVariant};
+
+// TODO unsigned integer
+
+/// 將 `u8` 整數轉成中文數字。
 #[inline]
-pub fn from_u8_to_string(
-    variant: ChineseVariant,
-    case: ChineseNumberCase,
+pub fn from_u8_to_chinese(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
     value: u8,
-    buffer: &mut String,
-) {
-    let chinese_number_table = get_chinese_number_table(variant, case);
-
-    digit_100_compat(chinese_number_table, case, false, value as usize, buffer);
+) -> String {
+    from_u128_to_chinese_low(chinese_variant, chinese_case, value as u128).unwrap()
 }
 
-/// 將u16整數轉成中文數字。
+/// 將 `u16` 整數轉成中文數字。
 #[inline]
-pub fn from_u16_to_string(
-    variant: ChineseVariant,
-    case: ChineseNumberCase,
+pub fn from_u16_to_chinese(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
     value: u16,
-    buffer: &mut String,
-) {
-    let chinese_number_table = get_chinese_number_table(variant, case);
-
-    digit_10_000_compat(chinese_number_table, case, false, value as usize, buffer);
+) -> String {
+    from_u128_to_chinese_low(chinese_variant, chinese_case, value as u128).unwrap()
 }
 
-/// 將u32整數轉成中文數字。
+/// 將 `u32` 整數轉成中文數字，使用 **「下數」**。
 #[inline]
-pub fn from_u32_to_string(
-    variant: ChineseVariant,
-    case: ChineseNumberCase,
-    method: ChineseNumberCountMethod,
+pub fn from_u32_to_chinese_low(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
     value: u32,
-    buffer: &mut String,
-) {
-    let chinese_number_table = get_chinese_number_table(variant, case);
-
-    match method {
-        ChineseNumberCountMethod::Low => {
-            digit_compat_low_u32(chinese_number_table, case, value, buffer);
-        }
-        ChineseNumberCountMethod::TenThousand
-        | ChineseNumberCountMethod::Middle
-        | ChineseNumberCountMethod::High => {
-            digit_compat_ten_thousand_u32(chinese_number_table, case, value, buffer);
-        }
-    }
+) -> String {
+    from_u128_to_chinese_low(chinese_variant, chinese_case, value as u128).unwrap()
 }
 
-/// 將u64整數轉成中文數字。如果使用 **「下數」** 來作為單位標準，數值不能大於或等於10000000000000000。
+/// 將 `u32` 整數轉成中文數字，使用 **「萬進」**。
 #[inline]
-pub fn from_u64_to_string(
-    variant: ChineseVariant,
-    case: ChineseNumberCase,
-    method: ChineseNumberCountMethod,
+pub fn from_u32_to_chinese_ten_thousand(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: u32,
+) -> String {
+    from_u128_to_chinese_ten_thousand(chinese_variant, chinese_case, value as u128)
+}
+
+/// 將 `u32` 整數轉成中文數字，使用 **「中數」**。
+#[inline]
+pub fn from_u32_to_chinese_middle(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: u32,
+) -> String {
+    from_u128_to_chinese_middle(chinese_variant, chinese_case, value as u128)
+}
+
+/// 將 `u32` 整數轉成中文數字，使用 **「上數」**。
+#[inline]
+pub fn from_u32_to_chinese_high(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: u32,
+) -> String {
+    from_u128_to_chinese_high(chinese_variant, chinese_case, value as u128)
+}
+
+/// 將 `u64` 整數轉成中文數字，使用 **「下數」**。數值不能大於或等於 `1_0000_0000_0000_0000`。
+#[inline]
+pub fn from_u64_to_chinese_low(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
     value: u64,
-    buffer: &mut String,
-) -> Result<(), NumberToChineseNumberError> {
-    match method {
-        ChineseNumberCountMethod::Low => {
-            if value < 10_000_000_000_000_000 {
-                digit_compat_low_u64(get_chinese_number_table(variant, case), case, value, buffer);
-
-                Ok(())
-            } else {
-                Err(NumberToChineseNumberError::Overflow)
-            }
-        }
-        ChineseNumberCountMethod::TenThousand => {
-            digit_compat_ten_thousand_u64(
-                get_chinese_number_table(variant, case),
-                case,
-                value,
-                buffer,
-            );
-
-            Ok(())
-        }
-        ChineseNumberCountMethod::Middle => {
-            digit_compat_middle_u64(get_chinese_number_table(variant, case), case, value, buffer);
-
-            Ok(())
-        }
-        ChineseNumberCountMethod::High => {
-            digit_compat_high_u64(get_chinese_number_table(variant, case), case, value, buffer);
-
-            Ok(())
-        }
-    }
+) -> Result<String, NumberToChineseError> {
+    from_u128_to_chinese_low(chinese_variant, chinese_case, value as u128)
 }
 
-/// 將u128整數轉成中文數字。如果使用 **「下數」** 來作為單位標準，數值不能大於或等於10000000000000000。
+/// 將 `u64` 整數轉成中文數字，使用 **「萬進」**。
 #[inline]
-pub fn from_u128_to_string(
-    variant: ChineseVariant,
-    case: ChineseNumberCase,
-    method: ChineseNumberCountMethod,
+pub fn from_u64_to_chinese_ten_thousand(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: u64,
+) -> String {
+    from_u128_to_chinese_ten_thousand(chinese_variant, chinese_case, value as u128)
+}
+
+/// 將 `u64` 整數轉成中文數字，使用 **「中數」**。
+#[inline]
+pub fn from_u64_to_chinese_middle(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: u64,
+) -> String {
+    from_u128_to_chinese_middle(chinese_variant, chinese_case, value as u128)
+}
+
+/// 將 `u64` 整數轉成中文數字，使用 **「上數」**。
+#[inline]
+pub fn from_u64_to_chinese_high(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: u64,
+) -> String {
+    from_u128_to_chinese_high(chinese_variant, chinese_case, value as u128)
+}
+
+/// 將 `u128` 整數轉成中文數字，使用 **「下數」**。數值不能大於或等於 `1_0000_0000_0000_0000`。
+#[inline]
+pub fn from_u128_to_chinese_low(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
     value: u128,
-    buffer: &mut String,
-) -> Result<(), NumberToChineseNumberError> {
-    match method {
-        ChineseNumberCountMethod::Low => {
-            if value < 10_000_000_000_000_000 {
-                digit_compat_low_u64(
-                    get_chinese_number_table(variant, case),
-                    case,
-                    value as u64,
-                    buffer,
-                );
-
-                Ok(())
-            } else {
-                Err(NumberToChineseNumberError::Overflow)
-            }
-        }
-        ChineseNumberCountMethod::TenThousand => {
-            digit_compat_ten_thousand_u128(
-                get_chinese_number_table(variant, case),
-                case,
-                value,
-                buffer,
-            );
-
-            Ok(())
-        }
-        ChineseNumberCountMethod::Middle => {
-            digit_compat_middle_u128(get_chinese_number_table(variant, case), case, value, buffer);
-
-            Ok(())
-        }
-        ChineseNumberCountMethod::High => {
-            digit_compat_high_u128(get_chinese_number_table(variant, case), case, value, buffer);
-
-            Ok(())
-        }
+) -> Result<String, NumberToChineseError> {
+    if value >= 1_0000_0000_0000_0000 {
+        return Err(NumberToChineseError::Overflow);
     }
+
+    Ok(unsigned_integer_to_chinese_low(chinese_variant, chinese_case, false, value))
 }
 
-#[cfg(target_pointer_width = "8")]
-/// 將usize整數轉成中文數字。
-pub fn from_usize_to_string(
-    variant: ChineseVariant,
-    case: ChineseNumberCase,
-    _method: ChineseNumberCountMethod,
-    value: usize,
-    buffer: &mut String,
-) -> Result<(), NumberToChineseNumberError> {
-    from_u8_to_string(variant, case, value as u8, buffer);
-
-    Ok(())
-}
-
-#[cfg(target_pointer_width = "16")]
-/// 將usize整數轉成中文數字。
-pub fn from_usize_to_string(
-    variant: ChineseVariant,
-    case: ChineseNumberCase,
-    _method: ChineseNumberCountMethod,
-    value: usize,
-    buffer: &mut String,
-) -> Result<(), NumberToChineseNumberError> {
-    from_u16_to_string(variant, case, value as u16, buffer);
-
-    Ok(())
-}
-
-#[cfg(target_pointer_width = "32")]
-/// 將usize整數轉成中文數字。
-pub fn from_usize_to_string(
-    variant: ChineseVariant,
-    case: ChineseNumberCase,
-    method: ChineseNumberCountMethod,
-    value: usize,
-    buffer: &mut String,
-) -> Result<(), NumberToChineseNumberError> {
-    from_u32_to_string(variant, case, method, value as u32, buffer);
-
-    Ok(())
-}
-
-#[cfg(target_pointer_width = "64")]
-/// 將usize整數轉成中文數字。
-pub fn from_usize_to_string(
-    variant: ChineseVariant,
-    case: ChineseNumberCase,
-    method: ChineseNumberCountMethod,
-    value: usize,
-    buffer: &mut String,
-) -> Result<(), NumberToChineseNumberError> {
-    from_u64_to_string(variant, case, method, value as u64, buffer)
-}
-
-#[cfg(not(any(
-    target_pointer_width = "8",
-    target_pointer_width = "16",
-    target_pointer_width = "32",
-    target_pointer_width = "64"
-)))]
-/// 將usize整數轉成中文數字。
-pub fn from_usize_to_string(
-    variant: ChineseVariant,
-    case: ChineseNumberCase,
-    method: ChineseNumberCountMethod,
-    value: usize,
-    buffer: &mut String,
-) -> Result<(), NumberToChineseNumberError> {
-    from_u128_to_string(variant, case, method, value as u128, buffer)
-}
-
-/// 將i8整數轉成中文數字。
+/// 將 `u128` 整數轉成中文數字，使用 **「萬進」**。
 #[inline]
-pub fn from_i8_to_string(
-    variant: ChineseVariant,
-    case: ChineseNumberCase,
+pub fn from_u128_to_chinese_ten_thousand(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: u128,
+) -> String {
+    unsigned_integer_to_chinese_ten_thousand(chinese_variant, chinese_case, false, value)
+}
+
+/// 將 `u128` 整數轉成中文數字，使用 **「中數」**。
+#[inline]
+pub fn from_u128_to_chinese_middle(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: u128,
+) -> String {
+    unsigned_integer_to_chinese_middle(chinese_variant, chinese_case, false, value)
+}
+
+/// 將 `u128` 整數轉成中文數字，使用 **「上數」**。
+#[inline]
+pub fn from_u128_to_chinese_high(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: u128,
+) -> String {
+    unsigned_integer_to_chinese_high(chinese_variant, chinese_case, false, value)
+}
+
+/// 將 `usize` 整數轉成中文數字，使用 **「下數」**。數值不能大於或等於 `1_0000_0000_0000_0000`。
+#[inline]
+pub fn from_usize_to_chinese_low(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: usize,
+) -> Result<String, NumberToChineseError> {
+    from_u128_to_chinese_low(chinese_variant, chinese_case, value as u128)
+}
+
+/// 將 `usize` 整數轉成中文數字，使用 **「萬進」**。
+#[inline]
+pub fn from_usize_to_chinese_ten_thousand(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: usize,
+) -> String {
+    from_u128_to_chinese_ten_thousand(chinese_variant, chinese_case, value as u128)
+}
+
+/// 將 `usize` 整數轉成中文數字，使用 **「中數」**。
+#[inline]
+pub fn from_usize_to_chinese_middle(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: usize,
+) -> String {
+    from_u128_to_chinese_middle(chinese_variant, chinese_case, value as u128)
+}
+
+/// 將 `usize` 整數轉成中文數字，使用 **「上數」**。
+#[inline]
+pub fn from_usize_to_chinese_high(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: usize,
+) -> String {
+    from_u128_to_chinese_high(chinese_variant, chinese_case, value as u128)
+}
+
+// TODO signed integer
+
+/// 將 `i8` 整數轉成中文數字。
+#[inline]
+pub fn from_i8_to_chinese(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
     value: i8,
-    buffer: &mut String,
-) {
-    if value < 0 {
-        buffer.push_str(get_chinese_negative_str(variant));
-
-        if value == i8::MIN {
-            from_u8_to_string(variant, case, -(i16::from(value)) as u8, buffer)
-        } else {
-            from_u8_to_string(variant, case, -value as u8, buffer)
-        }
-    } else {
-        from_u8_to_string(variant, case, value as u8, buffer)
-    }
+) -> String {
+    from_i128_to_chinese_low(chinese_variant, chinese_case, value as i128).unwrap()
 }
 
-/// 將i16整數轉成中文數字。
+/// 將 `i16` 整數轉成中文數字。
 #[inline]
-pub fn from_i16_to_string(
-    variant: ChineseVariant,
-    case: ChineseNumberCase,
+pub fn from_i16_to_chinese(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
     value: i16,
-    buffer: &mut String,
-) {
-    if value < 0 {
-        buffer.push_str(get_chinese_negative_str(variant));
-
-        if value == i16::MIN {
-            from_u16_to_string(variant, case, -(i32::from(value)) as u16, buffer)
-        } else {
-            from_u16_to_string(variant, case, -value as u16, buffer)
-        }
-    } else {
-        from_u16_to_string(variant, case, value as u16, buffer)
-    }
+) -> String {
+    from_i128_to_chinese_low(chinese_variant, chinese_case, value as i128).unwrap()
 }
 
-/// 將i32整數轉成中文數字。
+/// 將 `i32` 整數轉成中文數字，使用 **「下數」**。
 #[inline]
-pub fn from_i32_to_string(
-    variant: ChineseVariant,
-    case: ChineseNumberCase,
-    method: ChineseNumberCountMethod,
+pub fn from_i32_to_chinese_low(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
     value: i32,
-    buffer: &mut String,
-) {
-    if value < 0 {
-        buffer.push_str(get_chinese_negative_str(variant));
-
-        if value == i32::MIN {
-            from_u32_to_string(variant, case, method, -(i64::from(value)) as u32, buffer)
-        } else {
-            from_u32_to_string(variant, case, method, -value as u32, buffer)
-        }
-    } else {
-        from_u32_to_string(variant, case, method, value as u32, buffer)
-    }
+) -> String {
+    from_i128_to_chinese_low(chinese_variant, chinese_case, value as i128).unwrap()
 }
 
-/// 將i64整數轉成中文數字。
+/// 將 `i32` 整數轉成中文數字，使用 **「萬進」**。
 #[inline]
-pub fn from_i64_to_string(
-    variant: ChineseVariant,
-    case: ChineseNumberCase,
-    method: ChineseNumberCountMethod,
+pub fn from_i32_to_chinese_ten_thousand(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: i32,
+) -> String {
+    from_i128_to_chinese_ten_thousand(chinese_variant, chinese_case, value as i128)
+}
+
+/// 將 `i32` 整數轉成中文數字，使用 **「中數」**。
+#[inline]
+pub fn from_i32_to_chinese_middle(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: i32,
+) -> String {
+    from_i128_to_chinese_middle(chinese_variant, chinese_case, value as i128)
+}
+
+/// 將 `i32` 整數轉成中文數字，使用 **「上數」**。
+#[inline]
+pub fn from_i32_to_chinese_high(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: i32,
+) -> String {
+    from_i128_to_chinese_high(chinese_variant, chinese_case, value as i128)
+}
+
+/// 將 `i64` 整數轉成中文數字，使用 **「下數」**。數值的絕對值不能大於或等於 `1_0000_0000_0000_0000`。
+#[inline]
+pub fn from_i64_to_chinese_low(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
     value: i64,
-    buffer: &mut String,
-) -> Result<(), NumberToChineseNumberError> {
-    if value < 0 {
-        if method == ChineseNumberCountMethod::Low && value <= -10_000_000_000_000_000 {
-            return Err(NumberToChineseNumberError::Underflow);
-        }
-
-        buffer.push_str(get_chinese_negative_str(variant));
-
-        if value == i64::MIN {
-            from_u64_to_string(variant, case, method, -(i128::from(value)) as u64, buffer)
-        } else {
-            from_u64_to_string(variant, case, method, -value as u64, buffer)
-        }
-    } else {
-        from_u64_to_string(variant, case, method, value as u64, buffer)
-    }
+) -> Result<String, NumberToChineseError> {
+    from_i128_to_chinese_low(chinese_variant, chinese_case, value as i128)
 }
 
-/// 將i128整數轉成中文數字。
+/// 將 `i64` 整數轉成中文數字，使用 **「萬進」**。
 #[inline]
-pub fn from_i128_to_string(
-    variant: ChineseVariant,
-    case: ChineseNumberCase,
-    method: ChineseNumberCountMethod,
+pub fn from_i64_to_chinese_ten_thousand(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: i64,
+) -> String {
+    from_i128_to_chinese_ten_thousand(chinese_variant, chinese_case, value as i128)
+}
+
+/// 將 `i64` 整數轉成中文數字，使用 **「中數」**。
+#[inline]
+pub fn from_i64_to_chinese_middle(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: i64,
+) -> String {
+    from_i128_to_chinese_middle(chinese_variant, chinese_case, value as i128)
+}
+
+/// 將 `i64` 整數轉成中文數字，使用 **「上數」**。
+#[inline]
+pub fn from_i64_to_chinese_high(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: i64,
+) -> String {
+    from_i128_to_chinese_high(chinese_variant, chinese_case, value as i128)
+}
+
+/// 將 `i128` 整數轉成中文數字，使用 **「下數」**。數值的絕對值不能大於或等於 `1_0000_0000_0000_0000`。
+#[inline]
+pub fn from_i128_to_chinese_low(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
     value: i128,
-    buffer: &mut String,
-) -> Result<(), NumberToChineseNumberError> {
+) -> Result<String, NumberToChineseError> {
     if value < 0 {
-        if method == ChineseNumberCountMethod::Low && value <= -10_000_000_000_000_000 {
-            return Err(NumberToChineseNumberError::Underflow);
-        }
+        let mut s =
+            from_u128_to_chinese_low(chinese_variant, chinese_case, -(value + 1) as u128 + 1)
+                .map_err(|err| {
+                    match err {
+                        NumberToChineseError::Overflow => NumberToChineseError::Underflow,
+                        _ => err,
+                    }
+                })?;
 
-        buffer.push_str(get_chinese_negative_str(variant));
+        s.insert_str(0, ChineseSign::負.to_str(chinese_variant));
 
-        if value == i128::MIN {
-            from_u128_to_string(variant, case, method, -(value + 1) as u128 + 1, buffer)
-        } else {
-            from_u128_to_string(variant, case, method, -value as u128, buffer)
-        }
+        Ok(s)
     } else {
-        from_u128_to_string(variant, case, method, value as u128, buffer)
+        from_u128_to_chinese_low(chinese_variant, chinese_case, value as u128)
     }
 }
 
-#[cfg(target_pointer_width = "8")]
-/// 將isize整數轉成中文數字。
-pub fn from_isize_to_string(
-    variant: ChineseVariant,
-    case: ChineseNumberCase,
-    _method: ChineseNumberCountMethod,
-    value: isize,
-    buffer: &mut String,
-) -> Result<(), NumberToChineseNumberError> {
-    from_i8_to_string(variant, case, value as i8, buffer);
-
-    Ok(())
-}
-
-#[cfg(target_pointer_width = "16")]
-/// 將isize整數轉成中文數字。
-pub fn from_isize_to_string(
-    variant: ChineseVariant,
-    case: ChineseNumberCase,
-    _method: ChineseNumberCountMethod,
-    value: isize,
-    buffer: &mut String,
-) -> Result<(), NumberToChineseNumberError> {
-    from_i16_to_string(variant, case, value as i16, buffer);
-
-    Ok(())
-}
-
-#[cfg(target_pointer_width = "32")]
-/// 將isize整數轉成中文數字。
-pub fn from_isize_to_string(
-    variant: ChineseVariant,
-    case: ChineseNumberCase,
-    method: ChineseNumberCountMethod,
-    value: isize,
-    buffer: &mut String,
-) -> Result<(), NumberToChineseNumberError> {
-    from_i32_to_string(variant, case, method, value as i32, buffer);
-
-    Ok(())
-}
-
-#[cfg(target_pointer_width = "64")]
-/// 將isize整數轉成中文數字。
-pub fn from_isize_to_string(
-    variant: ChineseVariant,
-    case: ChineseNumberCase,
-    method: ChineseNumberCountMethod,
-    value: isize,
-    buffer: &mut String,
-) -> Result<(), NumberToChineseNumberError> {
-    from_i64_to_string(variant, case, method, value as i64, buffer)
-}
-
-#[cfg(not(any(
-    target_pointer_width = "8",
-    target_pointer_width = "16",
-    target_pointer_width = "32",
-    target_pointer_width = "64"
-)))]
-/// 將isize整數轉成中文數字。
-pub fn from_isize_to_string(
-    variant: ChineseVariant,
-    case: ChineseNumberCase,
-    method: ChineseNumberCountMethod,
-    value: isize,
-    buffer: &mut String,
-) -> Result<(), NumberToChineseNumberError> {
-    from_i128_to_string(variant, case, method, value as i128, buffer)
-}
-
-/// 將f64浮點數轉成中文數字。如果使用 **「下數」** 來作為單位標準，數值不能大於或等於10000000000000000。
+/// 將 `i128` 整數轉成中文數字，使用 **「萬進」**。
 #[inline]
-pub fn from_f64_to_string(
-    variant: ChineseVariant,
-    case: ChineseNumberCase,
-    method: ChineseNumberCountMethod,
-    mut value: f64,
-    buffer: &mut String,
-) -> Result<(), NumberToChineseNumberError> {
-    match method {
-        ChineseNumberCountMethod::Low => {
-            if value >= 10_000_000_000_000_000f64 {
-                Err(NumberToChineseNumberError::Overflow)
-            } else if value <= -10_000_000_000_000_000f64 {
-                Err(NumberToChineseNumberError::Underflow)
-            } else {
-                let chinese_number_table = get_chinese_number_table(variant, case);
+pub fn from_i128_to_chinese_ten_thousand(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: i128,
+) -> String {
+    if value < 0 {
+        let mut s = from_u128_to_chinese_ten_thousand(
+            chinese_variant,
+            chinese_case,
+            -(value + 1) as u128 + 1,
+        );
 
-                if value < 0.0 {
-                    buffer.push_str(get_chinese_negative_str(variant));
-                    value = -value;
-                }
+        s.insert_str(0, ChineseSign::負.to_str(chinese_variant));
 
-                fraction_compat_low(chinese_number_table, case, value, buffer);
-
-                Ok(())
-            }
-        }
-        ChineseNumberCountMethod::TenThousand => {
-            let chinese_number_table = get_chinese_number_table(variant, case);
-
-            if value < 0.0 {
-                buffer.push_str(get_chinese_negative_str(variant));
-                value = -value;
-            }
-
-            fraction_compat_ten_thousand(chinese_number_table, case, value, buffer);
-
-            Ok(())
-        }
-        ChineseNumberCountMethod::Middle => {
-            let chinese_number_table = get_chinese_number_table(variant, case);
-
-            if value < 0.0 {
-                buffer.push_str(get_chinese_negative_str(variant));
-                value = -value;
-            }
-
-            fraction_compat_middle(chinese_number_table, case, value, buffer);
-
-            Ok(())
-        }
-        ChineseNumberCountMethod::High => {
-            let chinese_number_table = get_chinese_number_table(variant, case);
-
-            if value < 0.0 {
-                buffer.push_str(get_chinese_negative_str(variant));
-                value = -value;
-            }
-
-            fraction_compat_high(chinese_number_table, case, value, buffer);
-
-            Ok(())
-        }
+        s
+    } else {
+        from_u128_to_chinese_ten_thousand(chinese_variant, chinese_case, value as u128)
     }
 }
 
-/// 將f32浮點數轉成中文數字。如果使用 **「下數」** 來作為單位標準，數值不能大於或等於10000000000000000。
+/// 將 `i128` 整數轉成中文數字，使用 **「中數」**。
 #[inline]
-pub fn from_f32_to_string(
-    variant: ChineseVariant,
-    case: ChineseNumberCase,
-    method: ChineseNumberCountMethod,
+pub fn from_i128_to_chinese_middle(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: i128,
+) -> String {
+    if value < 0 {
+        let mut s =
+            from_u128_to_chinese_middle(chinese_variant, chinese_case, -(value + 1) as u128 + 1);
+
+        s.insert_str(0, ChineseSign::負.to_str(chinese_variant));
+
+        s
+    } else {
+        from_u128_to_chinese_middle(chinese_variant, chinese_case, value as u128)
+    }
+}
+
+/// 將 `i128` 整數轉成中文數字，使用 **「上數」**。
+#[inline]
+pub fn from_i128_to_chinese_high(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: i128,
+) -> String {
+    if value < 0 {
+        let mut s =
+            from_u128_to_chinese_high(chinese_variant, chinese_case, -(value + 1) as u128 + 1);
+
+        s.insert_str(0, ChineseSign::負.to_str(chinese_variant));
+
+        s
+    } else {
+        from_u128_to_chinese_high(chinese_variant, chinese_case, value as u128)
+    }
+}
+
+/// 將 `isize` 整數轉成中文數字，使用 **「下數」**。數值的絕對值不能大於或等於 `1_0000_0000_0000_0000`。
+#[inline]
+pub fn from_isize_to_chinese_low(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: isize,
+) -> Result<String, NumberToChineseError> {
+    from_i128_to_chinese_low(chinese_variant, chinese_case, value as i128)
+}
+
+/// 將 `isize` 整數轉成中文數字，使用 **「萬進」**。
+#[inline]
+pub fn from_isize_to_chinese_ten_thousand(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: isize,
+) -> String {
+    from_i128_to_chinese_ten_thousand(chinese_variant, chinese_case, value as i128)
+}
+
+/// 將 `isize` 整數轉成中文數字，使用 **「中數」**。
+#[inline]
+pub fn from_isize_to_chinese_middle(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: isize,
+) -> String {
+    from_i128_to_chinese_middle(chinese_variant, chinese_case, value as i128)
+}
+
+/// 將 `isize` 整數轉成中文數字，使用 **「上數」**。
+#[inline]
+pub fn from_isize_to_chinese_high(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: isize,
+) -> String {
+    from_i128_to_chinese_high(chinese_variant, chinese_case, value as i128)
+}
+
+// TODO float
+
+/// 將 `f32` 浮點數轉成中文數字，使用 **「下數」**。數值的絕對值不能大於或等於 `1_0000_0000_0000_0000`。
+#[inline]
+pub fn from_f32_to_chinese_low(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
     value: f32,
-    buffer: &mut String,
-) -> Result<(), NumberToChineseNumberError> {
-    from_f64_to_string(variant, case, method, f64::from(value), buffer)
+) -> Result<String, NumberToChineseError> {
+    from_f64_to_chinese_low(chinese_variant, chinese_case, value as f64)
+}
+
+/// 將 `f32` 浮點數轉成中文數字，使用 **「萬進」**。
+#[inline]
+pub fn from_f32_to_chinese_ten_thousand(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: f32,
+) -> String {
+    from_f64_to_chinese_ten_thousand(chinese_variant, chinese_case, value as f64).unwrap()
+}
+
+/// 將 `f32` 浮點數轉成中文數字，使用 **「中數」**。
+#[inline]
+pub fn from_f32_to_chinese_middle(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: f32,
+) -> String {
+    from_f64_to_chinese_middle(chinese_variant, chinese_case, value as f64).unwrap()
+}
+
+/// 將 `f32` 浮點數轉成中文數字，使用 **「上數」**。
+#[inline]
+pub fn from_f32_to_chinese_high(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: f32,
+) -> String {
+    from_f64_to_chinese_high(chinese_variant, chinese_case, value as f64)
+}
+
+#[inline]
+fn from_f64_to_chinese(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    method: ChineseCountMethod,
+    value: f64,
+) -> String {
+    if value < 0.0 {
+        let mut s = positive_float_to_chinese(chinese_variant, chinese_case, method, -value);
+
+        s.insert_str(0, ChineseSign::負.to_str(chinese_variant));
+
+        s
+    } else {
+        positive_float_to_chinese(chinese_variant, chinese_case, method, value)
+    }
+}
+
+/// 將 `f64` 浮點數轉成中文數字，使用 **「下數」**。數值的絕對值不能大於或等於 `1_0000_0000_0000_0000`。
+#[inline]
+pub fn from_f64_to_chinese_low(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: f64,
+) -> Result<String, NumberToChineseError> {
+    if value >= 1_0000_0000_0000_0000f64 {
+        return Err(NumberToChineseError::Overflow);
+    } else if value <= -1_0000_0000_0000_0000f64 {
+        return Err(NumberToChineseError::Underflow);
+    }
+
+    Ok(from_f64_to_chinese(chinese_variant, chinese_case, ChineseCountMethod::Low, value))
+}
+
+/// 將 `f64` 浮點數轉成中文數字，使用 **「萬進」**。數值的絕對值不能大於或等於 `1e52`。
+#[inline]
+pub fn from_f64_to_chinese_ten_thousand(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: f64,
+) -> Result<String, NumberToChineseError> {
+    if value >= 1e52 {
+        return Err(NumberToChineseError::Overflow);
+    } else if value <= -1e52 {
+        return Err(NumberToChineseError::Underflow);
+    }
+
+    Ok(from_f64_to_chinese(chinese_variant, chinese_case, ChineseCountMethod::TenThousand, value))
+}
+
+/// 將 `f64` 浮點數轉成中文數字，使用 **「中數」**。數值的絕對值不能大於或等於 `1e96`。
+#[inline]
+pub fn from_f64_to_chinese_middle(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: f64,
+) -> Result<String, NumberToChineseError> {
+    if value >= 1e96 {
+        return Err(NumberToChineseError::Overflow);
+    } else if value <= -1e96 {
+        return Err(NumberToChineseError::Underflow);
+    }
+
+    Ok(from_f64_to_chinese(chinese_variant, chinese_case, ChineseCountMethod::Middle, value))
+}
+
+/// 將 `f64` 浮點數轉成中文數字，使用 **「上數」**。
+#[inline]
+pub fn from_f64_to_chinese_high(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    value: f64,
+) -> String {
+    from_f64_to_chinese(chinese_variant, chinese_case, ChineseCountMethod::High, value)
 }

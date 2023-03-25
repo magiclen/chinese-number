@@ -1,756 +1,630 @@
-use alloc::string::String;
+use alloc::string::{String, ToString};
 
-use crate::chinese_characters::*;
-use crate::{ChineseNumberCase, ChineseVariant};
+use num_bigint::BigUint;
 
-#[inline]
-pub(crate) fn get_chinese_number_table(
-    variant: ChineseVariant,
-    case: ChineseNumberCase,
-) -> ChineseNumberTable {
-    match variant {
-        ChineseVariant::Simple => {
-            match case {
-                ChineseNumberCase::Lower => &CHINESE_NUMBERS_SIMPLE_LOWER,
-                ChineseNumberCase::Upper => &CHINESE_NUMBERS_SIMPLE_UPPER,
-            }
-        }
-        ChineseVariant::Traditional => {
-            match case {
-                ChineseNumberCase::Lower => &CHINESE_NUMBERS_TRADITIONAL_LOWER,
-                ChineseNumberCase::Upper => &CHINESE_NUMBERS_TRADITIONAL_UPPER,
-            }
-        }
-    }
-}
+#[cfg(not(feature = "std"))]
+#[allow(unused_imports)]
+use num_traits::float::FloatCore;
 
-#[inline]
-pub(crate) fn get_chinese_negative_str(variant: ChineseVariant) -> &'static str {
-    match variant {
-        ChineseVariant::Simple => CHINESE_NEGATIVE_SIMPLE,
-        ChineseVariant::Traditional => CHINESE_NEGATIVE_TRADITIONAL,
-    }
-}
+use num_traits::{FromPrimitive, ToPrimitive, Zero};
 
-#[inline]
-pub(crate) fn digit_1(chinese_number_table: ChineseNumberTable, value: usize, buffer: &mut String) {
-    debug_assert!(value < 10);
+use crate::{ChineseCase, ChineseCountMethod, ChineseExponent, ChineseNumber, ChineseVariant};
 
-    buffer.push_str(chinese_number_table[value]);
-}
-
-#[inline]
-pub(crate) fn digit_10(
-    chinese_number_table: ChineseNumberTable,
-    case: ChineseNumberCase,
+pub(crate) fn unsigned_integer_to_chinese_low(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
     dependent: bool,
-    value: usize,
-    buffer: &mut String,
-) {
-    debug_assert!((10..100).contains(&value));
-
-    let msd = value / 10;
-    let lsd = value % 10;
-
-    if msd != 1 || dependent || case == ChineseNumberCase::Upper {
-        //  20 ->     二十
-        //  10 ->       十
-        // 110 -> 一百一十
-        //  10 ->     壹拾
-        digit_1(chinese_number_table, msd, buffer);
-    }
-
-    buffer.push_str(chinese_number_table[10]);
-
-    if lsd > 0 {
-        digit_1(chinese_number_table, lsd, buffer);
-    }
-}
-
-#[inline]
-pub(crate) fn digit_100(
-    chinese_number_table: ChineseNumberTable,
-    case: ChineseNumberCase,
-    value: usize,
-    buffer: &mut String,
-) {
-    debug_assert!((100..1000).contains(&value));
-
-    let msd = value / 100;
-    let rds = value % 100;
-
-    digit_1(chinese_number_table, msd, buffer);
-
-    buffer.push_str(chinese_number_table[11]);
-
-    if rds >= 10 {
-        digit_10(chinese_number_table, case, true, rds, buffer);
-    } else if rds >= 1 {
-        buffer.push_str(chinese_number_table[0]);
-
-        digit_1(chinese_number_table, rds, buffer);
-    }
-}
-
-#[inline]
-pub(crate) fn digit_100_compat(
-    chinese_number_table: ChineseNumberTable,
-    case: ChineseNumberCase,
-    dependent: bool,
-    value: usize,
-    buffer: &mut String,
-) {
-    debug_assert!(value < 1000);
-
-    if value >= 100 {
-        digit_100(chinese_number_table, case, value, buffer);
-    } else if value >= 10 {
-        digit_10(chinese_number_table, case, dependent, value, buffer);
-    } else if !dependent || value >= 1 {
-        digit_1(chinese_number_table, value, buffer);
-    }
-}
-
-#[inline]
-pub(crate) fn digit_1000(
-    chinese_number_table: ChineseNumberTable,
-    case: ChineseNumberCase,
-    value: usize,
-    buffer: &mut String,
-) {
-    debug_assert!((1000..10000).contains(&value));
-
-    let msd = value / 1000;
-    let rds = value % 1000;
-
-    digit_1(chinese_number_table, msd, buffer);
-
-    buffer.push_str(chinese_number_table[12]);
-
-    if rds > 0 {
-        if rds < 100 {
-            buffer.push_str(chinese_number_table[0]);
-        }
-
-        digit_100_compat(chinese_number_table, case, true, rds, buffer);
-    }
-}
-
-#[inline]
-pub(crate) fn digit_1000_compat(
-    chinese_number_table: ChineseNumberTable,
-    case: ChineseNumberCase,
-    dependent: bool,
-    value: usize,
-    buffer: &mut String,
-) {
-    debug_assert!(value < 10000);
-
-    if value >= 1000 {
-        digit_1000(chinese_number_table, case, value, buffer);
-    } else {
-        digit_100_compat(chinese_number_table, case, dependent, value, buffer);
-    }
-}
-
-pub(crate) fn digit_10_000(
-    chinese_number_table: ChineseNumberTable,
-    case: ChineseNumberCase,
-    dependent: bool,
-    value: usize,
-    buffer: &mut String,
-) {
-    debug_assert!((10_000..100_000_000).contains(&value));
-
-    let msds = value / 10_000;
-    let rds = value % 10_000;
-
-    digit_1000_compat(chinese_number_table, case, dependent, msds, buffer);
-
-    buffer.push_str(chinese_number_table[13]);
-
-    if rds > 0 {
-        if rds < 1000 {
-            buffer.push_str(chinese_number_table[0]);
-        }
-
-        digit_1000_compat(chinese_number_table, case, true, rds, buffer);
-    }
-}
-
-#[inline]
-pub(crate) fn digit_10_000_compat(
-    chinese_number_table: ChineseNumberTable,
-    case: ChineseNumberCase,
-    dependent: bool,
-    value: usize,
-    buffer: &mut String,
-) {
-    debug_assert!(value < 100_000_000);
-
-    if value >= 10_000 {
-        digit_10_000(chinese_number_table, case, dependent, value, buffer);
-    } else {
-        digit_1000_compat(chinese_number_table, case, dependent, value, buffer);
-    }
-}
-
-#[inline]
-pub(crate) fn digit_100_000_000_compat(
-    chinese_number_table: ChineseNumberTable,
-    case: ChineseNumberCase,
-    dependent: bool,
-    value: u64,
-    buffer: &mut String,
-) {
-    debug_assert!(value < 10_000_000_000_000_000);
-
-    if value < 100_000_000 {
-        digit_10_000_compat(chinese_number_table, case, dependent, value as usize, buffer);
-    } else {
-        let msds = value / 100_000_000;
-        let rds = value % 100_000_000;
-
-        digit_10_000_compat(chinese_number_table, case, dependent, msds as usize, buffer);
-
-        buffer.push_str(chinese_number_table[14]);
-
-        if rds > 0 {
-            if rds < 10_000_000 {
-                buffer.push_str(chinese_number_table[0]);
-            }
-
-            digit_10_000_compat(chinese_number_table, case, true, rds as usize, buffer);
-        }
-    }
-}
-
-#[inline]
-pub(crate) fn digit_10_000_000_000_000_000_compat(
-    chinese_number_table: ChineseNumberTable,
-    case: ChineseNumberCase,
-    dependent: bool,
-    value: u128,
-    buffer: &mut String,
-) {
-    debug_assert!(value < 100_000_000_000_000_000_000_000_000_000_000);
-
-    if value < 10_000_000_000_000_000 {
-        digit_100_000_000_compat(chinese_number_table, case, dependent, value as u64, buffer);
-    } else {
-        let msds = value / 10_000_000_000_000_000;
-        let rds = value % 10_000_000_000_000_000;
-
-        digit_100_000_000_compat(chinese_number_table, case, dependent, msds as u64, buffer);
-
-        buffer.push_str(chinese_number_table[15]);
-
-        if rds > 0 {
-            if rds < 1_000_000_000_000_000 {
-                buffer.push_str(chinese_number_table[0]);
-            }
-
-            digit_100_000_000_compat(chinese_number_table, case, true, rds as u64, buffer);
-        }
-    }
-}
-
-#[inline]
-pub(crate) fn digit_100_000_000_000_000_000_000_000_000_000_000_compat(
-    chinese_number_table: ChineseNumberTable,
-    case: ChineseNumberCase,
-    dependent: bool,
-    value: u128,
-    buffer: &mut String,
-) {
-    if value < 100_000_000_000_000_000_000_000_000_000_000 {
-        digit_10_000_000_000_000_000_compat(chinese_number_table, case, dependent, value, buffer);
-    } else {
-        let msds = value / 100_000_000_000_000_000_000_000_000_000_000;
-        let rds = value % 100_000_000_000_000_000_000_000_000_000_000;
-
-        digit_10_000_000_000_000_000_compat(chinese_number_table, case, dependent, msds, buffer);
-
-        buffer.push_str(chinese_number_table[16]);
-
-        if rds > 0 {
-            if rds < 10_000_000_000_000_000_000_000_000_000_000 {
-                buffer.push_str(chinese_number_table[0]);
-            }
-
-            digit_10_000_000_000_000_000_compat(chinese_number_table, case, true, rds, buffer);
-        }
-    }
-}
-
-pub(crate) fn digit_compat_low_u32(
-    chinese_number_table: ChineseNumberTable,
-    case: ChineseNumberCase,
-    mut value: u32,
-    buffer: &mut String,
-) {
-    if value == 0 {
-        buffer.push_str(chinese_number_table[0]);
-        return;
-    }
-
-    let mut zero_initial = false;
-    let mut zero = false;
-
-    for (i, v) in (5..=9).rev().map(|i| (i, 10u32.pow(i))) {
-        if value >= v {
-            let msd = value / v;
-            value %= v;
-
-            if zero {
-                buffer.push_str(chinese_number_table[0]);
-            }
-
-            digit_1(chinese_number_table, msd as usize, buffer);
-
-            buffer.push_str(chinese_number_table[(9 + i) as usize]);
-
-            zero = false;
-
-            zero_initial = true;
-        } else if zero_initial {
-            zero = true;
-        }
-    }
-
-    if value > 0 {
-        if zero_initial && value < 10_000 {
-            buffer.push_str(chinese_number_table[0]);
-        }
-
-        digit_10_000_compat(chinese_number_table, case, zero_initial, value as usize, buffer);
-    }
-}
-
-#[inline]
-pub(crate) fn digit_compat_ten_thousand_u32(
-    chinese_number_table: ChineseNumberTable,
-    case: ChineseNumberCase,
-    value: u32,
-    buffer: &mut String,
-) {
-    if value >= 100_000_000 {
-        let msds = value / 100_000_000;
-        let rds = value % 100_000_000;
-
-        digit_1000_compat(chinese_number_table, case, false, msds as usize, buffer);
-
-        buffer.push_str(chinese_number_table[14]);
-
-        if rds > 0 {
-            if rds < 1000 {
-                buffer.push_str(chinese_number_table[0]);
-            }
-
-            digit_10_000_compat(chinese_number_table, case, true, rds as usize, buffer);
-        }
-    } else {
-        digit_10_000_compat(chinese_number_table, case, false, value as usize, buffer);
-    }
-}
-
-pub(crate) fn digit_compat_low_u64(
-    chinese_number_table: ChineseNumberTable,
-    case: ChineseNumberCase,
-    mut value: u64,
-    buffer: &mut String,
-) {
-    debug_assert!(value < 10_000_000_000_000_000); // support to "極"
-
-    if value == 0 {
-        buffer.push_str(chinese_number_table[0]);
-        return;
-    }
-
-    let mut zero_initial = false;
-    let mut zero = false;
-
-    for (i, v) in (5..=15).rev().map(|i| (i, 10u64.pow(i))) {
-        if value >= v {
-            let msd = value / v;
-            value %= v;
-
-            if zero {
-                buffer.push_str(chinese_number_table[0]);
-            }
-
-            digit_1(chinese_number_table, msd as usize, buffer);
-
-            buffer.push_str(chinese_number_table[(9 + i) as usize]);
-
-            zero = false;
-
-            zero_initial = true;
-        } else if zero_initial {
-            zero = true;
-        }
-    }
-
-    if value > 0 {
-        if zero_initial && value < 10_000 {
-            buffer.push_str(chinese_number_table[0]);
-        }
-        digit_10_000_compat(chinese_number_table, case, zero_initial, value as usize, buffer);
-    }
-}
-
-pub(crate) fn digit_compat_ten_thousand_u64(
-    chinese_number_table: ChineseNumberTable,
-    case: ChineseNumberCase,
-    mut value: u64,
-    buffer: &mut String,
-) {
-    if value == 0 {
-        buffer.push_str(chinese_number_table[0]);
-
-        return;
-    }
-
-    let mut zero_initial = false;
-    let mut zero = false;
-
-    for (i, v) in (5..=7).rev().map(|i| (i, 10u64.pow((i - 3) * 4))) {
-        if value >= v {
-            let msd = value / v;
-            value %= v;
-
-            if zero || (zero_initial && msd < 1000) {
-                buffer.push_str(chinese_number_table[0]);
-            }
-
-            digit_1000_compat(chinese_number_table, case, zero_initial, msd as usize, buffer);
-
-            buffer.push_str(chinese_number_table[(9 + i) as usize]);
-
-            zero = false;
-
-            zero_initial = true;
-        } else if zero_initial {
-            zero = true;
-        }
-    }
-
-    if value > 0 {
-        if zero_initial && value < 10_000_000 {
-            buffer.push_str(chinese_number_table[0]);
-        }
-
-        digit_10_000_compat(chinese_number_table, case, zero_initial, value as usize, buffer);
-    }
-}
-
-pub(crate) fn digit_compat_middle_u64(
-    chinese_number_table: ChineseNumberTable,
-    case: ChineseNumberCase,
-    mut value: u64,
-    buffer: &mut String,
-) {
-    if value == 0 {
-        buffer.push_str(chinese_number_table[0]);
-
-        return;
-    }
-
-    let mut zero_initial = false;
-    let mut zero = false;
-
-    for (i, v) in (5..=6).rev().map(|i| (i, 10u64.pow((i - 4) * 8))) {
-        if value >= v {
-            let msd = value / v;
-            value %= v;
-
-            if zero || (zero_initial && msd < 10_000_000) {
-                buffer.push_str(chinese_number_table[0]);
-            }
-
-            digit_10_000_compat(chinese_number_table, case, zero_initial, msd as usize, buffer);
-
-            buffer.push_str(chinese_number_table[(9 + i) as usize]);
-
-            zero = false;
-
-            zero_initial = true;
-        } else if zero_initial {
-            zero = true;
-        }
-    }
-
-    if value > 0 {
-        if zero_initial && value < 10_000_000 {
-            buffer.push_str(chinese_number_table[0]);
-        }
-
-        digit_10_000_compat(chinese_number_table, case, zero_initial, value as usize, buffer);
-    }
-}
-
-#[inline]
-pub(crate) fn digit_compat_high_u64(
-    chinese_number_table: ChineseNumberTable,
-    case: ChineseNumberCase,
-    value: u64,
-    buffer: &mut String,
-) {
-    digit_100_000_000_000_000_000_000_000_000_000_000_compat(
-        chinese_number_table,
-        case,
-        false,
-        value as u128,
-        buffer,
-    );
-}
-
-pub(crate) fn digit_compat_ten_thousand_u128(
-    chinese_number_table: ChineseNumberTable,
-    case: ChineseNumberCase,
     mut value: u128,
-    buffer: &mut String,
-) {
-    if value == 0 {
-        buffer.push_str(chinese_number_table[0]);
+) -> String {
+    debug_assert!(value < 1_0000_0000_0000_0000);
 
-        return;
+    let mut s = String::new();
+
+    let mut lower_d = (value % 10) as u8;
+    value /= 10;
+
+    if lower_d > 0 {
+        s.push_str(
+            unsafe { ChineseNumber::from_ordinal_unsafe(lower_d) }
+                .to_str(chinese_variant, chinese_case),
+        );
+    } else if value == 0 {
+        return ChineseNumber::零.to_str(chinese_variant, chinese_case).to_string();
     }
 
-    let mut zero_initial = false;
-    let mut zero = false;
+    let d = (value % 10) as u8;
+    value /= 10;
 
-    for (i, v) in (5..=12).rev().map(|i| (i, 10u128.pow((i - 3) * 4))) {
-        if value >= v {
-            let msd = value / v;
-            value %= v;
+    if d > 0 {
+        s.insert_str(0, ChineseExponent::十.to_str(chinese_variant, chinese_case));
 
-            if zero || (zero_initial && msd < 1000) {
-                buffer.push_str(chinese_number_table[0]);
+        if value > 0 || dependent || d > 1 {
+            s.insert_str(
+                0,
+                unsafe { ChineseNumber::from_ordinal_unsafe(d) }
+                    .to_str(chinese_variant, chinese_case),
+            );
+        }
+    }
+
+    if value == 0 {
+        return s;
+    }
+
+    lower_d = d;
+
+    let mut i = ChineseExponent::百.ordinal();
+
+    loop {
+        let d = (value % 10) as u8;
+        value /= 10;
+
+        if d > 0 {
+            if lower_d < 1 && !s.is_empty() {
+                s.insert_str(0, ChineseNumber::零.to_str(chinese_variant, chinese_case));
             }
 
-            digit_1000_compat(chinese_number_table, case, zero_initial, msd as usize, buffer);
+            s.insert_str(
+                0,
+                unsafe { ChineseExponent::from_ordinal_unsafe(i) }
+                    .to_str(chinese_variant, chinese_case),
+            );
 
-            buffer.push_str(chinese_number_table[(9 + i) as usize]);
-
-            zero = false;
-
-            zero_initial = true;
-        } else if zero_initial {
-            zero = true;
-        }
-    }
-
-    if value > 0 {
-        if zero_initial && value < 10_000_000 {
-            buffer.push_str(chinese_number_table[0]);
+            s.insert_str(
+                0,
+                unsafe { ChineseNumber::from_ordinal_unsafe(d) }
+                    .to_str(chinese_variant, chinese_case),
+            );
         }
 
-        digit_10_000_compat(chinese_number_table, case, zero_initial, value as usize, buffer);
+        if value == 0 {
+            break;
+        }
+
+        lower_d = d;
+
+        i += 1;
     }
+
+    s
 }
 
-pub(crate) fn digit_compat_middle_u128(
-    chinese_number_table: ChineseNumberTable,
-    case: ChineseNumberCase,
+pub(crate) fn unsigned_integer_to_chinese_ten_thousand(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    dependent: bool,
     mut value: u128,
-    buffer: &mut String,
-) {
-    if value == 0 {
-        buffer.push_str(chinese_number_table[0]);
+) -> String {
+    let mut lower_d = value % 1_0000;
+    value /= 1_0000;
 
-        return;
+    let mut has_more = value > 0;
+
+    let mut s = if lower_d > 0 {
+        unsigned_integer_to_chinese_low(
+            chinese_variant,
+            chinese_case,
+            dependent || has_more,
+            lower_d,
+        )
+    } else if value == 0 {
+        return ChineseNumber::零.to_str(chinese_variant, chinese_case).to_string();
+    } else {
+        String::new()
+    };
+
+    if !has_more {
+        return s;
     }
 
-    let mut zero_initial = false;
-    let mut zero = false;
+    let mut i = ChineseExponent::萬.ordinal();
 
-    for (i, v) in (5..=8).rev().map(|i| (i, 10u128.pow((i - 4) * 8))) {
-        if value >= v {
-            let msd = value / v;
-            value %= v;
+    loop {
+        let d = value % 1_0000;
+        value /= 1_0000;
 
-            if zero || (zero_initial && msd < 10_000_000) {
-                buffer.push_str(chinese_number_table[0]);
+        has_more = value > 0;
+
+        if d > 0 {
+            if lower_d < 1000 && !s.is_empty() {
+                s.insert_str(0, ChineseNumber::零.to_str(chinese_variant, chinese_case));
             }
 
-            digit_10_000_compat(chinese_number_table, case, zero_initial, msd as usize, buffer);
+            s.insert_str(
+                0,
+                unsafe { ChineseExponent::from_ordinal_unsafe(i) }
+                    .to_str(chinese_variant, chinese_case),
+            );
 
-            buffer.push_str(chinese_number_table[(9 + i) as usize]);
-
-            zero = false;
-
-            zero_initial = true;
-        } else if zero_initial {
-            zero = true;
+            s.insert_str(
+                0,
+                unsigned_integer_to_chinese_low(
+                    chinese_variant,
+                    chinese_case,
+                    dependent || has_more,
+                    d,
+                )
+                .as_str(),
+            );
         }
+
+        if !has_more {
+            break;
+        }
+
+        lower_d = d;
+
+        i += 1;
     }
 
-    if value > 0 {
-        if zero_initial && value < 10_000_000 {
-            buffer.push_str(chinese_number_table[0]);
+    s
+}
+
+pub(crate) fn big_unsigned_integer_to_chinese_ten_thousand(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    dependent: bool,
+    mut value: BigUint,
+) -> String {
+    debug_assert!(value < BigUint::from(10u8).pow(52));
+
+    let big_0 = BigUint::zero();
+    let big_1_0000 = BigUint::from(1_0000u16);
+
+    let mut lower_d = (value.clone() % &big_1_0000).to_u128().unwrap();
+    value /= &big_1_0000;
+
+    let mut has_more = value > big_0;
+
+    let mut s = if lower_d > 0 {
+        unsigned_integer_to_chinese_low(
+            chinese_variant,
+            chinese_case,
+            dependent || has_more,
+            lower_d,
+        )
+    } else if value == big_0 {
+        return ChineseNumber::零.to_str(chinese_variant, chinese_case).to_string();
+    } else {
+        String::new()
+    };
+
+    if !has_more {
+        return s;
+    }
+
+    let mut i = ChineseExponent::萬.ordinal();
+
+    loop {
+        let d = (value.clone() % &big_1_0000).to_u128().unwrap();
+        value /= &big_1_0000;
+
+        has_more = value > big_0;
+
+        if d > 0 {
+            if lower_d < 1000 && !s.is_empty() {
+                s.insert_str(0, ChineseNumber::零.to_str(chinese_variant, chinese_case));
+            }
+
+            s.insert_str(
+                0,
+                unsafe { ChineseExponent::from_ordinal_unsafe(i) }
+                    .to_str(chinese_variant, chinese_case),
+            );
+
+            s.insert_str(
+                0,
+                unsigned_integer_to_chinese_low(
+                    chinese_variant,
+                    chinese_case,
+                    dependent || has_more,
+                    d,
+                )
+                .as_str(),
+            );
         }
 
-        digit_10_000_compat(chinese_number_table, case, zero_initial, value as usize, buffer);
+        if !has_more {
+            break;
+        }
+
+        lower_d = d;
+
+        i += 1;
     }
+
+    s
 }
 
-#[inline]
-pub(crate) fn digit_compat_high_u128(
-    chinese_number_table: ChineseNumberTable,
-    case: ChineseNumberCase,
-    value: u128,
-    buffer: &mut String,
-) {
-    digit_100_000_000_000_000_000_000_000_000_000_000_compat(
-        chinese_number_table,
-        case,
-        false,
-        value,
-        buffer,
-    );
+pub(crate) fn unsigned_integer_to_chinese_middle(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    dependent: bool,
+    mut value: u128,
+) -> String {
+    let mut lower_d = value % 1_0000_0000;
+    value /= 1_0000_0000;
+
+    let mut has_more = value > 0;
+
+    let mut s = if lower_d > 0 {
+        unsigned_integer_to_chinese_ten_thousand(
+            chinese_variant,
+            chinese_case,
+            dependent || has_more,
+            lower_d,
+        )
+    } else if value == 0 {
+        return ChineseNumber::零.to_str(chinese_variant, chinese_case).to_string();
+    } else {
+        String::new()
+    };
+
+    if !has_more {
+        return s;
+    }
+
+    let mut i = ChineseExponent::億.ordinal();
+
+    loop {
+        let d = value % 1_0000_0000;
+        value /= 1_0000_0000;
+
+        has_more = value > 0;
+
+        if d > 0 {
+            if lower_d < 1000_0000 && !s.is_empty() {
+                s.insert_str(0, ChineseNumber::零.to_str(chinese_variant, chinese_case));
+            }
+
+            s.insert_str(
+                0,
+                unsafe { ChineseExponent::from_ordinal_unsafe(i) }
+                    .to_str(chinese_variant, chinese_case),
+            );
+
+            s.insert_str(
+                0,
+                unsigned_integer_to_chinese_ten_thousand(
+                    chinese_variant,
+                    chinese_case,
+                    dependent || has_more,
+                    d,
+                )
+                .as_str(),
+            );
+        }
+
+        if !has_more {
+            break;
+        }
+
+        lower_d = d;
+
+        i += 1;
+    }
+
+    s
 }
 
-#[inline]
-pub(crate) fn fraction_compat_low(
-    chinese_number_table: ChineseNumberTable,
-    case: ChineseNumberCase,
+pub(crate) fn big_unsigned_integer_to_chinese_middle(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    dependent: bool,
+    mut value: BigUint,
+) -> String {
+    debug_assert!(value < BigUint::from(10u8).pow(96));
+
+    let big_0 = BigUint::zero();
+    let big_1_0000_0000 = BigUint::from(1_0000_0000u32);
+
+    let mut lower_d = (value.clone() % &big_1_0000_0000).to_u128().unwrap();
+    value /= &big_1_0000_0000;
+
+    let mut has_more = value > big_0;
+
+    let mut s = if lower_d > 0 {
+        unsigned_integer_to_chinese_ten_thousand(
+            chinese_variant,
+            chinese_case,
+            dependent || has_more,
+            lower_d,
+        )
+    } else if value == big_0 {
+        return ChineseNumber::零.to_str(chinese_variant, chinese_case).to_string();
+    } else {
+        String::new()
+    };
+
+    if !has_more {
+        return s;
+    }
+
+    let mut i = ChineseExponent::億.ordinal();
+
+    loop {
+        let d = (value.clone() % &big_1_0000_0000).to_u128().unwrap();
+        value /= &big_1_0000_0000;
+
+        has_more = value > big_0;
+
+        if d > 0 {
+            if lower_d < 1000_0000 && !s.is_empty() {
+                s.insert_str(0, ChineseNumber::零.to_str(chinese_variant, chinese_case));
+            }
+
+            s.insert_str(
+                0,
+                unsafe { ChineseExponent::from_ordinal_unsafe(i) }
+                    .to_str(chinese_variant, chinese_case),
+            );
+
+            s.insert_str(
+                0,
+                unsigned_integer_to_chinese_ten_thousand(
+                    chinese_variant,
+                    chinese_case,
+                    dependent || has_more,
+                    d,
+                )
+                .as_str(),
+            );
+        }
+
+        if !has_more {
+            break;
+        }
+
+        lower_d = d;
+
+        i += 1;
+    }
+
+    s
+}
+
+pub(crate) fn unsigned_integer_to_chinese_high(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    dependent: bool,
+    mut value: u128,
+) -> String {
+    let mut w = 1_0000_0000_0000_0000;
+
+    let mut lower_d = value % w;
+    value /= w;
+
+    let mut has_more = value > 0;
+
+    let mut s = if lower_d > 0 {
+        unsigned_integer_to_chinese_middle(
+            chinese_variant,
+            chinese_case,
+            dependent || has_more,
+            lower_d,
+        )
+    } else if value == 0 {
+        return ChineseNumber::零.to_str(chinese_variant, chinese_case).to_string();
+    } else {
+        String::new()
+    };
+
+    if !has_more {
+        return s;
+    }
+
+    let mut i = ChineseExponent::兆.ordinal();
+
+    let mut previous_w = w;
+
+    loop {
+        let d = value % w;
+        value /= w;
+
+        has_more = value > 0;
+
+        if d > 0 {
+            if lower_d < previous_w / 10 && !s.is_empty() {
+                s.insert_str(0, ChineseNumber::零.to_str(chinese_variant, chinese_case));
+            }
+
+            s.insert_str(
+                0,
+                unsafe { ChineseExponent::from_ordinal_unsafe(i) }
+                    .to_str(chinese_variant, chinese_case),
+            );
+
+            s.insert_str(
+                0,
+                unsigned_integer_to_chinese_high(
+                    chinese_variant,
+                    chinese_case,
+                    dependent || has_more,
+                    d,
+                )
+                .as_str(),
+            );
+        }
+
+        if !has_more {
+            break;
+        }
+
+        lower_d = d;
+
+        i += 1;
+
+        previous_w = w;
+        w *= w;
+    }
+
+    s
+}
+
+pub(crate) fn big_unsigned_integer_to_chinese_high(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    dependent: bool,
+    mut value: BigUint,
+) -> String {
+    let big_0 = BigUint::zero();
+    let big_10 = BigUint::from(10u8);
+
+    let mut w = BigUint::from(1_0000_0000_0000_0000u64);
+
+    let mut lower_d = value.clone() % &w;
+    value /= &w;
+
+    let mut has_more = value > big_0;
+
+    let mut s = if lower_d > big_0 {
+        unsigned_integer_to_chinese_middle(
+            chinese_variant,
+            chinese_case,
+            dependent || has_more,
+            lower_d.to_u128().unwrap(),
+        )
+    } else if value == big_0 {
+        return ChineseNumber::零.to_str(chinese_variant, chinese_case).to_string();
+    } else {
+        String::new()
+    };
+
+    if !has_more {
+        return s;
+    }
+
+    let mut i = ChineseExponent::兆.ordinal();
+
+    let mut previous_w = w.clone();
+
+    loop {
+        let d = value.clone() % &w;
+        value /= &w;
+
+        has_more = value > big_0;
+
+        if d > big_0 {
+            if lower_d < previous_w / &big_10 && !s.is_empty() {
+                s.insert_str(0, ChineseNumber::零.to_str(chinese_variant, chinese_case));
+            }
+
+            s.insert_str(
+                0,
+                unsafe { ChineseExponent::from_ordinal_unsafe(i) }
+                    .to_str(chinese_variant, chinese_case),
+            );
+
+            s.insert_str(
+                0,
+                big_unsigned_integer_to_chinese_high(
+                    chinese_variant,
+                    chinese_case,
+                    dependent || has_more,
+                    d.clone(),
+                )
+                .as_str(),
+            );
+        }
+
+        if !has_more {
+            break;
+        }
+
+        lower_d = d;
+
+        i += 1;
+
+        previous_w = w.clone();
+        w = w.clone() * w;
+    }
+
+    s
+}
+
+pub(crate) fn positive_float_to_chinese(
+    chinese_variant: ChineseVariant,
+    chinese_case: ChineseCase,
+    method: ChineseCountMethod,
     value: f64,
-    buffer: &mut String,
-) {
-    let integer = value as u64;
-    let fraction = (value * 100.0) as usize % 100;
+) -> String {
+    let (integer, fraction) = {
+        let integer = BigUint::from_f64(value.trunc()).unwrap();
+        let fraction = ((value.fract() * 100.0).round() % 100f64) as u8;
 
-    if integer > 0 {
-        digit_compat_low_u64(chinese_number_table, case, integer, buffer);
-    }
+        (integer, fraction)
+    };
+
+    let big_0 = BigUint::zero();
+
+    let mut s = if integer > big_0 {
+        match method {
+            ChineseCountMethod::Low => {
+                unsigned_integer_to_chinese_low(
+                    chinese_variant,
+                    chinese_case,
+                    false,
+                    integer.to_u128().unwrap(),
+                )
+            }
+            ChineseCountMethod::TenThousand => {
+                big_unsigned_integer_to_chinese_ten_thousand(
+                    chinese_variant,
+                    chinese_case,
+                    false,
+                    integer.clone(),
+                )
+            }
+            ChineseCountMethod::Middle => {
+                big_unsigned_integer_to_chinese_middle(
+                    chinese_variant,
+                    chinese_case,
+                    false,
+                    integer.clone(),
+                )
+            }
+            ChineseCountMethod::High => {
+                big_unsigned_integer_to_chinese_high(
+                    chinese_variant,
+                    chinese_case,
+                    false,
+                    integer.clone(),
+                )
+            }
+        }
+    } else {
+        String::new()
+    };
 
     if fraction >= 10 {
         let msd = fraction / 10;
         let lsd = fraction % 10;
 
-        digit_1(chinese_number_table, msd, buffer);
+        s.push_str(
+            unsafe { ChineseNumber::from_ordinal_unsafe(msd) }
+                .to_str(chinese_variant, chinese_case),
+        );
 
-        buffer.push_str(CHINESE_NUMBERS_FRACTION[0]);
-
-        if lsd > 0 {
-            digit_1(chinese_number_table, lsd, buffer);
-
-            buffer.push_str(CHINESE_NUMBERS_FRACTION[1]);
-        }
-    } else if fraction >= 1 {
-        digit_1(chinese_number_table, fraction, buffer);
-
-        buffer.push_str(CHINESE_NUMBERS_FRACTION[1]);
-    } else if integer == 0 {
-        buffer.push_str(chinese_number_table[0]);
-    }
-}
-
-#[inline]
-pub(crate) fn fraction_compat_ten_thousand(
-    chinese_number_table: ChineseNumberTable,
-    case: ChineseNumberCase,
-    value: f64,
-    buffer: &mut String,
-) {
-    let integer = value as u128;
-    let fraction = (value * 100.0) as usize % 100;
-
-    if integer > 0 {
-        digit_compat_ten_thousand_u128(chinese_number_table, case, integer, buffer);
-    }
-
-    if fraction >= 10 {
-        let msd = fraction / 10;
-        let lsd = fraction % 10;
-
-        digit_1(chinese_number_table, msd, buffer);
-
-        buffer.push_str(CHINESE_NUMBERS_FRACTION[0]);
+        s.push_str(ChineseExponent::角.to_str(chinese_variant, chinese_case));
 
         if lsd > 0 {
-            digit_1(chinese_number_table, lsd, buffer);
+            s.push_str(
+                unsafe { ChineseNumber::from_ordinal_unsafe(lsd) }
+                    .to_str(chinese_variant, chinese_case),
+            );
 
-            buffer.push_str(CHINESE_NUMBERS_FRACTION[1]);
+            s.push_str(ChineseExponent::分.to_str(chinese_variant, chinese_case));
         }
     } else if fraction >= 1 {
-        digit_1(chinese_number_table, fraction, buffer);
+        s.push_str(
+            unsafe { ChineseNumber::from_ordinal_unsafe(fraction) }
+                .to_str(chinese_variant, chinese_case),
+        );
 
-        buffer.push_str(CHINESE_NUMBERS_FRACTION[1]);
-    } else if integer == 0 {
-        buffer.push_str(chinese_number_table[0]);
-    }
-}
-
-#[inline]
-pub(crate) fn fraction_compat_middle(
-    chinese_number_table: ChineseNumberTable,
-    case: ChineseNumberCase,
-    value: f64,
-    buffer: &mut String,
-) {
-    let integer = value as u128;
-    let fraction = (value * 100.0) as usize % 100;
-
-    if integer > 0 {
-        digit_compat_middle_u128(chinese_number_table, case, integer, buffer);
+        s.push_str(ChineseExponent::分.to_str(chinese_variant, chinese_case));
+    } else if integer == big_0 {
+        s.push_str(ChineseNumber::零.to_str(chinese_variant, chinese_case));
     }
 
-    if fraction >= 10 {
-        let msd = fraction / 10;
-        let lsd = fraction % 10;
-
-        digit_1(chinese_number_table, msd, buffer);
-
-        buffer.push_str(CHINESE_NUMBERS_FRACTION[0]);
-
-        if lsd > 0 {
-            digit_1(chinese_number_table, lsd, buffer);
-
-            buffer.push_str(CHINESE_NUMBERS_FRACTION[1]);
-        }
-    } else if fraction >= 1 {
-        digit_1(chinese_number_table, fraction, buffer);
-
-        buffer.push_str(CHINESE_NUMBERS_FRACTION[1]);
-    } else if integer == 0 {
-        buffer.push_str(chinese_number_table[0]);
-    }
-}
-
-#[inline]
-pub(crate) fn fraction_compat_high(
-    chinese_number_table: ChineseNumberTable,
-    case: ChineseNumberCase,
-    value: f64,
-    buffer: &mut String,
-) {
-    let integer = value as u128;
-    let fraction = (value * 100.0) as usize % 100;
-
-    if integer > 0 {
-        digit_compat_high_u128(chinese_number_table, case, integer, buffer);
-    }
-
-    if fraction >= 10 {
-        let msd = fraction / 10;
-        let lsd = fraction % 10;
-
-        digit_1(chinese_number_table, msd, buffer);
-
-        buffer.push_str(CHINESE_NUMBERS_FRACTION[0]);
-
-        if lsd > 0 {
-            digit_1(chinese_number_table, lsd, buffer);
-
-            buffer.push_str(CHINESE_NUMBERS_FRACTION[1]);
-        }
-    } else if fraction >= 1 {
-        digit_1(chinese_number_table, fraction, buffer);
-
-        buffer.push_str(CHINESE_NUMBERS_FRACTION[1]);
-    } else if integer == 0 {
-        buffer.push_str(chinese_number_table[0]);
-    }
+    s
 }
