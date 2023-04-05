@@ -1,5 +1,4 @@
 use core::fmt::{self, Display, Formatter};
-
 #[cfg(feature = "std")]
 use std::error::Error;
 
@@ -7,9 +6,7 @@ use std::error::Error;
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
 pub enum ChineseToNumberError {
     ChineseNumberEmpty,
-    ChineseNumberIncorrect {
-        char_index: usize,
-    },
+    ChineseNumberIncorrect { char_index: usize },
     Overflow,
     Underflow,
 }
@@ -20,15 +17,13 @@ impl Display for ChineseToNumberError {
         match self {
             ChineseToNumberError::ChineseNumberEmpty => {
                 f.write_str("a chinese number cannot be empty")
-            }
+            },
             ChineseToNumberError::ChineseNumberIncorrect {
                 char_index,
-            } => {
-                f.write_fmt(format_args!(
-                    "the chinese number is incorrect (position: {})",
-                    char_index
-                ))
-            }
+            } => f.write_fmt(format_args!(
+                "the chinese number is incorrect (position: {})",
+                char_index
+            )),
             ChineseToNumberError::Overflow => f.write_str("number is too large"),
             ChineseToNumberError::Underflow => f.write_str("number is too small"),
         }

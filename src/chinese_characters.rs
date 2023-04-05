@@ -25,81 +25,55 @@ impl ChineseNumber {
     ) -> &'static str {
         match self {
             Self::零 => "零",
-            Self::一 => {
-                match chinese_case {
-                    ChineseCase::Upper => "壹",
-                    ChineseCase::Lower => "一",
-                }
-            }
-            Self::二 => {
-                match chinese_case {
-                    ChineseCase::Upper => {
-                        match chinese_variant {
-                            ChineseVariant::Traditional => "貳",
-                            ChineseVariant::Simple => "贰",
-                        }
-                    }
-                    ChineseCase::Lower => "二",
-                }
-            }
-            Self::三 => {
-                match chinese_case {
-                    ChineseCase::Upper => {
-                        match chinese_variant {
-                            ChineseVariant::Traditional => "參",
-                            ChineseVariant::Simple => "参",
-                        }
-                    }
-                    ChineseCase::Lower => "三",
-                }
-            }
-            Self::四 => {
-                match chinese_case {
-                    ChineseCase::Upper => "肆",
-                    ChineseCase::Lower => "四",
-                }
-            }
-            Self::五 => {
-                match chinese_case {
-                    ChineseCase::Upper => "伍",
-                    ChineseCase::Lower => "五",
-                }
-            }
-            Self::六 => {
-                match chinese_case {
-                    ChineseCase::Upper => {
-                        match chinese_variant {
-                            ChineseVariant::Traditional => "陸",
-                            ChineseVariant::Simple => "陆",
-                        }
-                    }
-                    ChineseCase::Lower => "六",
-                }
-            }
-            Self::七 => {
-                match chinese_case {
-                    ChineseCase::Upper => "柒",
-                    ChineseCase::Lower => "七",
-                }
-            }
-            Self::八 => {
-                match chinese_case {
-                    ChineseCase::Upper => "捌",
-                    ChineseCase::Lower => "八",
-                }
-            }
-            Self::九 => {
-                match chinese_case {
-                    ChineseCase::Upper => "玖",
-                    ChineseCase::Lower => "九",
-                }
-            }
-            Self::十 => {
-                match chinese_case {
-                    ChineseCase::Upper => "拾",
-                    ChineseCase::Lower => "十",
-                }
-            }
+            Self::一 => match chinese_case {
+                ChineseCase::Upper => "壹",
+                ChineseCase::Lower => "一",
+            },
+            Self::二 => match chinese_case {
+                ChineseCase::Upper => match chinese_variant {
+                    ChineseVariant::Traditional => "貳",
+                    ChineseVariant::Simple => "贰",
+                },
+                ChineseCase::Lower => "二",
+            },
+            Self::三 => match chinese_case {
+                ChineseCase::Upper => match chinese_variant {
+                    ChineseVariant::Traditional => "參",
+                    ChineseVariant::Simple => "参",
+                },
+                ChineseCase::Lower => "三",
+            },
+            Self::四 => match chinese_case {
+                ChineseCase::Upper => "肆",
+                ChineseCase::Lower => "四",
+            },
+            Self::五 => match chinese_case {
+                ChineseCase::Upper => "伍",
+                ChineseCase::Lower => "五",
+            },
+            Self::六 => match chinese_case {
+                ChineseCase::Upper => match chinese_variant {
+                    ChineseVariant::Traditional => "陸",
+                    ChineseVariant::Simple => "陆",
+                },
+                ChineseCase::Lower => "六",
+            },
+            Self::七 => match chinese_case {
+                ChineseCase::Upper => "柒",
+                ChineseCase::Lower => "七",
+            },
+            Self::八 => match chinese_case {
+                ChineseCase::Upper => "捌",
+                ChineseCase::Lower => "八",
+            },
+            Self::九 => match chinese_case {
+                ChineseCase::Upper => "玖",
+                ChineseCase::Lower => "九",
+            },
+            Self::十 => match chinese_case {
+                ChineseCase::Upper => "拾",
+                ChineseCase::Lower => "十",
+            },
         }
     }
 
@@ -155,72 +129,52 @@ impl ChineseExponent {
         match self {
             Self::分 => "分",
             Self::角 => "角",
-            Self::個 => {
-                match chinese_variant {
-                    ChineseVariant::Traditional => "個",
-                    ChineseVariant::Simple => "个",
-                }
-            }
-            Self::十 => {
-                match chinese_case {
-                    ChineseCase::Upper => "拾",
-                    ChineseCase::Lower => "十",
-                }
-            }
-            Self::百 => {
-                match chinese_case {
-                    ChineseCase::Upper => "佰",
-                    ChineseCase::Lower => "百",
-                }
-            }
-            Self::千 => {
-                match chinese_case {
-                    ChineseCase::Upper => "仟",
-                    ChineseCase::Lower => "千",
-                }
-            }
-            Self::萬 => {
-                match chinese_variant {
-                    ChineseVariant::Traditional => "萬",
-                    ChineseVariant::Simple => "万",
-                }
-            }
-            Self::億 => {
-                match chinese_variant {
-                    ChineseVariant::Traditional => "億",
-                    ChineseVariant::Simple => "亿",
-                }
-            }
+            Self::個 => match chinese_variant {
+                ChineseVariant::Traditional => "個",
+                ChineseVariant::Simple => "个",
+            },
+            Self::十 => match chinese_case {
+                ChineseCase::Upper => "拾",
+                ChineseCase::Lower => "十",
+            },
+            Self::百 => match chinese_case {
+                ChineseCase::Upper => "佰",
+                ChineseCase::Lower => "百",
+            },
+            Self::千 => match chinese_case {
+                ChineseCase::Upper => "仟",
+                ChineseCase::Lower => "千",
+            },
+            Self::萬 => match chinese_variant {
+                ChineseVariant::Traditional => "萬",
+                ChineseVariant::Simple => "万",
+            },
+            Self::億 => match chinese_variant {
+                ChineseVariant::Traditional => "億",
+                ChineseVariant::Simple => "亿",
+            },
             Self::兆 => "兆",
             Self::京 => "京",
             Self::垓 => "垓",
             Self::秭 => "秭",
             Self::穰 => "穰",
-            Self::溝 => {
-                match chinese_variant {
-                    ChineseVariant::Traditional => "溝",
-                    ChineseVariant::Simple => "沟",
-                }
-            }
-            Self::澗 => {
-                match chinese_variant {
-                    ChineseVariant::Traditional => "澗",
-                    ChineseVariant::Simple => "涧",
-                }
-            }
+            Self::溝 => match chinese_variant {
+                ChineseVariant::Traditional => "溝",
+                ChineseVariant::Simple => "沟",
+            },
+            Self::澗 => match chinese_variant {
+                ChineseVariant::Traditional => "澗",
+                ChineseVariant::Simple => "涧",
+            },
             Self::正 => "正",
-            Self::載 => {
-                match chinese_variant {
-                    ChineseVariant::Traditional => "載",
-                    ChineseVariant::Simple => "载",
-                }
-            }
-            Self::極 => {
-                match chinese_variant {
-                    ChineseVariant::Traditional => "極",
-                    ChineseVariant::Simple => "极",
-                }
-            }
+            Self::載 => match chinese_variant {
+                ChineseVariant::Traditional => "載",
+                ChineseVariant::Simple => "载",
+            },
+            Self::極 => match chinese_variant {
+                ChineseVariant::Traditional => "極",
+                ChineseVariant::Simple => "极",
+            },
         }
     }
 
@@ -262,12 +216,10 @@ impl ChineseSign {
     pub(crate) const fn to_str(self, chinese_variant: ChineseVariant) -> &'static str {
         match self {
             Self::正 => "正",
-            Self::負 => {
-                match chinese_variant {
-                    ChineseVariant::Traditional => "負",
-                    ChineseVariant::Simple => "负",
-                }
-            }
+            Self::負 => match chinese_variant {
+                ChineseVariant::Traditional => "負",
+                ChineseVariant::Simple => "负",
+            },
         }
     }
 

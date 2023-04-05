@@ -1,11 +1,9 @@
 use alloc::string::{String, ToString};
 
 use num_bigint::BigUint;
-
 #[cfg(not(feature = "std"))]
 #[allow(unused_imports)]
 use num_traits::float::FloatCore;
-
 use num_traits::{FromPrimitive, ToPrimitive, Zero};
 
 use crate::{ChineseCase, ChineseCountMethod, ChineseExponent, ChineseNumber, ChineseVariant};
@@ -559,38 +557,30 @@ pub(crate) fn positive_float_to_chinese(
 
     let mut s = if integer > big_0 {
         match method {
-            ChineseCountMethod::Low => {
-                unsigned_integer_to_chinese_low(
-                    chinese_variant,
-                    chinese_case,
-                    false,
-                    integer.to_u128().unwrap(),
-                )
-            }
-            ChineseCountMethod::TenThousand => {
-                big_unsigned_integer_to_chinese_ten_thousand(
-                    chinese_variant,
-                    chinese_case,
-                    false,
-                    integer.clone(),
-                )
-            }
-            ChineseCountMethod::Middle => {
-                big_unsigned_integer_to_chinese_middle(
-                    chinese_variant,
-                    chinese_case,
-                    false,
-                    integer.clone(),
-                )
-            }
-            ChineseCountMethod::High => {
-                big_unsigned_integer_to_chinese_high(
-                    chinese_variant,
-                    chinese_case,
-                    false,
-                    integer.clone(),
-                )
-            }
+            ChineseCountMethod::Low => unsigned_integer_to_chinese_low(
+                chinese_variant,
+                chinese_case,
+                false,
+                integer.to_u128().unwrap(),
+            ),
+            ChineseCountMethod::TenThousand => big_unsigned_integer_to_chinese_ten_thousand(
+                chinese_variant,
+                chinese_case,
+                false,
+                integer.clone(),
+            ),
+            ChineseCountMethod::Middle => big_unsigned_integer_to_chinese_middle(
+                chinese_variant,
+                chinese_case,
+                false,
+                integer.clone(),
+            ),
+            ChineseCountMethod::High => big_unsigned_integer_to_chinese_high(
+                chinese_variant,
+                chinese_case,
+                false,
+                integer.clone(),
+            ),
         }
     } else {
         String::new()

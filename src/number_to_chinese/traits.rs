@@ -130,16 +130,16 @@ impl NumberToChinese for u128 {
         match method {
             ChineseCountMethod::Low => {
                 from_u128_to_chinese_low(chinese_variant, chinese_case, self)
-            }
+            },
             ChineseCountMethod::TenThousand => {
                 Ok(from_u128_to_chinese_ten_thousand(chinese_variant, chinese_case, self))
-            }
+            },
             ChineseCountMethod::Middle => {
                 Ok(from_u128_to_chinese_middle(chinese_variant, chinese_case, self))
-            }
+            },
             ChineseCountMethod::High => {
                 Ok(from_u128_to_chinese_high(chinese_variant, chinese_case, self))
-            }
+            },
         }
     }
 }
@@ -155,16 +155,16 @@ impl NumberToChinese for i128 {
         match method {
             ChineseCountMethod::Low => {
                 from_i128_to_chinese_low(chinese_variant, chinese_case, self)
-            }
+            },
             ChineseCountMethod::TenThousand => {
                 Ok(from_i128_to_chinese_ten_thousand(chinese_variant, chinese_case, self))
-            }
+            },
             ChineseCountMethod::Middle => {
                 Ok(from_i128_to_chinese_middle(chinese_variant, chinese_case, self))
-            }
+            },
             ChineseCountMethod::High => {
                 Ok(from_i128_to_chinese_high(chinese_variant, chinese_case, self))
-            }
+            },
         }
     }
 }
@@ -193,13 +193,13 @@ impl NumberToChinese for f64 {
             ChineseCountMethod::Low => from_f64_to_chinese_low(chinese_variant, chinese_case, self),
             ChineseCountMethod::TenThousand => {
                 from_f64_to_chinese_ten_thousand(chinese_variant, chinese_case, self)
-            }
+            },
             ChineseCountMethod::Middle => {
                 from_f64_to_chinese_middle(chinese_variant, chinese_case, self)
-            }
+            },
             ChineseCountMethod::High => {
                 Ok(from_f64_to_chinese_high(chinese_variant, chinese_case, self))
-            }
+            },
         }
     }
 }

@@ -4,9 +4,8 @@ mod traits;
 
 mod functions_test;
 
-use functions::*;
-
 pub use chinese_to_number_error::*;
+use functions::*;
 pub use traits::*;
 
 use crate::ChineseCountMethod;

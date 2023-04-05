@@ -62,15 +62,11 @@ mod chinese_case;
 mod chinese_characters;
 mod chinese_count_method;
 
-pub use chinese_variant::*;
-
 pub use chinese_case::*;
-pub use chinese_count_method::*;
-
 pub(crate) use chinese_characters::*;
-
-#[cfg(feature = "number-to-chinese")]
-pub use number_to_chinese::*;
-
+pub use chinese_count_method::*;
 #[cfg(feature = "chinese-to-number")]
 pub use chinese_to_number::*;
+pub use chinese_variant::*;
+#[cfg(feature = "number-to-chinese")]
+pub use number_to_chinese::*;

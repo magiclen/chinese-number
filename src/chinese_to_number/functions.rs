@@ -1,6 +1,5 @@
-use core::cmp::Ordering;
-
 use alloc::vec::Vec;
+use core::cmp::Ordering;
 
 #[cfg(not(feature = "std"))]
 #[allow(unused_imports)]
@@ -20,66 +19,58 @@ fn get_exp_base(
     exp: ChineseExponent,
 ) -> Result<u128, ChineseToNumberError> {
     match method {
-        ChineseCountMethod::Low => {
-            match exp {
-                ChineseExponent::個 => Ok(1),
-                _ => {
-                    debug_assert!(exp > ChineseExponent::個);
+        ChineseCountMethod::Low => match exp {
+            ChineseExponent::個 => Ok(1),
+            _ => {
+                debug_assert!(exp > ChineseExponent::個);
 
-                    Ok(10u128.pow((exp.ordinal() - ChineseExponent::個.ordinal()) as u32))
+                Ok(10u128.pow((exp.ordinal() - ChineseExponent::個.ordinal()) as u32))
+            },
+        },
+        ChineseCountMethod::TenThousand => match exp {
+            ChineseExponent::個 => Ok(1),
+            ChineseExponent::十 => Ok(10),
+            ChineseExponent::百 => Ok(100),
+            ChineseExponent::千 => Ok(1000),
+            _ => {
+                debug_assert!(exp > ChineseExponent::千);
+
+                1_0000u128
+                    .checked_pow((exp.ordinal() - ChineseExponent::千.ordinal()) as u32)
+                    .ok_or(ChineseToNumberError::Overflow)
+            },
+        },
+        ChineseCountMethod::Middle => match exp {
+            ChineseExponent::個 => Ok(1),
+            ChineseExponent::十 => Ok(10),
+            ChineseExponent::百 => Ok(100),
+            ChineseExponent::千 => Ok(1000),
+            ChineseExponent::萬 => Ok(1_0000),
+            _ => {
+                debug_assert!(exp > ChineseExponent::萬);
+
+                1_0000_0000u128
+                    .checked_pow((exp.ordinal() - ChineseExponent::萬.ordinal()) as u32)
+                    .ok_or(ChineseToNumberError::Overflow)
+            },
+        },
+        ChineseCountMethod::High => match exp {
+            ChineseExponent::個 => Ok(1),
+            ChineseExponent::十 => Ok(10),
+            ChineseExponent::百 => Ok(100),
+            ChineseExponent::千 => Ok(1000),
+            _ => {
+                debug_assert!(exp > ChineseExponent::千);
+
+                let mut w = 1_0000u128;
+
+                for _ in 0..exp.ordinal() - ChineseExponent::萬.ordinal() {
+                    w = w.checked_pow(2).ok_or(ChineseToNumberError::Overflow)?;
                 }
-            }
-        }
-        ChineseCountMethod::TenThousand => {
-            match exp {
-                ChineseExponent::個 => Ok(1),
-                ChineseExponent::十 => Ok(10),
-                ChineseExponent::百 => Ok(100),
-                ChineseExponent::千 => Ok(1000),
-                _ => {
-                    debug_assert!(exp > ChineseExponent::千);
 
-                    1_0000u128
-                        .checked_pow((exp.ordinal() - ChineseExponent::千.ordinal()) as u32)
-                        .ok_or(ChineseToNumberError::Overflow)
-                }
-            }
-        }
-        ChineseCountMethod::Middle => {
-            match exp {
-                ChineseExponent::個 => Ok(1),
-                ChineseExponent::十 => Ok(10),
-                ChineseExponent::百 => Ok(100),
-                ChineseExponent::千 => Ok(1000),
-                ChineseExponent::萬 => Ok(1_0000),
-                _ => {
-                    debug_assert!(exp > ChineseExponent::萬);
-
-                    1_0000_0000u128
-                        .checked_pow((exp.ordinal() - ChineseExponent::萬.ordinal()) as u32)
-                        .ok_or(ChineseToNumberError::Overflow)
-                }
-            }
-        }
-        ChineseCountMethod::High => {
-            match exp {
-                ChineseExponent::個 => Ok(1),
-                ChineseExponent::十 => Ok(10),
-                ChineseExponent::百 => Ok(100),
-                ChineseExponent::千 => Ok(1000),
-                _ => {
-                    debug_assert!(exp > ChineseExponent::千);
-
-                    let mut w = 1_0000u128;
-
-                    for _ in 0..exp.ordinal() - ChineseExponent::萬.ordinal() {
-                        w = w.checked_pow(2).ok_or(ChineseToNumberError::Overflow)?;
-                    }
-
-                    Ok(w)
-                }
-            }
-        }
+                Ok(w)
+            },
+        },
     }
 }
 
@@ -105,7 +96,7 @@ pub(crate) fn chinese_to_unsigned_integer_unit(
             }
 
             (0u128, ChineseExponent::十)
-        }
+        },
         Some(n) => {
             if pointer == 0 {
                 return Ok((
@@ -137,37 +128,35 @@ pub(crate) fn chinese_to_unsigned_integer_unit(
                         }
 
                         break (n.ordinal() as u128, exp);
-                    }
-                    _ => {
-                        match ChineseNumber::from_char(chars[pointer]) {
-                            Some(c) if c == ChineseNumber::零 => {
-                                if pointer == 0 {
-                                    return Ok((
-                                        (n.ordinal() as u128)
-                                            .checked_mul(base)
-                                            .ok_or(ChineseToNumberError::Overflow)?,
-                                        None,
-                                    ));
-                                }
-
-                                pointer -= 1;
-
-                                continue;
+                    },
+                    _ => match ChineseNumber::from_char(chars[pointer]) {
+                        Some(c) if c == ChineseNumber::零 => {
+                            if pointer == 0 {
+                                return Ok((
+                                    (n.ordinal() as u128)
+                                        .checked_mul(base)
+                                        .ok_or(ChineseToNumberError::Overflow)?,
+                                    None,
+                                ));
                             }
-                            _ => {
-                                return Err(ChineseToNumberError::ChineseNumberIncorrect {
-                                    char_index: pointer,
-                                })
-                            }
-                        }
-                    }
+
+                            pointer -= 1;
+
+                            continue;
+                        },
+                        _ => {
+                            return Err(ChineseToNumberError::ChineseNumberIncorrect {
+                                char_index: pointer,
+                            })
+                        },
+                    },
                 }
             }
-        }
+        },
         _ => {
             if pointer == 0 {
                 return Err(ChineseToNumberError::ChineseNumberIncorrect {
-                    char_index: pointer,
+                    char_index: pointer
                 });
             }
 
@@ -177,9 +166,9 @@ pub(crate) fn chinese_to_unsigned_integer_unit(
                     return Err(ChineseToNumberError::ChineseNumberIncorrect {
                         char_index: pointer,
                     })
-                }
+                },
             }
-        }
+        },
     };
 
     let mut sum = n;
@@ -189,19 +178,19 @@ pub(crate) fn chinese_to_unsigned_integer_unit(
         match exp.cmp(&level) {
             Ordering::Greater => {
                 break;
-            }
+            },
             Ordering::Less => {
                 let result = chinese_to_unsigned_integer_unit(method, chars, pointer - 1, exp)?;
 
                 sum = sum.checked_add(result.0).ok_or(ChineseToNumberError::Overflow)?;
 
                 next = result.1;
-            }
+            },
             Ordering::Equal => {
                 return Err(ChineseToNumberError::ChineseNumberIncorrect {
-                    char_index: pointer,
+                    char_index: pointer
                 });
-            }
+            },
         }
     }
 
@@ -235,11 +224,11 @@ pub(crate) fn chinese_to_unsigned_integer(
             }
 
             exp
-        }
+        },
         _ => {
             pointer += 1;
             ChineseExponent::個
-        }
+        },
     };
 
     let mut sum = 0u128;
@@ -285,17 +274,15 @@ pub(crate) fn chinese_to_signed_integer(
             return match error {
                 ChineseToNumberError::ChineseNumberIncorrect {
                     char_index: index,
-                } => {
-                    Err(ChineseToNumberError::ChineseNumberIncorrect {
-                        char_index: index + offset,
-                    })
-                }
+                } => Err(ChineseToNumberError::ChineseNumberIncorrect {
+                    char_index: index + offset,
+                }),
                 ChineseToNumberError::Overflow if sign == ChineseSign::負 => {
                     Err(ChineseToNumberError::Underflow)
-                }
+                },
                 _ => Err(error),
             };
-        }
+        },
     };
 
     match sign {
@@ -305,7 +292,7 @@ pub(crate) fn chinese_to_signed_integer(
             }
 
             Ok(uint as i128)
-        }
+        },
         ChineseSign::負 => {
             let m = i128::MAX as u128 + 1;
 
@@ -318,7 +305,7 @@ pub(crate) fn chinese_to_signed_integer(
             } else {
                 Ok(-(uint as i128))
             }
-        }
+        },
     }
 }
 
@@ -326,61 +313,53 @@ pub(crate) fn chinese_to_signed_integer(
 
 fn get_exp_base_f64(method: ChineseCountMethod, exp: ChineseExponent) -> f64 {
     match method {
-        ChineseCountMethod::Low => {
-            match exp {
-                ChineseExponent::個 => 1f64,
-                _ => {
-                    debug_assert!(exp > ChineseExponent::個);
-                    10f64.powi((exp.ordinal() - ChineseExponent::個.ordinal()) as i32)
+        ChineseCountMethod::Low => match exp {
+            ChineseExponent::個 => 1f64,
+            _ => {
+                debug_assert!(exp > ChineseExponent::個);
+                10f64.powi((exp.ordinal() - ChineseExponent::個.ordinal()) as i32)
+            },
+        },
+        ChineseCountMethod::TenThousand => match exp {
+            ChineseExponent::個 => 1f64,
+            ChineseExponent::十 => 10f64,
+            ChineseExponent::百 => 100f64,
+            ChineseExponent::千 => 1000f64,
+            _ => {
+                debug_assert!(exp > ChineseExponent::千);
+
+                1_0000f64.powi((exp.ordinal() - ChineseExponent::千.ordinal()) as i32)
+            },
+        },
+        ChineseCountMethod::Middle => match exp {
+            ChineseExponent::個 => 1f64,
+            ChineseExponent::十 => 10f64,
+            ChineseExponent::百 => 100f64,
+            ChineseExponent::千 => 1000f64,
+            ChineseExponent::萬 => 1_0000f64,
+            _ => {
+                debug_assert!(exp > ChineseExponent::萬);
+
+                1_0000_0000f64.powi((exp.ordinal() - ChineseExponent::萬.ordinal()) as i32)
+            },
+        },
+        ChineseCountMethod::High => match exp {
+            ChineseExponent::個 => 1f64,
+            ChineseExponent::十 => 10f64,
+            ChineseExponent::百 => 100f64,
+            ChineseExponent::千 => 1000f64,
+            _ => {
+                debug_assert!(exp > ChineseExponent::千);
+
+                let mut w = 1_0000f64;
+
+                for _ in 0..exp.ordinal() - ChineseExponent::萬.ordinal() {
+                    w *= w;
                 }
-            }
-        }
-        ChineseCountMethod::TenThousand => {
-            match exp {
-                ChineseExponent::個 => 1f64,
-                ChineseExponent::十 => 10f64,
-                ChineseExponent::百 => 100f64,
-                ChineseExponent::千 => 1000f64,
-                _ => {
-                    debug_assert!(exp > ChineseExponent::千);
 
-                    1_0000f64.powi((exp.ordinal() - ChineseExponent::千.ordinal()) as i32)
-                }
-            }
-        }
-        ChineseCountMethod::Middle => {
-            match exp {
-                ChineseExponent::個 => 1f64,
-                ChineseExponent::十 => 10f64,
-                ChineseExponent::百 => 100f64,
-                ChineseExponent::千 => 1000f64,
-                ChineseExponent::萬 => 1_0000f64,
-                _ => {
-                    debug_assert!(exp > ChineseExponent::萬);
-
-                    1_0000_0000f64.powi((exp.ordinal() - ChineseExponent::萬.ordinal()) as i32)
-                }
-            }
-        }
-        ChineseCountMethod::High => {
-            match exp {
-                ChineseExponent::個 => 1f64,
-                ChineseExponent::十 => 10f64,
-                ChineseExponent::百 => 100f64,
-                ChineseExponent::千 => 1000f64,
-                _ => {
-                    debug_assert!(exp > ChineseExponent::千);
-
-                    let mut w = 1_0000f64;
-
-                    for _ in 0..exp.ordinal() - ChineseExponent::萬.ordinal() {
-                        w *= w;
-                    }
-
-                    w
-                }
-            }
-        }
+                w
+            },
+        },
     }
 }
 
@@ -401,7 +380,7 @@ pub(crate) fn chinese_to_f64_unit(
             }
 
             (0f64, ChineseExponent::十)
-        }
+        },
         Some(n) => {
             if pointer == 0 {
                 return Ok(((n.ordinal() as f64) * base, None));
@@ -423,32 +402,30 @@ pub(crate) fn chinese_to_f64_unit(
                         }
 
                         break (n.ordinal() as f64, exp);
-                    }
-                    _ => {
-                        match ChineseNumber::from_char(chars[pointer]) {
-                            Some(c) if c == ChineseNumber::零 => {
-                                if pointer == 0 {
-                                    return Ok(((n.ordinal() as f64) * base, None));
-                                }
-
-                                pointer -= 1;
-
-                                continue;
+                    },
+                    _ => match ChineseNumber::from_char(chars[pointer]) {
+                        Some(c) if c == ChineseNumber::零 => {
+                            if pointer == 0 {
+                                return Ok(((n.ordinal() as f64) * base, None));
                             }
-                            _ => {
-                                return Err(ChineseToNumberError::ChineseNumberIncorrect {
-                                    char_index: pointer,
-                                })
-                            }
-                        }
-                    }
+
+                            pointer -= 1;
+
+                            continue;
+                        },
+                        _ => {
+                            return Err(ChineseToNumberError::ChineseNumberIncorrect {
+                                char_index: pointer,
+                            })
+                        },
+                    },
                 }
             }
-        }
+        },
         _ => {
             if pointer == 0 {
                 return Err(ChineseToNumberError::ChineseNumberIncorrect {
-                    char_index: pointer,
+                    char_index: pointer
                 });
             }
 
@@ -458,9 +435,9 @@ pub(crate) fn chinese_to_f64_unit(
                     return Err(ChineseToNumberError::ChineseNumberIncorrect {
                         char_index: pointer,
                     })
-                }
+                },
             }
-        }
+        },
     };
 
     let mut sum = n;
@@ -470,19 +447,19 @@ pub(crate) fn chinese_to_f64_unit(
         match exp.cmp(&level) {
             Ordering::Greater => {
                 break;
-            }
+            },
             Ordering::Less => {
                 let result = chinese_to_f64_unit(method, chars, pointer - 1, exp)?;
 
                 sum += result.0;
 
                 next = result.1;
-            }
+            },
             Ordering::Equal => {
                 return Err(ChineseToNumberError::ChineseNumberIncorrect {
-                    char_index: pointer,
+                    char_index: pointer
                 });
-            }
+            },
         }
     }
 
@@ -516,11 +493,11 @@ pub(crate) fn chinese_to_unsigned_f64(
             }
 
             exp
-        }
+        },
         _ => {
             pointer += 1;
             ChineseExponent::個
-        }
+        },
     };
 
     let mut sum = 0f64;
@@ -559,7 +536,7 @@ pub(crate) fn chinese_to_f64(
     if let Some(ChineseExponent::分) = ChineseExponent::from_char(chars[end]) {
         if end == 0 {
             return Err(ChineseToNumberError::ChineseNumberIncorrect {
-                char_index: end,
+                char_index: end
             });
         }
 
@@ -574,19 +551,19 @@ pub(crate) fn chinese_to_f64(
                 }
 
                 end -= 1;
-            }
+            },
             _ => {
                 return Err(ChineseToNumberError::ChineseNumberIncorrect {
-                    char_index: end,
+                    char_index: end
                 });
-            }
+            },
         }
     }
 
     if let Some(ChineseExponent::角) = ChineseExponent::from_char(chars[end]) {
         if end == 0 {
             return Err(ChineseToNumberError::ChineseNumberIncorrect {
-                char_index: end,
+                char_index: end
             });
         }
 
@@ -601,12 +578,12 @@ pub(crate) fn chinese_to_f64(
                 }
 
                 end -= 1;
-            }
+            },
             _ => {
                 return Err(ChineseToNumberError::ChineseNumberIncorrect {
-                    char_index: end,
+                    char_index: end
                 });
-            }
+            },
         }
     }
 
@@ -623,17 +600,15 @@ pub(crate) fn chinese_to_f64(
             return match error {
                 ChineseToNumberError::ChineseNumberIncorrect {
                     char_index: index,
-                } => {
-                    Err(ChineseToNumberError::ChineseNumberIncorrect {
-                        char_index: index + offset,
-                    })
-                }
+                } => Err(ChineseToNumberError::ChineseNumberIncorrect {
+                    char_index: index + offset,
+                }),
                 ChineseToNumberError::Overflow if sign == ChineseSign::負 => {
                     Err(ChineseToNumberError::Underflow)
-                }
+                },
                 _ => Err(error),
             };
-        }
+        },
     };
 
     match sign {

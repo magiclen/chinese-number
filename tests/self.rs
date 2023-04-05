@@ -1,13 +1,14 @@
 #![cfg(all(feature = "chinese-to-number", feature = "number-to-chinese"))]
 
-use core::fmt::Display;
-use core::ops::{AddAssign, RangeInclusive, SubAssign};
-
-use num_traits::{CheckedAdd, CheckedMul};
+use core::{
+    fmt::Display,
+    ops::{AddAssign, RangeInclusive, SubAssign},
+};
 
 use chinese_number::{
     ChineseCase, ChineseCountMethod, ChineseToNumber, ChineseVariant, NumberToChinese,
 };
+use num_traits::{CheckedAdd, CheckedMul};
 
 fn ranger<
     T: PartialOrd + Copy + AddAssign + SubAssign + CheckedAdd + CheckedMul + TryFrom<usize> + Display,

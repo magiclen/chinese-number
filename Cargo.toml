@@ -21,6 +21,9 @@ num-traits = { version = "0.2", default-features = false, optional = true }
 
 chinese-numerals = "0.2"
 
+[dev-dependencies]
+assert-eq-float = "0.1"
+
 [features]
 default = ["std", "number-to-chinese", "chinese-to-number"]
 

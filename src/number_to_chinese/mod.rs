@@ -7,7 +7,6 @@ mod functions_test;
 use alloc::string::String;
 
 use functions::*;
-
 pub use number_to_chinese_error::*;
 pub use traits::*;
 
@@ -311,11 +310,9 @@ pub fn from_i128_to_chinese_low(
     if value < 0 {
         let mut s =
             from_u128_to_chinese_low(chinese_variant, chinese_case, -(value + 1) as u128 + 1)
-                .map_err(|err| {
-                    match err {
-                        NumberToChineseError::Overflow => NumberToChineseError::Underflow,
-                        _ => err,
-                    }
+                .map_err(|err| match err {
+                    NumberToChineseError::Overflow => NumberToChineseError::Underflow,
+                    _ => err,
                 })?;
 
         s.insert_str(0, ChineseSign::負.to_str(chinese_variant));
