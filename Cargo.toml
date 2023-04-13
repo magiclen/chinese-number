@@ -9,7 +9,6 @@ homepage = "https://magiclen.org/chinese-number"
 keywords = ["chinese", "number", "integer", "money", "float"]
 categories = ["no-std", "localization", "parser-implementations", "value-formatting"]
 description = "Convert primitive numbers to Chinese numbers, or parse Chinese numbers to primitive numbers."
-readme = "README.md"
 license = "MIT"
 include = ["src/**/*", "Cargo.toml", "README.md", "LICENSE"]
 
