@@ -232,3 +232,24 @@ impl ChineseSign {
         }
     }
 }
+
+#[derive(Debug, Copy, Clone, Eq, PartialEq)]
+pub(crate) struct ChinesePoint;
+
+impl ChinesePoint {
+    #[inline]
+    pub(crate) const fn to_str(chinese_variant: ChineseVariant) -> &'static str {
+        match chinese_variant {
+            ChineseVariant::Traditional => "點",
+            ChineseVariant::Simple => "点",
+        }
+    }
+
+    #[inline]
+    pub(crate) const fn from_char(character: char) -> Option<Self> {
+        match character {
+            '點' | '点' => Some(ChinesePoint),
+            _ => None,
+        }
+    }
+}

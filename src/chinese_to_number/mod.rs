@@ -1,11 +1,13 @@
 mod chinese_to_number_error;
 mod functions;
+mod naive;
 mod traits;
 
 mod functions_test;
 
 pub use chinese_to_number_error::*;
 use functions::*;
+pub use naive::*;
 pub use traits::*;
 
 use crate::ChineseCountMethod;

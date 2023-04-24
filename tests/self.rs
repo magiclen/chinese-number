@@ -59,6 +59,15 @@ fn test_u8() {
             );
         });
     }
+
+    ranger(u8::MIN..=u8::MAX, |i| {
+        assert_eq!(
+            i,
+            i.to_chinese_naive(ChineseVariant::Traditional, ChineseCase::Lower)
+                .to_number_naive()
+                .unwrap()
+        );
+    });
 }
 
 #[test]
@@ -74,6 +83,15 @@ fn test_i8() {
             );
         });
     }
+
+    ranger(i8::MIN..=i8::MAX, |i| {
+        assert_eq!(
+            i,
+            i.to_chinese_naive(ChineseVariant::Traditional, ChineseCase::Lower)
+                .to_number_naive()
+                .unwrap()
+        );
+    });
 }
 
 #[test]
@@ -89,6 +107,15 @@ fn test_u16() {
             );
         });
     }
+
+    ranger(u16::MIN..=u16::MAX, |i| {
+        assert_eq!(
+            i,
+            i.to_chinese_naive(ChineseVariant::Traditional, ChineseCase::Lower)
+                .to_number_naive()
+                .unwrap()
+        );
+    });
 }
 
 #[test]
@@ -104,6 +131,15 @@ fn test_i16() {
             );
         });
     }
+
+    ranger(i16::MIN..=i16::MAX, |i| {
+        assert_eq!(
+            i,
+            i.to_chinese_naive(ChineseVariant::Traditional, ChineseCase::Lower)
+                .to_number_naive()
+                .unwrap()
+        );
+    });
 }
 
 #[test]
@@ -119,6 +155,15 @@ fn test_u32() {
             );
         });
     }
+
+    ranger(u32::MIN..=u32::MAX, |i| {
+        assert_eq!(
+            i,
+            i.to_chinese_naive(ChineseVariant::Traditional, ChineseCase::Lower)
+                .to_number_naive()
+                .unwrap()
+        );
+    });
 }
 
 #[test]
@@ -134,6 +179,15 @@ fn test_i32() {
             );
         });
     }
+
+    ranger(i32::MIN..=i32::MAX, |i| {
+        assert_eq!(
+            i,
+            i.to_chinese_naive(ChineseVariant::Traditional, ChineseCase::Lower)
+                .to_number_naive()
+                .unwrap()
+        );
+    });
 }
 
 #[test]
@@ -159,6 +213,15 @@ fn test_u64() {
             );
         });
     }
+
+    ranger(u64::MIN..=u64::MAX, |i| {
+        assert_eq!(
+            i,
+            i.to_chinese_naive(ChineseVariant::Traditional, ChineseCase::Lower)
+                .to_number_naive()
+                .unwrap()
+        );
+    });
 }
 
 #[test]
@@ -184,6 +247,15 @@ fn test_i64() {
             );
         });
     }
+
+    ranger(i64::MIN..=i64::MAX, |i| {
+        assert_eq!(
+            i,
+            i.to_chinese_naive(ChineseVariant::Traditional, ChineseCase::Lower)
+                .to_number_naive()
+                .unwrap()
+        );
+    });
 }
 
 #[test]
@@ -209,6 +281,15 @@ fn test_u128() {
             );
         });
     }
+
+    ranger(u128::MIN..=u128::MAX, |i| {
+        assert_eq!(
+            i,
+            i.to_chinese_naive(ChineseVariant::Traditional, ChineseCase::Lower)
+                .to_number_naive()
+                .unwrap()
+        );
+    });
 }
 
 #[test]
@@ -234,4 +315,13 @@ fn test_i128() {
             );
         });
     }
+
+    ranger(i128::MIN..=i128::MAX, |i| {
+        assert_eq!(
+            i,
+            i.to_chinese_naive(ChineseVariant::Traditional, ChineseCase::Lower)
+                .to_number_naive()
+                .unwrap()
+        );
+    });
 }

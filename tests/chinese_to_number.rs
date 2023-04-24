@@ -45,6 +45,48 @@ macro_rules! test_group {
     };
 }
 
+macro_rules! test_group_naive {
+    () => {
+        macro_rules! test {
+            ($expect: expr,$value: expr) => {
+                assert_eq!($expect, $value.to_number_naive().unwrap());
+            };
+        }
+
+        macro_rules! test_float {
+            ($expect: expr,$value: expr) => {
+                assert_eq_float!($expect, $value.to_number_naive().unwrap());
+            };
+
+            ($expect: expr,$value: expr,$error: expr) => {
+                assert_eq_float!($expect, $value.to_number_naive().unwrap(), $error);
+            };
+        }
+
+        macro_rules! test_err {
+            ($expect: expr,$value: expr) => {
+                test_err!(i8, $expect, $value);
+                test_err!(u8, $expect, $value);
+                test_err!(i16, $expect, $value);
+                test_err!(u16, $expect, $value);
+                test_err!(i32, $expect, $value);
+                test_err!(u32, $expect, $value);
+                test_err!(i64, $expect, $value);
+                test_err!(u64, $expect, $value);
+                test_err!(i128, $expect, $value);
+                test_err!(u128, $expect, $value);
+                test_err!(isize, $expect, $value);
+                test_err!(usize, $expect, $value);
+                test_err!(f32, $expect, $value);
+                test_err!(f64, $expect, $value);
+            };
+            ($typ: ty,$expect: expr,$value: expr) => {
+                assert_eq!(Err::<$typ, _>($expect), $value.to_number_naive());
+            };
+        }
+    };
+}
+
 #[test]
 fn to_number_low() {
     test_group!(ChineseCountMethod::Low);
@@ -242,4 +284,57 @@ fn to_number_high() {
 
     test_err!(i8, ChineseToNumberError::Overflow, "壹佰貳拾捌");
     test_err!(i8, ChineseToNumberError::Underflow, "負壹佰貳拾玖");
+}
+
+#[test]
+fn to_number_naive() {
+    test_group_naive!();
+
+    test!(i8::MAX, "壹貳柒");
+    test!(i8::MIN, "負壹貳捌");
+    test!(u8::MAX, "貳伍伍");
+    test!(i16::MAX, "參貳柒陸柒");
+    test!(i16::MIN, "負參貳柒陸捌");
+    test!(u16::MAX, "陸伍伍參伍");
+    test!(i32::MAX, "貳壹肆柒肆捌參陸肆柒");
+    test!(i32::MIN, "負貳壹肆柒肆捌參陸肆捌");
+    test!(u32::MAX, "肆貳玖肆玖陸柒貳玖伍");
+    test!(i64::MAX, "玖貳貳參參柒貳零參陸捌伍肆柒柒伍捌零柒");
+    test!(i64::MIN, "負玖貳貳參參柒貳零參陸捌伍肆柒柒伍捌零捌");
+    test!(u64::MAX, "壹捌肆肆陸柒肆肆零柒參柒零玖伍伍壹陸壹伍");
+    test!(
+        i128::MAX,
+        "壹柒零壹肆壹壹捌參肆陸零肆陸玖貳參壹柒參壹陸捌柒參零參柒壹伍捌捌肆壹零伍柒貳柒"
+    );
+    test!(
+        i128::MIN,
+        "負壹柒零壹肆壹壹捌參肆陸零肆陸玖貳參壹柒參壹陸捌柒參零參柒壹伍捌捌肆壹零伍柒貳捌"
+    );
+    test!(
+        u128::MAX,
+        "參肆零貳捌貳參陸陸玖貳零玖參捌肆陸參肆陸參參柒肆陸零柒肆參壹柒陸捌貳壹壹肆伍伍"
+    );
+
+    test_float!(123.46f32, "壹貳參點肆陸");
+    test_float!(-123.46f32, "負壹貳參點肆陸");
+    test_float!(123.46f64, "壹貳參點肆陸");
+    test_float!(-123.46f64, "負壹貳參點肆陸");
+
+    test_err!(ChineseToNumberError::ChineseNumberEmpty, "");
+
+    test_err!(
+        ChineseToNumberError::ChineseNumberIncorrect {
+            char_index: 0
+        },
+        "a"
+    );
+    test_err!(
+        ChineseToNumberError::ChineseNumberIncorrect {
+            char_index: 1
+        },
+        "壹佰貳拾佰"
+    );
+
+    test_err!(i8, ChineseToNumberError::Overflow, "壹貳捌");
+    test_err!(i8, ChineseToNumberError::Underflow, "負壹貳玖");
 }

@@ -21,6 +21,24 @@ pub trait NumberToChinese {
         chinese_case: ChineseCase,
         method: ChineseCountMethod,
     ) -> Result<String, NumberToChineseError>;
+
+    /// 將數值直接轉成中文數字，不進行單位計算。
+    ///
+    /// ## 範例
+    ///
+    /// ```rust
+    /// use chinese_number::{
+    ///     ChineseCase, ChineseCountMethod, ChineseVariant, NumberToChinese,
+    /// };
+    ///
+    /// assert_eq!(
+    ///     "一二三四五六七八九",
+    ///     123456789
+    ///         .to_chinese_naive(ChineseVariant::Traditional, ChineseCase::Lower)
+    /// );
+    /// ```
+    fn to_chinese_naive(self, chinese_variant: ChineseVariant, chinese_case: ChineseCase)
+        -> String;
 }
 
 impl NumberToChinese for u8 {
@@ -32,6 +50,15 @@ impl NumberToChinese for u8 {
         method: ChineseCountMethod,
     ) -> Result<String, NumberToChineseError> {
         (self as u128).to_chinese(chinese_variant, chinese_case, method)
+    }
+
+    #[inline]
+    fn to_chinese_naive(
+        self,
+        chinese_variant: ChineseVariant,
+        chinese_case: ChineseCase,
+    ) -> String {
+        from_u8_to_chinese_naive(chinese_variant, chinese_case, self)
     }
 }
 
@@ -45,6 +72,15 @@ impl NumberToChinese for i8 {
     ) -> Result<String, NumberToChineseError> {
         (self as i128).to_chinese(chinese_variant, chinese_case, method)
     }
+
+    #[inline]
+    fn to_chinese_naive(
+        self,
+        chinese_variant: ChineseVariant,
+        chinese_case: ChineseCase,
+    ) -> String {
+        from_i8_to_chinese_naive(chinese_variant, chinese_case, self)
+    }
 }
 
 impl NumberToChinese for u16 {
@@ -56,6 +92,15 @@ impl NumberToChinese for u16 {
         method: ChineseCountMethod,
     ) -> Result<String, NumberToChineseError> {
         (self as u128).to_chinese(chinese_variant, chinese_case, method)
+    }
+
+    #[inline]
+    fn to_chinese_naive(
+        self,
+        chinese_variant: ChineseVariant,
+        chinese_case: ChineseCase,
+    ) -> String {
+        from_u16_to_chinese_naive(chinese_variant, chinese_case, self)
     }
 }
 
@@ -69,6 +114,15 @@ impl NumberToChinese for i16 {
     ) -> Result<String, NumberToChineseError> {
         (self as i128).to_chinese(chinese_variant, chinese_case, method)
     }
+
+    #[inline]
+    fn to_chinese_naive(
+        self,
+        chinese_variant: ChineseVariant,
+        chinese_case: ChineseCase,
+    ) -> String {
+        from_i16_to_chinese_naive(chinese_variant, chinese_case, self)
+    }
 }
 
 impl NumberToChinese for u32 {
@@ -80,6 +134,15 @@ impl NumberToChinese for u32 {
         method: ChineseCountMethod,
     ) -> Result<String, NumberToChineseError> {
         (self as u128).to_chinese(chinese_variant, chinese_case, method)
+    }
+
+    #[inline]
+    fn to_chinese_naive(
+        self,
+        chinese_variant: ChineseVariant,
+        chinese_case: ChineseCase,
+    ) -> String {
+        from_u32_to_chinese_naive(chinese_variant, chinese_case, self)
     }
 }
 
@@ -93,6 +156,15 @@ impl NumberToChinese for i32 {
     ) -> Result<String, NumberToChineseError> {
         (self as i128).to_chinese(chinese_variant, chinese_case, method)
     }
+
+    #[inline]
+    fn to_chinese_naive(
+        self,
+        chinese_variant: ChineseVariant,
+        chinese_case: ChineseCase,
+    ) -> String {
+        from_i32_to_chinese_naive(chinese_variant, chinese_case, self)
+    }
 }
 
 impl NumberToChinese for u64 {
@@ -105,6 +177,15 @@ impl NumberToChinese for u64 {
     ) -> Result<String, NumberToChineseError> {
         (self as u128).to_chinese(chinese_variant, chinese_case, method)
     }
+
+    #[inline]
+    fn to_chinese_naive(
+        self,
+        chinese_variant: ChineseVariant,
+        chinese_case: ChineseCase,
+    ) -> String {
+        from_u64_to_chinese_naive(chinese_variant, chinese_case, self)
+    }
 }
 
 impl NumberToChinese for i64 {
@@ -116,6 +197,15 @@ impl NumberToChinese for i64 {
         method: ChineseCountMethod,
     ) -> Result<String, NumberToChineseError> {
         (self as i128).to_chinese(chinese_variant, chinese_case, method)
+    }
+
+    #[inline]
+    fn to_chinese_naive(
+        self,
+        chinese_variant: ChineseVariant,
+        chinese_case: ChineseCase,
+    ) -> String {
+        from_i64_to_chinese_naive(chinese_variant, chinese_case, self)
     }
 }
 
@@ -142,6 +232,15 @@ impl NumberToChinese for u128 {
             },
         }
     }
+
+    #[inline]
+    fn to_chinese_naive(
+        self,
+        chinese_variant: ChineseVariant,
+        chinese_case: ChineseCase,
+    ) -> String {
+        from_u128_to_chinese_naive(chinese_variant, chinese_case, self)
+    }
 }
 
 impl NumberToChinese for i128 {
@@ -167,6 +266,15 @@ impl NumberToChinese for i128 {
             },
         }
     }
+
+    #[inline]
+    fn to_chinese_naive(
+        self,
+        chinese_variant: ChineseVariant,
+        chinese_case: ChineseCase,
+    ) -> String {
+        from_i128_to_chinese_naive(chinese_variant, chinese_case, self)
+    }
 }
 
 impl NumberToChinese for f32 {
@@ -178,6 +286,15 @@ impl NumberToChinese for f32 {
         method: ChineseCountMethod,
     ) -> Result<String, NumberToChineseError> {
         (self as f64).to_chinese(chinese_variant, chinese_case, method)
+    }
+
+    #[inline]
+    fn to_chinese_naive(
+        self,
+        chinese_variant: ChineseVariant,
+        chinese_case: ChineseCase,
+    ) -> String {
+        from_f32_to_chinese_naive(chinese_variant, chinese_case, self)
     }
 }
 
@@ -201,5 +318,14 @@ impl NumberToChinese for f64 {
                 Ok(from_f64_to_chinese_high(chinese_variant, chinese_case, self))
             },
         }
+    }
+
+    #[inline]
+    fn to_chinese_naive(
+        self,
+        chinese_variant: ChineseVariant,
+        chinese_case: ChineseCase,
+    ) -> String {
+        from_f64_to_chinese_naive(chinese_variant, chinese_case, self)
     }
 }

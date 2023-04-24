@@ -1,4 +1,5 @@
 mod functions;
+mod naive;
 mod number_to_chinese_error;
 mod traits;
 
@@ -7,6 +8,7 @@ mod functions_test;
 use alloc::string::String;
 
 use functions::*;
+pub use naive::*;
 pub use number_to_chinese_error::*;
 pub use traits::*;
 
