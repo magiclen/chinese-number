@@ -1,6 +1,13 @@
+use enum_ordinalize::Ordinalize;
+
+#[cfg(feature = "number-to-chinese")]
 use crate::{ChineseCase, ChineseVariant};
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Ordinalize)]
+#[ordinalize(impl_trait = false)]
+#[ordinalize(ordinal(pub(crate) fn ordinal))]
+#[ordinalize(from_ordinal_unsafe(pub(crate) fn from_ordinal_unsafe))]
+#[allow(dead_code)]
 #[repr(u8)]
 pub(crate) enum ChineseNumber {
     零,
@@ -17,6 +24,7 @@ pub(crate) enum ChineseNumber {
 }
 
 impl ChineseNumber {
+    #[cfg(feature = "number-to-chinese")]
     #[inline]
     pub(crate) const fn to_str(
         self,
@@ -77,6 +85,7 @@ impl ChineseNumber {
         }
     }
 
+    #[cfg(feature = "chinese-to-number")]
     #[inline]
     pub(crate) const fn from_char(character: char) -> Option<Self> {
         match character {
@@ -97,6 +106,10 @@ impl ChineseNumber {
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Ordinalize)]
+#[ordinalize(impl_trait = false)]
+#[ordinalize(ordinal(pub(crate) fn ordinal))]
+#[ordinalize(from_ordinal_unsafe(pub(crate) fn from_ordinal_unsafe))]
+#[allow(dead_code)]
 #[repr(u8)]
 pub(crate) enum ChineseExponent {
     分,
@@ -120,6 +133,7 @@ pub(crate) enum ChineseExponent {
 }
 
 impl ChineseExponent {
+    #[cfg(feature = "number-to-chinese")]
     #[inline]
     pub(crate) const fn to_str(
         self,
@@ -178,6 +192,7 @@ impl ChineseExponent {
         }
     }
 
+    #[cfg(feature = "chinese-to-number")]
     #[inline]
     pub(crate) const fn from_char(character: char) -> Option<Self> {
         match character {
@@ -204,7 +219,8 @@ impl ChineseExponent {
     }
 }
 
-#[derive(Debug, Copy, Clone, Eq, PartialEq, Ordinalize)]
+#[derive(Debug, Copy, Clone, Eq, PartialEq)]
+#[allow(dead_code)]
 #[repr(u8)]
 pub(crate) enum ChineseSign {
     正,
@@ -212,6 +228,7 @@ pub(crate) enum ChineseSign {
 }
 
 impl ChineseSign {
+    #[cfg(feature = "number-to-chinese")]
     #[inline]
     pub(crate) const fn to_str(self, chinese_variant: ChineseVariant) -> &'static str {
         match self {
@@ -223,6 +240,7 @@ impl ChineseSign {
         }
     }
 
+    #[cfg(feature = "chinese-to-number")]
     #[inline]
     pub(crate) const fn from_char(character: char) -> Option<Self> {
         match character {
@@ -237,6 +255,7 @@ impl ChineseSign {
 pub(crate) struct ChinesePoint;
 
 impl ChinesePoint {
+    #[cfg(feature = "number-to-chinese")]
     #[inline]
     pub(crate) const fn to_str(chinese_variant: ChineseVariant) -> &'static str {
         match chinese_variant {
@@ -245,6 +264,7 @@ impl ChinesePoint {
         }
     }
 
+    #[cfg(feature = "chinese-to-number")]
     #[inline]
     pub(crate) const fn from_char(character: char) -> Option<Self> {
         match character {

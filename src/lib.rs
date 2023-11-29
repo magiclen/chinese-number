@@ -8,6 +8,8 @@ This crate can convert Rust's primitive number data types to Chinese numbers as 
 ## Example
 
 ```rust
+# #[cfg(all(feature = "number-to-chinese", feature = "chinese-to-number"))]
+# {
 use chinese_number::{ChineseCase, ChineseCountMethod, ChineseVariant, NumberToChinese, ChineseToNumber};
 
 assert_eq!("一二三", 123i8.to_chinese_naive(ChineseVariant::Traditional, ChineseCase::Lower));
@@ -35,6 +37,7 @@ assert_eq!(1000000u64, "一兆".to_number(ChineseCountMethod::Low).unwrap());
 assert_eq!(1000000000000u64, "一兆".to_number(ChineseCountMethod::TenThousand).unwrap());
 assert_eq!(10000000000000000u64, "一兆".to_number(ChineseCountMethod::Middle).unwrap());
 assert_eq!(10000000000000000u64, "一兆".to_number(ChineseCountMethod::High).unwrap());
+# }
 ```
 
 ## No Std
@@ -50,11 +53,9 @@ features = ["number-to-chinese", "chinese-to-number"]
  */
 
 #![cfg_attr(not(feature = "std"), no_std)]
+#![cfg_attr(docsrs, feature(doc_auto_cfg))]
 
 extern crate alloc;
-
-#[macro_use]
-extern crate enum_ordinalize;
 
 #[cfg(feature = "number-to-chinese")]
 mod number_to_chinese;
@@ -63,10 +64,12 @@ mod number_to_chinese;
 mod chinese_to_number;
 
 mod chinese_case;
+#[cfg(any(feature = "chinese-to-number", feature = "number-to-chinese"))]
 mod chinese_characters;
 mod chinese_count_method;
 
 pub use chinese_case::*;
+#[cfg(any(feature = "chinese-to-number", feature = "number-to-chinese"))]
 pub(crate) use chinese_characters::*;
 pub use chinese_count_method::*;
 #[cfg(feature = "chinese-to-number")]

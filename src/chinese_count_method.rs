@@ -1,5 +1,9 @@
+use enum_ordinalize::Ordinalize;
+
 /// 根據 **五經算術** 將大的單位分為 **上數** (`High`)、**中數** (`Middle`)、**下數** (`Low`) 三種類型，再加上現代使用的 **萬進** (`TenThousand`)。
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Hash, Ordinalize)]
+#[ordinalize(impl_trait = false)]
+#[ordinalize(variants(pub fn variants, doc = "算術類型的所有變體的陣列。"))]
 pub enum ChineseCountMethod {
     /// 下數者，十十變之。若言十萬曰億，十億曰兆，十兆曰京也。
     Low,

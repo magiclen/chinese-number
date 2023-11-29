@@ -130,7 +130,7 @@ pub(crate) fn chinese_to_unsigned_integer_unit(
                         break (n.ordinal() as u128, exp);
                     },
                     _ => match ChineseNumber::from_char(chars[pointer]) {
-                        Some(c) if c == ChineseNumber::零 => {
+                        Some(ChineseNumber::零) => {
                             if pointer == 0 {
                                 return Ok((
                                     (n.ordinal() as u128)
@@ -404,7 +404,7 @@ pub(crate) fn chinese_to_f64_unit(
                         break (n.ordinal() as f64, exp);
                     },
                     _ => match ChineseNumber::from_char(chars[pointer]) {
-                        Some(c) if c == ChineseNumber::零 => {
+                        Some(ChineseNumber::零) => {
                             if pointer == 0 {
                                 return Ok(((n.ordinal() as f64) * base, None));
                             }
