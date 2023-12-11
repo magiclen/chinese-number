@@ -238,13 +238,20 @@ pub(crate) fn chinese_to_unsigned_integer(
                         Some(exp) if exp >= ChineseExponent::百 => {
                             let high = chinese_to_unsigned_integer(method, &chars[..pointer])?;
 
-                            let low = chinese_to_unsigned_integer_unit(
-                                method,
-                                &chars[pointer..],
-                                0,
-                                exp,
-                            )?
-                            .0 / 10;
+                            let low =
+                                chinese_to_unsigned_integer_unit(method, &chars[pointer..], 0, exp)
+                                    .map_err(|mut err| {
+                                        if let ChineseToNumberError::ChineseNumberIncorrect {
+                                            char_index,
+                                        } = &mut err
+                                        {
+                                            *char_index = pointer;
+                                        }
+
+                                        err
+                                    })?
+                                    .0
+                                    / 10;
 
                             return high.checked_add(low).ok_or(ChineseToNumberError::Overflow);
                         },
