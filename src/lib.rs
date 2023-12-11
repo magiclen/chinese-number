@@ -37,6 +37,12 @@ assert_eq!(1000000u64, "一兆".to_number(ChineseCountMethod::Low).unwrap());
 assert_eq!(1000000000000u64, "一兆".to_number(ChineseCountMethod::TenThousand).unwrap());
 assert_eq!(10000000000000000u64, "一兆".to_number(ChineseCountMethod::Middle).unwrap());
 assert_eq!(10000000000000000u64, "一兆".to_number(ChineseCountMethod::High).unwrap());
+
+assert_eq!(120u64, "一百二".to_number(ChineseCountMethod::TenThousand).unwrap());
+assert_eq!(2300u64, "兩千三".to_number(ChineseCountMethod::TenThousand).unwrap());
+assert_eq!(34000u64, "三萬四".to_number(ChineseCountMethod::TenThousand).unwrap());
+assert_eq!(105000u64, "十萬五".to_number(ChineseCountMethod::TenThousand).unwrap());
+assert_eq!(150000000u64, "一億五".to_number(ChineseCountMethod::TenThousand).unwrap());
 # }
 ```
 

@@ -226,6 +226,33 @@ pub(crate) fn chinese_to_unsigned_integer(
             exp
         },
         _ => {
+            if length >= 3 {
+                // look ahead
+
+                let left_char = chars[pointer - 1];
+
+                if let Some(ChineseNumber::零) = ChineseNumber::from_char(left_char) {
+                    // do nothing
+                } else {
+                    match ChineseExponent::from_char(left_char) {
+                        Some(exp) if exp >= ChineseExponent::百 => {
+                            let high = chinese_to_unsigned_integer(method, &chars[..pointer])?;
+
+                            let low = chinese_to_unsigned_integer_unit(
+                                method,
+                                &chars[pointer..],
+                                0,
+                                exp,
+                            )?
+                            .0 / 10;
+
+                            return high.checked_add(low).ok_or(ChineseToNumberError::Overflow);
+                        },
+                        _ => (),
+                    }
+                }
+            }
+
             pointer += 1;
             ChineseExponent::個
         },

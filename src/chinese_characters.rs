@@ -91,7 +91,7 @@ impl ChineseNumber {
         match character {
             '零' | '0' | '〇' => Some(Self::零),
             '一' | '壹' | '1' => Some(Self::一),
-            '二' | '貳' | '贰' | '貮' | '兩' | '2' => Some(Self::二),
+            '二' | '貳' | '贰' | '貮' | '兩' | '两' | '2' => Some(Self::二),
             '三' | '參' | '叁' | '叄' | '参' | '3' => Some(Self::三),
             '四' | '肆' | '4' => Some(Self::四),
             '五' | '伍' | '5' => Some(Self::五),
