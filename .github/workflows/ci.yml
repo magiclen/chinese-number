@@ -60,7 +60,7 @@ jobs:
           - macos-latest
           - windows-latest
         toolchain:
-          - 1.58
+          - "1.60"
         features:
           -
           - --no-default-features --features chinese-to-number
