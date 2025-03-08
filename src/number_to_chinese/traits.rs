@@ -277,6 +277,48 @@ impl NumberToChinese for i128 {
     }
 }
 
+impl NumberToChinese for usize {
+    #[inline]
+    fn to_chinese(
+        self,
+        chinese_variant: ChineseVariant,
+        chinese_case: ChineseCase,
+        method: ChineseCountMethod,
+    ) -> Result<String, NumberToChineseError> {
+        (self as u128).to_chinese(chinese_variant, chinese_case, method)
+    }
+
+    #[inline]
+    fn to_chinese_naive(
+        self,
+        chinese_variant: ChineseVariant,
+        chinese_case: ChineseCase,
+    ) -> String {
+        from_usize_to_chinese_naive(chinese_variant, chinese_case, self)
+    }
+}
+
+impl NumberToChinese for isize {
+    #[inline]
+    fn to_chinese(
+        self,
+        chinese_variant: ChineseVariant,
+        chinese_case: ChineseCase,
+        method: ChineseCountMethod,
+    ) -> Result<String, NumberToChineseError> {
+        (self as i128).to_chinese(chinese_variant, chinese_case, method)
+    }
+
+    #[inline]
+    fn to_chinese_naive(
+        self,
+        chinese_variant: ChineseVariant,
+        chinese_case: ChineseCase,
+    ) -> String {
+        from_isize_to_chinese_naive(chinese_variant, chinese_case, self)
+    }
+}
+
 impl NumberToChinese for f32 {
     #[inline]
     fn to_chinese(
