@@ -44,7 +44,7 @@ jobs:
           - macos-latest
           - windows-latest
         toolchain:
-          - "1.60"
+          - "1.68"
         features:
           -
           - --no-default-features --features chinese-to-number

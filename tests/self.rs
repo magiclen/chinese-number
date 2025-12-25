@@ -328,7 +328,13 @@ fn test_i128() {
 
 #[test]
 fn test_usize() {
-    ranger(usize::MIN..=9999_9999_9999_9999, |i| {
+    #[cfg(target_pointer_width = "64")]
+    const USIZE_RANGE: RangeInclusive<usize> = usize::MIN..=9999_9999_9999_9999;
+
+    #[cfg(not(target_pointer_width = "64"))]
+    const USIZE_RANGE: RangeInclusive<usize> = usize::MIN..=usize::MAX;
+
+    ranger(USIZE_RANGE, |i| {
         assert_eq!(
             i,
             i.to_chinese(ChineseVariant::Traditional, ChineseCase::Lower, ChineseCountMethod::Low)
@@ -362,7 +368,13 @@ fn test_usize() {
 
 #[test]
 fn test_isize() {
-    ranger(-9999_9999_9999_9999isize..=9999_9999_9999_9999, |i| {
+    #[cfg(target_pointer_width = "64")]
+    const ISIZE_RANGE: RangeInclusive<isize> = -9999_9999_9999_9999..=9999_9999_9999_9999;
+
+    #[cfg(not(target_pointer_width = "64"))]
+    const ISIZE_RANGE: RangeInclusive<isize> = isize::MIN..=isize::MAX;
+
+    ranger(ISIZE_RANGE, |i| {
         assert_eq!(
             i,
             i.to_chinese(ChineseVariant::Traditional, ChineseCase::Lower, ChineseCountMethod::Low)
