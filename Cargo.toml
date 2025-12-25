@@ -1,6 +1,6 @@
 [package]
 name = "chinese-number"
-version = "0.7.7"
+version = "0.7.8"
 authors = ["Magic Len <len@magiclen.org>"]
 edition = "2021"
 rust-version = "1.60"
@@ -31,4 +31,4 @@ chinese-to-number = ["num-traits"]
 
 [package.metadata.docs.rs]
 all-features = true
-rustdoc-args = ["--cfg", "docsrs"]
+rustdoc-args = ["--cfg", "docsrs_1_92"]
