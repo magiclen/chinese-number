@@ -325,3 +325,71 @@ fn test_i128() {
         );
     });
 }
+
+#[test]
+fn test_usize() {
+    ranger(usize::MIN..=9999_9999_9999_9999, |i| {
+        assert_eq!(
+            i,
+            i.to_chinese(ChineseVariant::Traditional, ChineseCase::Lower, ChineseCountMethod::Low)
+                .unwrap()
+                .to_number(ChineseCountMethod::Low)
+                .unwrap()
+        );
+    });
+
+    for method in ChineseCountMethod::variants().iter().copied().skip(1) {
+        ranger(usize::MIN..=usize::MAX, |i| {
+            assert_eq!(
+                i,
+                i.to_chinese(ChineseVariant::Traditional, ChineseCase::Lower, method)
+                    .unwrap()
+                    .to_number(method)
+                    .unwrap()
+            );
+        });
+    }
+
+    ranger(usize::MIN..=usize::MAX, |i| {
+        assert_eq!(
+            i,
+            i.to_chinese_naive(ChineseVariant::Traditional, ChineseCase::Lower)
+                .to_number_naive()
+                .unwrap()
+        );
+    });
+}
+
+#[test]
+fn test_isize() {
+    ranger(-9999_9999_9999_9999isize..=9999_9999_9999_9999, |i| {
+        assert_eq!(
+            i,
+            i.to_chinese(ChineseVariant::Traditional, ChineseCase::Lower, ChineseCountMethod::Low)
+                .unwrap()
+                .to_number(ChineseCountMethod::Low)
+                .unwrap()
+        );
+    });
+
+    for method in ChineseCountMethod::variants().iter().copied().skip(1) {
+        ranger(isize::MIN..=isize::MAX, |i| {
+            assert_eq!(
+                i,
+                i.to_chinese(ChineseVariant::Traditional, ChineseCase::Lower, method)
+                    .unwrap()
+                    .to_number(method)
+                    .unwrap()
+            );
+        });
+    }
+
+    ranger(isize::MIN..=isize::MAX, |i| {
+        assert_eq!(
+            i,
+            i.to_chinese_naive(ChineseVariant::Traditional, ChineseCase::Lower)
+                .to_number_naive()
+                .unwrap()
+        );
+    });
+}
