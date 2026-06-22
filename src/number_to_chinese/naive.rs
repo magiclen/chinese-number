@@ -5,14 +5,12 @@ use alloc::{
 
 use chinese_variant::ChineseVariant;
 use num_bigint::BigUint;
-#[cfg(not(feature = "std"))]
-#[allow(unused_imports)]
-use num_traits::float::FloatCore;
-use num_traits::{FromPrimitive, ToPrimitive, Zero};
+use num_traits::{ToPrimitive, Zero};
 
+use super::{prepend_negative_sign, signed_f64_to_chinese, split_i128_sign, split_positive_f64};
 use crate::{
     ChineseCase, NumberToChineseError,
-    chinese_characters::{ChineseNumber, ChinesePoint, ChineseSign},
+    chinese_characters::{ChineseNumber, ChinesePoint},
 };
 
 fn unsigned_integer_to_chinese(
@@ -24,16 +22,27 @@ fn unsigned_integer_to_chinese(
         return ChineseNumber::零.to_str(chinese_variant, chinese_case).to_string();
     }
 
-    let mut numbers: Vec<ChineseNumber> = Vec::with_capacity(1);
+    let mut numbers: Vec<&'static str> = Vec::with_capacity(32);
+    let mut bytes = 0usize;
 
     while value > 0 {
         let n = (value % 10) as u8;
         value /= 10;
 
-        numbers.push(unsafe { ChineseNumber::from_ordinal_unsafe(n) });
+        let chunk =
+            unsafe { ChineseNumber::from_ordinal_unsafe(n) }.to_str(chinese_variant, chinese_case);
+
+        bytes += chunk.len();
+        numbers.push(chunk);
     }
 
-    numbers.into_iter().rev().map(|cn| cn.to_str(chinese_variant, chinese_case)).collect()
+    let mut s = String::with_capacity(bytes);
+
+    for number in numbers.into_iter().rev() {
+        s.push_str(number);
+    }
+
+    s
 }
 
 fn big_unsigned_integer_to_chinese(
@@ -48,16 +57,27 @@ fn big_unsigned_integer_to_chinese(
         return ChineseNumber::零.to_str(chinese_variant, chinese_case).to_string();
     }
 
-    let mut numbers: Vec<ChineseNumber> = Vec::with_capacity(1);
+    let mut numbers: Vec<&'static str> = Vec::with_capacity(32);
+    let mut bytes = 0usize;
 
     while value > big_0 {
         let n = (value.clone() % &big_10).to_u8().unwrap();
         value /= &big_10;
 
-        numbers.push(unsafe { ChineseNumber::from_ordinal_unsafe(n) });
+        let chunk =
+            unsafe { ChineseNumber::from_ordinal_unsafe(n) }.to_str(chinese_variant, chinese_case);
+
+        bytes += chunk.len();
+        numbers.push(chunk);
     }
 
-    numbers.into_iter().rev().map(|cn| cn.to_str(chinese_variant, chinese_case)).collect()
+    let mut s = String::with_capacity(bytes);
+
+    for number in numbers.into_iter().rev() {
+        s.push_str(number);
+    }
+
+    s
 }
 
 fn positive_float_to_chinese(
@@ -65,20 +85,7 @@ fn positive_float_to_chinese(
     chinese_case: ChineseCase,
     value: f64,
 ) -> Result<String, NumberToChineseError> {
-    let (integer, fraction) = {
-        let mut integer = BigUint::from_f64(value.trunc()).ok_or(NumberToChineseError::Overflow)?;
-        let fraction = (value.fract() * 100.0).round() as u8;
-
-        let fraction = if fraction >= 100 {
-            integer += BigUint::from(1u8);
-
-            0
-        } else {
-            fraction
-        };
-
-        (integer, fraction)
-    };
+    let (integer, fraction) = split_positive_f64(value)?;
 
     let mut s = big_unsigned_integer_to_chinese(chinese_variant, chinese_case, integer);
 
@@ -210,15 +217,16 @@ pub fn from_i128_to_chinese_naive(
     chinese_case: ChineseCase,
     value: i128,
 ) -> Result<String, NumberToChineseError> {
-    if value < 0 {
-        let mut s =
-            from_u128_to_chinese_naive(chinese_variant, chinese_case, -(value + 1) as u128 + 1)?;
+    let (negative, magnitude) = split_i128_sign(value);
 
-        s.insert_str(0, ChineseSign::負.to_str(chinese_variant));
+    if negative {
+        let mut s = from_u128_to_chinese_naive(chinese_variant, chinese_case, magnitude)?;
+
+        prepend_negative_sign(chinese_variant, &mut s);
 
         Ok(s)
     } else {
-        from_u128_to_chinese_naive(chinese_variant, chinese_case, value as u128)
+        from_u128_to_chinese_naive(chinese_variant, chinese_case, magnitude)
     }
 }
 
@@ -248,25 +256,9 @@ fn from_f64_to_chinese(
     chinese_case: ChineseCase,
     value: f64,
 ) -> Result<String, NumberToChineseError> {
-    if value.is_nan() || value == f64::INFINITY {
-        Err(NumberToChineseError::Overflow)
-    } else if value == f64::NEG_INFINITY {
-        Err(NumberToChineseError::Underflow)
-    } else if value < 0.0 {
-        let mut s =
-            positive_float_to_chinese(chinese_variant, chinese_case, -value).map_err(|err| {
-                match err {
-                    NumberToChineseError::Overflow => NumberToChineseError::Underflow,
-                    _ => err,
-                }
-            })?;
-
-        s.insert_str(0, ChineseSign::負.to_str(chinese_variant));
-
-        Ok(s)
-    } else {
+    signed_f64_to_chinese(chinese_variant, value, |value| {
         positive_float_to_chinese(chinese_variant, chinese_case, value)
-    }
+    })
 }
 
 /// 將 `f64` 浮點數轉成中文數字，不進行單位計算。

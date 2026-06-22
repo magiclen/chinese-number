@@ -12,7 +12,7 @@ pub use naive::*;
 pub use number_to_chinese_error::*;
 pub use traits::*;
 
-use crate::{ChineseCase, ChineseCountMethod, ChineseSign, ChineseVariant};
+use crate::{ChineseCase, ChineseCountMethod, ChineseVariant};
 
 // TODO unsigned integer
 
@@ -309,19 +309,17 @@ pub fn from_i128_to_chinese_low(
     chinese_case: ChineseCase,
     value: i128,
 ) -> Result<String, NumberToChineseError> {
-    if value < 0 {
-        let mut s =
-            from_u128_to_chinese_low(chinese_variant, chinese_case, -(value + 1) as u128 + 1)
-                .map_err(|err| match err {
-                    NumberToChineseError::Overflow => NumberToChineseError::Underflow,
-                    _ => err,
-                })?;
+    let (negative, magnitude) = split_i128_sign(value);
 
-        s.insert_str(0, ChineseSign::負.to_str(chinese_variant));
+    if negative {
+        let mut s = from_u128_to_chinese_low(chinese_variant, chinese_case, magnitude)
+            .map_err(map_overflow_to_underflow)?;
+
+        prepend_negative_sign(chinese_variant, &mut s);
 
         Ok(s)
     } else {
-        from_u128_to_chinese_low(chinese_variant, chinese_case, value as u128)
+        from_u128_to_chinese_low(chinese_variant, chinese_case, magnitude)
     }
 }
 
@@ -332,18 +330,16 @@ pub fn from_i128_to_chinese_ten_thousand(
     chinese_case: ChineseCase,
     value: i128,
 ) -> String {
-    if value < 0 {
-        let mut s = from_u128_to_chinese_ten_thousand(
-            chinese_variant,
-            chinese_case,
-            -(value + 1) as u128 + 1,
-        );
+    let (negative, magnitude) = split_i128_sign(value);
 
-        s.insert_str(0, ChineseSign::負.to_str(chinese_variant));
+    if negative {
+        let mut s = from_u128_to_chinese_ten_thousand(chinese_variant, chinese_case, magnitude);
+
+        prepend_negative_sign(chinese_variant, &mut s);
 
         s
     } else {
-        from_u128_to_chinese_ten_thousand(chinese_variant, chinese_case, value as u128)
+        from_u128_to_chinese_ten_thousand(chinese_variant, chinese_case, magnitude)
     }
 }
 
@@ -354,15 +350,16 @@ pub fn from_i128_to_chinese_middle(
     chinese_case: ChineseCase,
     value: i128,
 ) -> String {
-    if value < 0 {
-        let mut s =
-            from_u128_to_chinese_middle(chinese_variant, chinese_case, -(value + 1) as u128 + 1);
+    let (negative, magnitude) = split_i128_sign(value);
 
-        s.insert_str(0, ChineseSign::負.to_str(chinese_variant));
+    if negative {
+        let mut s = from_u128_to_chinese_middle(chinese_variant, chinese_case, magnitude);
+
+        prepend_negative_sign(chinese_variant, &mut s);
 
         s
     } else {
-        from_u128_to_chinese_middle(chinese_variant, chinese_case, value as u128)
+        from_u128_to_chinese_middle(chinese_variant, chinese_case, magnitude)
     }
 }
 
@@ -373,15 +370,16 @@ pub fn from_i128_to_chinese_high(
     chinese_case: ChineseCase,
     value: i128,
 ) -> String {
-    if value < 0 {
-        let mut s =
-            from_u128_to_chinese_high(chinese_variant, chinese_case, -(value + 1) as u128 + 1);
+    let (negative, magnitude) = split_i128_sign(value);
 
-        s.insert_str(0, ChineseSign::負.to_str(chinese_variant));
+    if negative {
+        let mut s = from_u128_to_chinese_high(chinese_variant, chinese_case, magnitude);
+
+        prepend_negative_sign(chinese_variant, &mut s);
 
         s
     } else {
-        from_u128_to_chinese_high(chinese_variant, chinese_case, value as u128)
+        from_u128_to_chinese_high(chinese_variant, chinese_case, magnitude)
     }
 }
 
@@ -474,23 +472,9 @@ fn from_f64_to_chinese(
     method: ChineseCountMethod,
     value: f64,
 ) -> Result<String, NumberToChineseError> {
-    if value.is_nan() || value == f64::INFINITY {
-        Err(NumberToChineseError::Overflow)
-    } else if value == f64::NEG_INFINITY {
-        Err(NumberToChineseError::Underflow)
-    } else if value < 0.0 {
-        let mut s = positive_float_to_chinese(chinese_variant, chinese_case, method, -value)
-            .map_err(|err| match err {
-                NumberToChineseError::Overflow => NumberToChineseError::Underflow,
-                _ => err,
-            })?;
-
-        s.insert_str(0, ChineseSign::負.to_str(chinese_variant));
-
-        Ok(s)
-    } else {
+    signed_f64_to_chinese(chinese_variant, value, |value| {
         positive_float_to_chinese(chinese_variant, chinese_case, method, value)
-    }
+    })
 }
 
 /// 將 `f64` 浮點數轉成中文數字，使用 **「下數」**。數值的絕對值不能大於或等於 `1_0000_0000_0000_0000`。
