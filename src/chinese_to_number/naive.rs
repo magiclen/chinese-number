@@ -316,9 +316,7 @@ fn chinese_to_f64(chars: &[char]) -> Result<f64, ChineseToNumberError> {
         sum += d;
     }
 
-    let mut c = 1i32;
-
-    for (i, &char) in iter {
+    for (c, (i, &char)) in (1i32..).zip(iter) {
         let d = match ChineseNumber::from_char(char) {
             Some(cn) if cn != ChineseNumber::十 => cn.ordinal() as f64,
             _ => {
@@ -329,7 +327,6 @@ fn chinese_to_f64(chars: &[char]) -> Result<f64, ChineseToNumberError> {
         };
 
         sum += d * 0.1f64.powi(c);
-        c += 1;
     }
 
     match sign {
