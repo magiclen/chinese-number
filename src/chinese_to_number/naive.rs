@@ -4,8 +4,8 @@ use num_traits::float::FloatCore;
 
 use super::to_chars_vec;
 use crate::{
-    chinese_characters::{ChineseNumber, ChinesePoint, ChineseSign},
     ChineseToNumberError,
+    chinese_characters::{ChineseNumber, ChinesePoint, ChineseSign},
 };
 
 fn chinese_to_unsigned_integer(chars: &[char]) -> Result<u128, ChineseToNumberError> {
@@ -81,11 +81,7 @@ fn chinese_to_signed_integer(chars: &[char]) -> Result<i128, ChineseToNumberErro
                 return Err(ChineseToNumberError::Underflow);
             }
 
-            if uint == m {
-                Ok(i128::MIN)
-            } else {
-                Ok(-(uint as i128))
-            }
+            if uint == m { Ok(i128::MIN) } else { Ok(-(uint as i128)) }
         },
     }
 }
@@ -306,7 +302,7 @@ fn chinese_to_f64(chars: &[char]) -> Result<f64, ChineseToNumberError> {
                 None => {
                     return Err(ChineseToNumberError::ChineseNumberIncorrect {
                         char_index: i + offset,
-                    })
+                    });
                 },
             },
         };
@@ -321,8 +317,8 @@ fn chinese_to_f64(chars: &[char]) -> Result<f64, ChineseToNumberError> {
             Some(cn) if cn != ChineseNumber::十 => cn.ordinal() as f64,
             _ => {
                 return Err(ChineseToNumberError::ChineseNumberIncorrect {
-                    char_index: i + offset
-                })
+                    char_index: i + offset,
+                });
             },
         };
 

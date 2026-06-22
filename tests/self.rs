@@ -64,6 +64,7 @@ fn test_u8() {
         assert_eq!(
             i,
             i.to_chinese_naive(ChineseVariant::Traditional, ChineseCase::Lower)
+                .unwrap()
                 .to_number_naive()
                 .unwrap()
         );
@@ -88,6 +89,7 @@ fn test_i8() {
         assert_eq!(
             i,
             i.to_chinese_naive(ChineseVariant::Traditional, ChineseCase::Lower)
+                .unwrap()
                 .to_number_naive()
                 .unwrap()
         );
@@ -112,6 +114,7 @@ fn test_u16() {
         assert_eq!(
             i,
             i.to_chinese_naive(ChineseVariant::Traditional, ChineseCase::Lower)
+                .unwrap()
                 .to_number_naive()
                 .unwrap()
         );
@@ -136,6 +139,7 @@ fn test_i16() {
         assert_eq!(
             i,
             i.to_chinese_naive(ChineseVariant::Traditional, ChineseCase::Lower)
+                .unwrap()
                 .to_number_naive()
                 .unwrap()
         );
@@ -160,6 +164,7 @@ fn test_u32() {
         assert_eq!(
             i,
             i.to_chinese_naive(ChineseVariant::Traditional, ChineseCase::Lower)
+                .unwrap()
                 .to_number_naive()
                 .unwrap()
         );
@@ -184,6 +189,7 @@ fn test_i32() {
         assert_eq!(
             i,
             i.to_chinese_naive(ChineseVariant::Traditional, ChineseCase::Lower)
+                .unwrap()
                 .to_number_naive()
                 .unwrap()
         );
@@ -218,6 +224,7 @@ fn test_u64() {
         assert_eq!(
             i,
             i.to_chinese_naive(ChineseVariant::Traditional, ChineseCase::Lower)
+                .unwrap()
                 .to_number_naive()
                 .unwrap()
         );
@@ -252,6 +259,7 @@ fn test_i64() {
         assert_eq!(
             i,
             i.to_chinese_naive(ChineseVariant::Traditional, ChineseCase::Lower)
+                .unwrap()
                 .to_number_naive()
                 .unwrap()
         );
@@ -286,6 +294,7 @@ fn test_u128() {
         assert_eq!(
             i,
             i.to_chinese_naive(ChineseVariant::Traditional, ChineseCase::Lower)
+                .unwrap()
                 .to_number_naive()
                 .unwrap()
         );
@@ -320,6 +329,7 @@ fn test_i128() {
         assert_eq!(
             i,
             i.to_chinese_naive(ChineseVariant::Traditional, ChineseCase::Lower)
+                .unwrap()
                 .to_number_naive()
                 .unwrap()
         );
@@ -360,6 +370,7 @@ fn test_usize() {
         assert_eq!(
             i,
             i.to_chinese_naive(ChineseVariant::Traditional, ChineseCase::Lower)
+                .unwrap()
                 .to_number_naive()
                 .unwrap()
         );
@@ -400,6 +411,7 @@ fn test_isize() {
         assert_eq!(
             i,
             i.to_chinese_naive(ChineseVariant::Traditional, ChineseCase::Lower)
+                .unwrap()
                 .to_number_naive()
                 .unwrap()
         );

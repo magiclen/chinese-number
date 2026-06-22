@@ -443,8 +443,8 @@ pub fn from_f32_to_chinese_ten_thousand(
     chinese_variant: ChineseVariant,
     chinese_case: ChineseCase,
     value: f32,
-) -> String {
-    from_f64_to_chinese_ten_thousand(chinese_variant, chinese_case, value as f64).unwrap()
+) -> Result<String, NumberToChineseError> {
+    from_f64_to_chinese_ten_thousand(chinese_variant, chinese_case, value as f64)
 }
 
 /// 將 `f32` 浮點數轉成中文數字，使用 **「中數」**。
@@ -453,8 +453,8 @@ pub fn from_f32_to_chinese_middle(
     chinese_variant: ChineseVariant,
     chinese_case: ChineseCase,
     value: f32,
-) -> String {
-    from_f64_to_chinese_middle(chinese_variant, chinese_case, value as f64).unwrap()
+) -> Result<String, NumberToChineseError> {
+    from_f64_to_chinese_middle(chinese_variant, chinese_case, value as f64)
 }
 
 /// 將 `f32` 浮點數轉成中文數字，使用 **「上數」**。
@@ -463,7 +463,7 @@ pub fn from_f32_to_chinese_high(
     chinese_variant: ChineseVariant,
     chinese_case: ChineseCase,
     value: f32,
-) -> String {
+) -> Result<String, NumberToChineseError> {
     from_f64_to_chinese_high(chinese_variant, chinese_case, value as f64)
 }
 
@@ -473,13 +473,21 @@ fn from_f64_to_chinese(
     chinese_case: ChineseCase,
     method: ChineseCountMethod,
     value: f64,
-) -> String {
-    if value < 0.0 {
-        let mut s = positive_float_to_chinese(chinese_variant, chinese_case, method, -value);
+) -> Result<String, NumberToChineseError> {
+    if value.is_nan() || value == f64::INFINITY {
+        Err(NumberToChineseError::Overflow)
+    } else if value == f64::NEG_INFINITY {
+        Err(NumberToChineseError::Underflow)
+    } else if value < 0.0 {
+        let mut s = positive_float_to_chinese(chinese_variant, chinese_case, method, -value)
+            .map_err(|err| match err {
+                NumberToChineseError::Overflow => NumberToChineseError::Underflow,
+                _ => err,
+            })?;
 
         s.insert_str(0, ChineseSign::負.to_str(chinese_variant));
 
-        s
+        Ok(s)
     } else {
         positive_float_to_chinese(chinese_variant, chinese_case, method, value)
     }
@@ -492,13 +500,7 @@ pub fn from_f64_to_chinese_low(
     chinese_case: ChineseCase,
     value: f64,
 ) -> Result<String, NumberToChineseError> {
-    if value >= 1_0000_0000_0000_0000f64 {
-        return Err(NumberToChineseError::Overflow);
-    } else if value <= -1_0000_0000_0000_0000f64 {
-        return Err(NumberToChineseError::Underflow);
-    }
-
-    Ok(from_f64_to_chinese(chinese_variant, chinese_case, ChineseCountMethod::Low, value))
+    from_f64_to_chinese(chinese_variant, chinese_case, ChineseCountMethod::Low, value)
 }
 
 /// 將 `f64` 浮點數轉成中文數字，使用 **「萬進」**。數值的絕對值不能大於或等於 `1e52`。
@@ -508,13 +510,7 @@ pub fn from_f64_to_chinese_ten_thousand(
     chinese_case: ChineseCase,
     value: f64,
 ) -> Result<String, NumberToChineseError> {
-    if value >= 1e52 {
-        return Err(NumberToChineseError::Overflow);
-    } else if value <= -1e52 {
-        return Err(NumberToChineseError::Underflow);
-    }
-
-    Ok(from_f64_to_chinese(chinese_variant, chinese_case, ChineseCountMethod::TenThousand, value))
+    from_f64_to_chinese(chinese_variant, chinese_case, ChineseCountMethod::TenThousand, value)
 }
 
 /// 將 `f64` 浮點數轉成中文數字，使用 **「中數」**。數值的絕對值不能大於或等於 `1e96`。
@@ -524,13 +520,7 @@ pub fn from_f64_to_chinese_middle(
     chinese_case: ChineseCase,
     value: f64,
 ) -> Result<String, NumberToChineseError> {
-    if value >= 1e96 {
-        return Err(NumberToChineseError::Overflow);
-    } else if value <= -1e96 {
-        return Err(NumberToChineseError::Underflow);
-    }
-
-    Ok(from_f64_to_chinese(chinese_variant, chinese_case, ChineseCountMethod::Middle, value))
+    from_f64_to_chinese(chinese_variant, chinese_case, ChineseCountMethod::Middle, value)
 }
 
 /// 將 `f64` 浮點數轉成中文數字，使用 **「上數」**。
@@ -539,6 +529,6 @@ pub fn from_f64_to_chinese_high(
     chinese_variant: ChineseVariant,
     chinese_case: ChineseCase,
     value: f64,
-) -> String {
+) -> Result<String, NumberToChineseError> {
     from_f64_to_chinese(chinese_variant, chinese_case, ChineseCountMethod::High, value)
 }

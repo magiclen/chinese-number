@@ -6,7 +6,10 @@ use num_bigint::BigUint;
 use num_traits::float::FloatCore;
 use num_traits::{FromPrimitive, ToPrimitive, Zero};
 
-use crate::{ChineseCase, ChineseCountMethod, ChineseExponent, ChineseNumber, ChineseVariant};
+use crate::{
+    ChineseCase, ChineseCountMethod, ChineseExponent, ChineseNumber, ChineseVariant,
+    NumberToChineseError,
+};
 
 pub(crate) fn unsigned_integer_to_chinese_low(
     chinese_variant: ChineseVariant,
@@ -545,35 +548,58 @@ pub(crate) fn positive_float_to_chinese(
     chinese_case: ChineseCase,
     method: ChineseCountMethod,
     value: f64,
-) -> String {
+) -> Result<String, NumberToChineseError> {
     let (integer, fraction) = {
-        let integer = BigUint::from_f64(value.trunc()).unwrap();
-        let fraction = ((value.fract() * 100.0).round() % 100f64) as u8;
+        let mut integer = BigUint::from_f64(value.trunc()).ok_or(NumberToChineseError::Overflow)?;
+        let fraction = (value.fract() * 100.0).round() as u8;
+
+        let fraction = if fraction >= 100 {
+            integer += BigUint::from(1u8);
+
+            0
+        } else {
+            fraction
+        };
 
         (integer, fraction)
     };
 
     let big_0 = BigUint::zero();
+    let big_10 = BigUint::from(10u8);
 
     let mut s = if integer > big_0 {
         match method {
-            ChineseCountMethod::Low => unsigned_integer_to_chinese_low(
-                chinese_variant,
-                chinese_case,
-                false,
-                integer.to_u128().unwrap(),
-            ),
+            ChineseCountMethod::Low => {
+                if integer >= BigUint::from(1_0000_0000_0000_0000u64) {
+                    return Err(NumberToChineseError::Overflow);
+                }
+
+                unsigned_integer_to_chinese_low(
+                    chinese_variant,
+                    chinese_case,
+                    false,
+                    integer.to_u128().ok_or(NumberToChineseError::Overflow)?,
+                )
+            },
             ChineseCountMethod::TenThousand => big_unsigned_integer_to_chinese_ten_thousand(
                 chinese_variant,
                 chinese_case,
                 false,
-                integer.clone(),
+                if integer < big_10.pow(52) {
+                    integer.clone()
+                } else {
+                    return Err(NumberToChineseError::Overflow);
+                },
             ),
             ChineseCountMethod::Middle => big_unsigned_integer_to_chinese_middle(
                 chinese_variant,
                 chinese_case,
                 false,
-                integer.clone(),
+                if integer < big_10.pow(96) {
+                    integer.clone()
+                } else {
+                    return Err(NumberToChineseError::Overflow);
+                },
             ),
             ChineseCountMethod::High => big_unsigned_integer_to_chinese_high(
                 chinese_variant,
@@ -616,5 +642,5 @@ pub(crate) fn positive_float_to_chinese(
         s.push_str(ChineseNumber::零.to_str(chinese_variant, chinese_case));
     }
 
-    s
+    Ok(s)
 }

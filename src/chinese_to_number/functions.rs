@@ -147,7 +147,7 @@ pub(crate) fn chinese_to_unsigned_integer_unit(
                         _ => {
                             return Err(ChineseToNumberError::ChineseNumberIncorrect {
                                 char_index: pointer,
-                            })
+                            });
                         },
                     },
                 }
@@ -165,7 +165,7 @@ pub(crate) fn chinese_to_unsigned_integer_unit(
                 _ => {
                     return Err(ChineseToNumberError::ChineseNumberIncorrect {
                         char_index: pointer,
-                    })
+                    });
                 },
             }
         },
@@ -334,11 +334,7 @@ pub(crate) fn chinese_to_signed_integer(
                 return Err(ChineseToNumberError::Underflow);
             }
 
-            if uint == m {
-                Ok(i128::MIN)
-            } else {
-                Ok(-(uint as i128))
-            }
+            if uint == m { Ok(i128::MIN) } else { Ok(-(uint as i128)) }
         },
     }
 }
@@ -450,7 +446,7 @@ pub(crate) fn chinese_to_f64_unit(
                         _ => {
                             return Err(ChineseToNumberError::ChineseNumberIncorrect {
                                 char_index: pointer,
-                            })
+                            });
                         },
                     },
                 }
@@ -468,7 +464,7 @@ pub(crate) fn chinese_to_f64_unit(
                 _ => {
                     return Err(ChineseToNumberError::ChineseNumberIncorrect {
                         char_index: pointer,
-                    })
+                    });
                 },
             }
         },

@@ -6,6 +6,7 @@ use chinese_number::{
 
 macro_rules! test_group {
     ($case:expr, $method:expr) => {
+        #[allow(unused)]
         macro_rules! test {
             ($expect: expr,$value: expr) => {
                 assert_eq!(
@@ -29,9 +30,23 @@ macro_rules! test_group {
 
 macro_rules! test_group_naive {
     ($case:expr) => {
+        #[allow(unused)]
         macro_rules! test {
             ($expect: expr,$value: expr) => {
-                assert_eq!($expect, $value.to_chinese_naive(ChineseVariant::Traditional, $case));
+                assert_eq!(
+                    $expect,
+                    $value.to_chinese_naive(ChineseVariant::Traditional, $case).unwrap()
+                );
+            };
+        }
+
+        #[allow(unused)]
+        macro_rules! test_err {
+            ($expect: expr,$value: expr) => {
+                assert_eq!(
+                    Err($expect),
+                    $value.to_chinese_naive(ChineseVariant::Traditional, $case)
+                );
             };
         }
     };
@@ -348,4 +363,45 @@ fn to_uppercase_naive() {
     );
     test!("壹柒玖柒陸玖參壹參肆捌陸貳參壹伍柒零捌壹肆伍貳柒肆貳參柒參壹柒零肆參伍陸柒玖捌零柒零伍陸柒伍貳伍捌肆肆玖玖陸伍玖捌玖壹柒肆柒陸捌零參壹伍柒貳陸零柒捌零零貳捌伍參捌柒陸零伍捌玖伍伍捌陸參貳柒陸陸捌柒捌壹柒壹伍肆零肆伍捌玖伍參伍壹肆參捌貳肆陸肆貳參肆參貳壹參貳陸捌捌玖肆陸肆壹捌貳柒陸捌肆陸柒伍肆陸柒零參伍參柒伍壹陸玖捌陸零肆玖玖壹零伍柒陸伍伍壹貳捌貳零柒陸貳肆伍肆玖零零玖零參捌玖參貳捌玖肆肆零柒伍捌陸捌伍零捌肆伍伍壹參參玖肆貳參零肆伍捌參貳參陸玖零參貳貳貳玖肆捌壹陸伍捌零捌伍伍玖參參貳壹貳參參肆捌貳柒肆柒玖柒捌貳陸貳零肆壹肆肆柒貳參壹陸捌柒參捌壹柒柒壹捌零玖壹玖貳玖玖捌捌壹貳伍零肆零肆零貳陸壹捌肆壹貳肆捌伍捌參陸捌",f64::MAX);
     test!("負壹柒玖柒陸玖參壹參肆捌陸貳參壹伍柒零捌壹肆伍貳柒肆貳參柒參壹柒零肆參伍陸柒玖捌零柒零伍陸柒伍貳伍捌肆肆玖玖陸伍玖捌玖壹柒肆柒陸捌零參壹伍柒貳陸零柒捌零零貳捌伍參捌柒陸零伍捌玖伍伍捌陸參貳柒陸陸捌柒捌壹柒壹伍肆零肆伍捌玖伍參伍壹肆參捌貳肆陸肆貳參肆參貳壹參貳陸捌捌玖肆陸肆壹捌貳柒陸捌肆陸柒伍肆陸柒零參伍參柒伍壹陸玖捌陸零肆玖玖壹零伍柒陸伍伍壹貳捌貳零柒陸貳肆伍肆玖零零玖零參捌玖參貳捌玖肆肆零柒伍捌陸捌伍零捌肆伍伍壹參參玖肆貳參零肆伍捌參貳參陸玖零參貳貳貳玖肆捌壹陸伍捌零捌伍伍玖參參貳壹貳參參肆捌貳柒肆柒玖柒捌貳陸貳零肆壹肆肆柒貳參壹陸捌柒參捌壹柒柒壹捌零玖壹玖貳玖玖捌捌壹貳伍零肆零肆零貳陸壹捌肆壹貳肆捌伍捌參陸捌",f64::MIN);
+}
+
+#[test]
+fn float_fraction_carries_to_integer() {
+    test_group!(ChineseCase::Lower, ChineseCountMethod::TenThousand);
+
+    test!("一九角九分", 1.994f64);
+    test!("二", 1.995f64);
+    test!("二", 1.999f64);
+    test!("一", 0.995f64);
+    test!("負二", -1.995f64);
+}
+
+#[test]
+fn naive_float_fraction_carries_to_integer() {
+    test_group_naive!(ChineseCase::Lower);
+
+    test!("一點九九", 1.994f64);
+    test!("二", 1.995f64);
+    test!("二", 1.999f64);
+    test!("一", 0.995f64);
+    test!("負二", -1.995f64);
+}
+
+#[test]
+fn non_finite_floats_return_errors() {
+    {
+        test_group!(ChineseCase::Lower, ChineseCountMethod::High);
+
+        test_err!(NumberToChineseError::Overflow, f64::NAN);
+        test_err!(NumberToChineseError::Overflow, f64::INFINITY);
+        test_err!(NumberToChineseError::Underflow, f64::NEG_INFINITY);
+    }
+
+    {
+        test_group_naive!(ChineseCase::Lower);
+
+        test_err!(NumberToChineseError::Overflow, f64::NAN);
+        test_err!(NumberToChineseError::Overflow, f64::INFINITY);
+        test_err!(NumberToChineseError::Underflow, f64::NEG_INFINITY);
+    }
 }

@@ -226,6 +226,7 @@ fn test_fraction_compat() {
                     ChineseCountMethod::TenThousand,
                     $value
                 )
+                .unwrap()
             );
         };
     }

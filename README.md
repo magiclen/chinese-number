@@ -12,7 +12,7 @@ This crate can convert Rust's primitive number data types to Chinese numbers as 
 ```rust
 use chinese_number::{ChineseCase, ChineseCountMethod, ChineseVariant, NumberToChinese, ChineseToNumber};
 
-assert_eq!("一二三", 123i8.to_chinese_naive(ChineseVariant::Traditional, ChineseCase::Lower));
+assert_eq!("一二三", 123i8.to_chinese_naive(ChineseVariant::Traditional, ChineseCase::Lower).unwrap());
 
 assert_eq!("壹佰貳拾參", 123i8.to_chinese(ChineseVariant::Traditional, ChineseCase::Upper, ChineseCountMethod::TenThousand).unwrap());
 assert_eq!("壹佰贰拾叁", 123i8.to_chinese(ChineseVariant::Simple, ChineseCase::Upper, ChineseCountMethod::TenThousand).unwrap());

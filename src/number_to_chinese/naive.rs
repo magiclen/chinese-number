@@ -11,8 +11,8 @@ use num_traits::float::FloatCore;
 use num_traits::{FromPrimitive, ToPrimitive, Zero};
 
 use crate::{
+    ChineseCase, NumberToChineseError,
     chinese_characters::{ChineseNumber, ChinesePoint, ChineseSign},
-    ChineseCase,
 };
 
 fn unsigned_integer_to_chinese(
@@ -64,10 +64,18 @@ fn positive_float_to_chinese(
     chinese_variant: ChineseVariant,
     chinese_case: ChineseCase,
     value: f64,
-) -> String {
+) -> Result<String, NumberToChineseError> {
     let (integer, fraction) = {
-        let integer = BigUint::from_f64(value.trunc()).unwrap();
-        let fraction = ((value.fract() * 100.0).round() % 100f64) as u8;
+        let mut integer = BigUint::from_f64(value.trunc()).ok_or(NumberToChineseError::Overflow)?;
+        let fraction = (value.fract() * 100.0).round() as u8;
+
+        let fraction = if fraction >= 100 {
+            integer += BigUint::from(1u8);
+
+            0
+        } else {
+            fraction
+        };
 
         (integer, fraction)
     };
@@ -92,7 +100,7 @@ fn positive_float_to_chinese(
         }
     }
 
-    s
+    Ok(s)
 }
 
 /// 將 `u8` 整數轉成中文數字，不進行單位計算。
@@ -101,7 +109,7 @@ pub fn from_u8_to_chinese_naive(
     chinese_variant: ChineseVariant,
     chinese_case: ChineseCase,
     value: u8,
-) -> String {
+) -> Result<String, NumberToChineseError> {
     from_u128_to_chinese_naive(chinese_variant, chinese_case, value as u128)
 }
 
@@ -111,7 +119,7 @@ pub fn from_u16_to_chinese_naive(
     chinese_variant: ChineseVariant,
     chinese_case: ChineseCase,
     value: u16,
-) -> String {
+) -> Result<String, NumberToChineseError> {
     from_u128_to_chinese_naive(chinese_variant, chinese_case, value as u128)
 }
 
@@ -121,7 +129,7 @@ pub fn from_u32_to_chinese_naive(
     chinese_variant: ChineseVariant,
     chinese_case: ChineseCase,
     value: u32,
-) -> String {
+) -> Result<String, NumberToChineseError> {
     from_u128_to_chinese_naive(chinese_variant, chinese_case, value as u128)
 }
 
@@ -131,7 +139,7 @@ pub fn from_u64_to_chinese_naive(
     chinese_variant: ChineseVariant,
     chinese_case: ChineseCase,
     value: u64,
-) -> String {
+) -> Result<String, NumberToChineseError> {
     from_u128_to_chinese_naive(chinese_variant, chinese_case, value as u128)
 }
 
@@ -141,8 +149,8 @@ pub fn from_u128_to_chinese_naive(
     chinese_variant: ChineseVariant,
     chinese_case: ChineseCase,
     value: u128,
-) -> String {
-    unsigned_integer_to_chinese(chinese_variant, chinese_case, value)
+) -> Result<String, NumberToChineseError> {
+    Ok(unsigned_integer_to_chinese(chinese_variant, chinese_case, value))
 }
 
 /// 將 `usize` 整數轉成中文數字，不進行單位計算。
@@ -151,8 +159,8 @@ pub fn from_usize_to_chinese_naive(
     chinese_variant: ChineseVariant,
     chinese_case: ChineseCase,
     value: usize,
-) -> String {
-    unsigned_integer_to_chinese(chinese_variant, chinese_case, value as u128)
+) -> Result<String, NumberToChineseError> {
+    Ok(unsigned_integer_to_chinese(chinese_variant, chinese_case, value as u128))
 }
 
 /// 將 `i8` 整數轉成中文數字。不進行單位計算。
@@ -161,7 +169,7 @@ pub fn from_i8_to_chinese_naive(
     chinese_variant: ChineseVariant,
     chinese_case: ChineseCase,
     value: i8,
-) -> String {
+) -> Result<String, NumberToChineseError> {
     from_i128_to_chinese_naive(chinese_variant, chinese_case, value as i128)
 }
 
@@ -171,7 +179,7 @@ pub fn from_i16_to_chinese_naive(
     chinese_variant: ChineseVariant,
     chinese_case: ChineseCase,
     value: i16,
-) -> String {
+) -> Result<String, NumberToChineseError> {
     from_i128_to_chinese_naive(chinese_variant, chinese_case, value as i128)
 }
 
@@ -181,7 +189,7 @@ pub fn from_i32_to_chinese_naive(
     chinese_variant: ChineseVariant,
     chinese_case: ChineseCase,
     value: i32,
-) -> String {
+) -> Result<String, NumberToChineseError> {
     from_i128_to_chinese_naive(chinese_variant, chinese_case, value as i128)
 }
 
@@ -191,7 +199,7 @@ pub fn from_i64_to_chinese_naive(
     chinese_variant: ChineseVariant,
     chinese_case: ChineseCase,
     value: i64,
-) -> String {
+) -> Result<String, NumberToChineseError> {
     from_i128_to_chinese_naive(chinese_variant, chinese_case, value as i128)
 }
 
@@ -201,14 +209,14 @@ pub fn from_i128_to_chinese_naive(
     chinese_variant: ChineseVariant,
     chinese_case: ChineseCase,
     value: i128,
-) -> String {
+) -> Result<String, NumberToChineseError> {
     if value < 0 {
         let mut s =
-            from_u128_to_chinese_naive(chinese_variant, chinese_case, -(value + 1) as u128 + 1);
+            from_u128_to_chinese_naive(chinese_variant, chinese_case, -(value + 1) as u128 + 1)?;
 
         s.insert_str(0, ChineseSign::負.to_str(chinese_variant));
 
-        s
+        Ok(s)
     } else {
         from_u128_to_chinese_naive(chinese_variant, chinese_case, value as u128)
     }
@@ -220,7 +228,7 @@ pub fn from_isize_to_chinese_naive(
     chinese_variant: ChineseVariant,
     chinese_case: ChineseCase,
     value: isize,
-) -> String {
+) -> Result<String, NumberToChineseError> {
     from_i128_to_chinese_naive(chinese_variant, chinese_case, value as i128)
 }
 
@@ -230,7 +238,7 @@ pub fn from_f32_to_chinese_naive(
     chinese_variant: ChineseVariant,
     chinese_case: ChineseCase,
     value: f32,
-) -> String {
+) -> Result<String, NumberToChineseError> {
     from_f64_to_chinese_naive(chinese_variant, chinese_case, value as f64)
 }
 
@@ -239,13 +247,23 @@ fn from_f64_to_chinese(
     chinese_variant: ChineseVariant,
     chinese_case: ChineseCase,
     value: f64,
-) -> String {
-    if value < 0.0 {
-        let mut s = positive_float_to_chinese(chinese_variant, chinese_case, -value);
+) -> Result<String, NumberToChineseError> {
+    if value.is_nan() || value == f64::INFINITY {
+        Err(NumberToChineseError::Overflow)
+    } else if value == f64::NEG_INFINITY {
+        Err(NumberToChineseError::Underflow)
+    } else if value < 0.0 {
+        let mut s =
+            positive_float_to_chinese(chinese_variant, chinese_case, -value).map_err(|err| {
+                match err {
+                    NumberToChineseError::Overflow => NumberToChineseError::Underflow,
+                    _ => err,
+                }
+            })?;
 
         s.insert_str(0, ChineseSign::負.to_str(chinese_variant));
 
-        s
+        Ok(s)
     } else {
         positive_float_to_chinese(chinese_variant, chinese_case, value)
     }
@@ -257,6 +275,6 @@ pub fn from_f64_to_chinese_naive(
     chinese_variant: ChineseVariant,
     chinese_case: ChineseCase,
     value: f64,
-) -> String {
+) -> Result<String, NumberToChineseError> {
     from_f64_to_chinese(chinese_variant, chinese_case, value)
 }

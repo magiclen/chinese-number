@@ -1,6 +1,7 @@
-use core::fmt::{self, Display, Formatter};
-#[cfg(feature = "std")]
-use std::error::Error;
+use core::{
+    error::Error,
+    fmt::{self, Display, Formatter},
+};
 
 /// 將中文數字轉成數值時發生的錯誤。
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
@@ -30,5 +31,4 @@ impl Display for ChineseToNumberError {
     }
 }
 
-#[cfg(feature = "std")]
 impl Error for ChineseToNumberError {}
