@@ -1,6 +1,6 @@
 [package]
 name = "chinese-number"
-version = "0.8.1"
+version = "0.8.2"
 authors = ["Magic Len <len@magiclen.org>"]
 edition = "2024"
 rust-version = "1.89"
@@ -26,8 +26,8 @@ assert-eq-float = "0.1"
 default = ["std", "number-to-chinese", "chinese-to-number"]
 
 std = []
-number-to-chinese = ["num-bigint", "num-traits"]
-chinese-to-number = ["num-traits"]
+number-to-chinese = ["dep:num-bigint", "dep:num-traits"]
+chinese-to-number = ["dep:num-traits"]
 
 [package.metadata.docs.rs]
 all-features = true
